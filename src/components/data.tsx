@@ -1,7 +1,7 @@
 "use client";
 
 import useSWR, { useSWRConfig } from "swr";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useMemo, useState, useSyncExternalStore } from "react";
 import type { PortfolioResponse } from "@/lib/types";
 
 const LS_KEY = "patrimonio:last";
@@ -13,12 +13,12 @@ async function fetcher<T>(url: string): Promise<T> {
   return json as T;
 }
 
-function readStored(): PortfolioResponse | undefined {
+const noopSubscribe = () => () => {};
+function readStoredRaw(): string | null {
   try {
-    const raw = localStorage.getItem(LS_KEY);
-    return raw ? (JSON.parse(raw) as PortfolioResponse) : undefined;
+    return localStorage.getItem(LS_KEY);
   } catch {
-    return undefined;
+    return null;
   }
 }
 
@@ -27,8 +27,14 @@ function readStored(): PortfolioResponse | undefined {
  * dispositivo (marcada como `fromDevice`), así nunca se ve una pantalla vacía.
  */
 export function usePortfolio() {
-  const [stored, setStored] = useState<PortfolioResponse | undefined>(undefined);
-  useEffect(() => setStored(readStored()), []);
+  const raw = useSyncExternalStore(noopSubscribe, readStoredRaw, () => null);
+  const stored = useMemo(() => {
+    try {
+      return raw ? (JSON.parse(raw) as PortfolioResponse) : undefined;
+    } catch {
+      return undefined;
+    }
+  }, [raw]);
   const swr = useSWR<PortfolioResponse>("/api/portfolio", fetcher, {
     revalidateOnFocus: true,
     focusThrottleInterval: 5 * 60_000,

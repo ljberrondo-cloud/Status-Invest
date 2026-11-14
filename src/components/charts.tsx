@@ -85,7 +85,7 @@ export function EvolutionChart({ history, liveTotal }: { history: HistoryPoint[]
                 tick={{ fill: "var(--text-3)", fontSize: 11 }}
                 axisLine={false}
                 tickLine={false}
-                width={64}
+                width={80}
               />
               <Tooltip
                 cursor={{ stroke: "var(--text-3)", strokeDasharray: "3 3" }}
@@ -154,7 +154,7 @@ export function AllocationDonut({ classes, total }: { classes: ClassSummary[]; t
             <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: classColor(c.class) }} />
             <span className="flex-1 text-ink-2">{c.label}</span>
             <span className="num w-14 text-right font-medium">{fmtPct(c.weight, 1, false)}</span>
-            <span className="num hidden w-28 text-right text-ink-3 sm:block lg:hidden xl:block">{fmtBRL(c.value)}</span>
+            <span className="num hidden w-28 text-right text-ink-3 sm:block lg:hidden">{fmtBRL(c.value)}</span>
           </li>
         ))}
       </ul>

@@ -15,7 +15,7 @@ export function applyFallback(assets: Asset[], quotes: Map<string, Quote>, snaps
     if (quotes.has(a.ticker)) continue;
     const old = snapshot.quotes[a.ticker];
     if (!old) continue;
-    quotes.set(a.ticker, { ...old, kind: old.kind === "manual" ? "manual" : "fallback", source: `${old.source} (snapshot)` });
+    quotes.set(a.ticker, { ...old, kind: old.kind === "manual" ? "manual" : "fallback" });
     used.push(a.ticker);
   }
   return used;
