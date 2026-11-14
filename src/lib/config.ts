@@ -26,3 +26,5 @@ export const config = {
 
 /** Tag común de todas las cotizaciones: el botón "Actualizar" lo invalida. */
 export const QUOTES_TAG = "quotes";
+/** Datos que se publican 1 vez por día (BCB, Tesouro, proventos): sólo vencen por tiempo. */
+export const SLOW_TAG = "slow-data";

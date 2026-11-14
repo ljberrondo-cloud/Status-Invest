@@ -1,5 +1,5 @@
 import { cached } from "@/lib/cache";
-import { config, QUOTES_TAG } from "@/lib/config";
+import { config, SLOW_TAG } from "@/lib/config";
 import { brToIso, isoDateToInstant } from "@/lib/dates";
 import type { Asset, Quote } from "@/lib/types";
 import { cachedFetch, errorMessage } from "./http";
@@ -88,7 +88,7 @@ function merge(into: Record<string, TesouroPoint[]>, from: Record<string, Tesour
 
 const getPoints = cached(downloadPoints, ["tesouro-points-v1"], {
   revalidate: config.slowRevalidate,
-  tags: [QUOTES_TAG, "tesouro"],
+  tags: [SLOW_TAG, "tesouro"],
 });
 
 export function tesouroQuote(ticker: string, points: TesouroPoint[] | undefined): Quote | null {

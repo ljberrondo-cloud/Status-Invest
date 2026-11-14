@@ -1,4 +1,4 @@
-import { config, QUOTES_TAG } from "@/lib/config";
+import { config, SLOW_TAG } from "@/lib/config";
 import { addDays, brToIso, isoDateSP, isoDateToInstant, isoToBr } from "@/lib/dates";
 import { accrueCdi, type DailyRate } from "@/lib/valuation";
 import type { Asset, Indicator, ProviderError, Quote } from "@/lib/types";
@@ -27,7 +27,7 @@ const sgsUrl = (code: number, query: string) =>
 async function sgsLast(code: number): Promise<{ date: string; value: number }> {
   const rows = await fetchJson<SgsRow[]>(sgsUrl(code, "/ultimos/5"), {
     revalidate: config.slowRevalidate,
-    tags: [QUOTES_TAG, "bcb"],
+    tags: [SLOW_TAG, "bcb"],
   });
   const parsed = rows
     .map((r) => ({ date: brToIso(r.data), value: Number(r.valor) }))
@@ -42,7 +42,7 @@ async function sgsLast(code: number): Promise<{ date: string; value: number }> {
 export async function getCdiDailyRates(fromIso: string, toIso: string): Promise<DailyRate[]> {
   const rows = await fetchJson<SgsRow[]>(
     sgsUrl(SGS.cdiDaily, `?dataInicial=${isoToBr(fromIso)}&dataFinal=${isoToBr(toIso)}`),
-    { revalidate: config.slowRevalidate, tags: [QUOTES_TAG, "bcb"] },
+    { revalidate: config.slowRevalidate, tags: [SLOW_TAG, "bcb"] },
   );
   return rows.map((r) => ({ date: brToIso(r.data), ratePct: Number(r.valor) }));
 }

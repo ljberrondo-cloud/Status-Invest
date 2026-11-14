@@ -1,26 +1,102 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  color-scheme: light;
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --surface-2: #f1f2f5;
+  --border: #e6e8ec;
+  --text: #0e1116;
+  --text-2: #4b5260;
+  --text-3: #808796;
+  --accent: #2a78d6;
+  --pos: #0f8a3c;
+  --neg: #d03b3b;
+  --pos-bg: #e5f5ea;
+  --neg-bg: #fbe9e9;
+  --warn: #9a6400;
+  --warn-bg: #fff4dc;
+  --heat-mid: #eceef1;
+  --c-acciones: #2a78d6;
+  --c-fiis: #eb6834;
+  --c-etfs: #1baf7a;
+  --c-cripto: #eda100;
+  --c-renta_fija: #e87ba4;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    color-scheme: dark;
+    --bg: #0b0d10;
+    --surface: #14171c;
+    --surface-2: #1b1f26;
+    --border: #262b33;
+    --text: #eef0f3;
+    --text-2: #b4bac5;
+    --text-3: #7d8593;
+    --accent: #3987e5;
+    --pos: #3fbf6a;
+    --neg: #ee6b6b;
+    --pos-bg: #13291b;
+    --neg-bg: #33181a;
+    --warn: #f0b84a;
+    --warn-bg: #2e2412;
+    --heat-mid: #262b33;
+    --c-acciones: #3987e5;
+    --c-fiis: #d95926;
+    --c-etfs: #199e70;
+    --c-cripto: #c98500;
+    --c-renta_fija: #d55181;
   }
 }
 
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--border);
+  --color-ink: var(--text);
+  --color-ink-2: var(--text-2);
+  --color-ink-3: var(--text-3);
+  --color-accent: var(--accent);
+  --color-pos: var(--pos);
+  --color-neg: var(--neg);
+  --color-pos-bg: var(--pos-bg);
+  --color-neg-bg: var(--neg-bg);
+  --color-warn: var(--warn);
+  --color-warn-bg: var(--warn-bg);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--surface-2) 0%, var(--border) 50%, var(--surface-2) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+  border-radius: 0.5rem;
+}
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .skeleton { animation: none; }
 }

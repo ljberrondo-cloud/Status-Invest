@@ -1,4 +1,4 @@
-import { config, QUOTES_TAG } from "@/lib/config";
+import { config, QUOTES_TAG, SLOW_TAG } from "@/lib/config";
 import { isoDateSP } from "@/lib/dates";
 import type { Asset, DividendEvent, ProviderError, Quote } from "@/lib/types";
 import { errorMessage, fetchJson } from "./http";
@@ -58,7 +58,7 @@ async function requestQuotes(tickers: string[], extra = ""): Promise<BrapiQuote[
   const url = `${BASE}/${tickers.map(encodeURIComponent).join(",")}${extra}`;
   const json = await fetchJson<BrapiResponse>(url, {
     revalidate: extra ? config.slowRevalidate : config.quotesRevalidate,
-    tags: [QUOTES_TAG, "brapi"],
+    tags: extra ? [SLOW_TAG, "brapi-dividends"] : [QUOTES_TAG, "brapi"],
     headers: headers(),
   });
   if (json.error || !json.results) throw new Error(json.message ?? "Respuesta inválida de brapi");
