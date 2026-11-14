@@ -109,3 +109,19 @@ describe("manual + ruteo + fallback", () => {
     expect(quotes.get("PETR4")).toMatchObject({ price: 40, kind: "fallback", asOf: "2026-11-10T20:00:00Z" });
   });
 });
+
+describe("brapi: errores de cuenta", () => {
+  it("ante 403 de plan corta y no sigue gastando requests", async () => {
+    const fetchMock = vi.fn(async () =>
+      new Response(JSON.stringify({ error: true, message: "Dividendos e JCP requer o plano Startup" }), { status: 403 }),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+    const { brapiDividendProvider } = await import("@/providers/brapi");
+    const assets: Asset[] = ["AAA3", "BBB3", "CCC11"].map((t) => ({ ticker: t, class: "acciones", quantity: 1 }));
+    const r = await brapiDividendProvider.getDividends(assets);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(r.errors).toHaveLength(1);
+    expect(r.errors[0].tickers).toEqual(["AAA3", "BBB3", "CCC11"]);
+    expect(r.errors[0].message).toBe("HTTP 403: Dividendos e JCP requer o plano Startup");
+  });
+});

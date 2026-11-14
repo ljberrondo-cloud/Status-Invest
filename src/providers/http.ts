@@ -32,7 +32,12 @@ export async function cachedFetch(url: string, opts: CachedFetchOptions): Promis
     const res = await fetch(url, init);
     if (!res.ok) {
       const body = await res.text().catch(() => "");
-      throw new HttpError(res.status, `HTTP ${res.status}${body ? `: ${body.slice(0, 160)}` : ""}`);
+      let msg = body.slice(0, 160);
+      try {
+        const j = JSON.parse(body) as { message?: string };
+        if (j.message) msg = j.message;
+      } catch {}
+      throw new HttpError(res.status, `HTTP ${res.status}${msg ? `: ${msg}` : ""}`);
     }
     return res;
   } catch (e) {

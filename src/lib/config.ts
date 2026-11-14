@@ -17,7 +17,7 @@ export const config = {
     return process.env.BRAPI_TOKEN?.trim() || undefined;
   },
   get brapiBatchSize() {
-    return intEnv("BRAPI_BATCH_SIZE", 10, 1, 20);
+    return intEnv("BRAPI_BATCH_SIZE", 1, 1, 20);
   },
   get coingeckoKey() {
     return process.env.COINGECKO_API_KEY?.trim() || undefined;

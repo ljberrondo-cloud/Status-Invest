@@ -36,7 +36,7 @@ Van en `.env.local` (local), en las variables de entorno de Vercel (producción)
 | `COINGECKO_API_KEY` | No | Clave "Demo" gratuita en [coingecko.com/en/api](https://www.coingecko.com/en/api/pricing). Sin clave funciona, pero con límite de requests más bajo. |
 | `QUOTES_REVALIDATE_SECONDS` | No | Caché de cotizaciones (3600–21600). Default 3600 (1 h). |
 | `SLOW_REVALIDATE_SECONDS` | No | Caché de BCB, Tesouro y proventos. Default 21600 (6 h). |
-| `BRAPI_BATCH_SIZE` | No | Tickers por request a brapi (default 10). Si tu plan no admite varios, cada lote fallido se reintenta de a uno automáticamente; podés fijarlo en 1. |
+| `BRAPI_BATCH_SIZE` | No | Tickers por request a brapi. Default 1 (límite del plan gratuito); con plan pago, hasta 10. Si un lote falla se reintenta de a uno. |
 
 BCB y Tesouro Transparente no requieren clave.
 

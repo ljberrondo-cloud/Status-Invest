@@ -25,13 +25,14 @@ export default function Proventos() {
   const byDay = new Map<string, DividendRow[]>();
   for (const r of data?.rows ?? []) byDay.set(r.date, [...(byDay.get(r.date) ?? []), r]);
   const allFailed = data && data.errors.length > 0 && data.rows.length === 0;
+  const planError = data?.errors.find((e) => /plano|plan/i.test(e.message) && /403|402/.test(e.message));
 
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-end justify-between gap-3 pt-1">
         <div>
           <div className="text-sm text-ink-3">Proventos estimados {range === "week" ? "esta semana" : "próximos 30 días"}</div>
-          {data ? <div className="num text-3xl font-semibold tracking-tight">{fmtBRL(data.total)}</div> : <Skeleton className="mt-1 h-9 w-48" />}
+          {data ? <div className="num text-3xl font-semibold tracking-tight">{planError || allFailed ? "—" : fmtBRL(data.total)}</div> : <Skeleton className="mt-1 h-9 w-48" />}
           {data && (
             <div className="mt-1 text-xs text-ink-3">
               {fmtDateLong(data.start)} – {fmtDateLong(data.end)} · bruto, para tus cantidades actuales
@@ -52,14 +53,23 @@ export default function Proventos() {
       </div>
 
       {error && !data && <ErrorState message={error.message} />}
-      {data && <ProviderErrors errors={data.errors} summary={`No se pudieron consultar los proventos de ${data.errors.reduce((s, e) => s + e.tickers.length, 0)} activos.`} />}
+      {planError && (
+        <div className="rounded-xl bg-warn-bg px-4 py-3 text-sm text-warn">
+          <p className="font-medium">Tu plan de brapi no incluye proventos</p>
+          <p className="mt-1 text-xs">
+            El calendario de dividendos y JCP requiere el plan Startup de brapi. Si lo contratás, esta pantalla se completa sola con el mismo
+            token; no hace falta cambiar nada en la app.
+          </p>
+        </div>
+      )}
+      {data && !planError && <ProviderErrors errors={data.errors} summary={`No se pudieron consultar los proventos de ${data.errors.reduce((s, e) => s + e.tickers.length, 0)} activos.`} />}
 
       {isLoading && !data ? (
         <Skeleton className="h-64" />
       ) : data && byDay.size === 0 ? (
         <Card>
           <p className="py-8 text-center text-sm text-ink-3">
-            {allFailed ? "No se pudo consultar el calendario de proventos (ver detalle arriba)." : "No hay data com ni pagos en este período."}
+            {planError ? "Sin datos de proventos con el plan actual." : allFailed ? "No se pudo consultar el calendario de proventos (ver detalle arriba)." : "No hay data com ni pagos en este período."}
           </p>
         </Card>
       ) : (

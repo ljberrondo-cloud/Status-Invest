@@ -1,7 +1,7 @@
 import { config, QUOTES_TAG, SLOW_TAG } from "@/lib/config";
 import { isoDateSP } from "@/lib/dates";
 import type { Asset, DividendEvent, ProviderError, Quote } from "@/lib/types";
-import { errorMessage, fetchJson } from "./http";
+import { errorMessage, fetchJson, HttpError } from "./http";
 import type { DividendProvider, PriceProvider, ProviderResult } from "./types";
 
 const BASE = "https://brapi.dev/api/quote";
@@ -71,24 +71,38 @@ function chunk<T>(arr: T[], size: number): T[][] {
   return out;
 }
 
-/** Pide en lotes; si un lote falla (p.ej. plan que limita tickers por request), reintenta de a uno. */
+/** Token inválido o función fuera del plan: afecta a todos los tickers, no tiene sentido seguir pidiendo. */
+const isAccountError = (e: unknown) => e instanceof HttpError && [401, 402, 403].includes(e.status);
+
+/**
+ * Pide en lotes; si un lote falla (p.ej. plan que limita tickers por request), reintenta de a uno.
+ * Ante un error de cuenta (401/402/403) corta y marca el resto como fallido, para no gastar cuota.
+ */
 async function fetchAll(tickers: string[], extra = "") {
   const ok: BrapiQuote[] = [];
   const failed: { ticker: string; message: string }[] = [];
-  for (const batch of chunk(tickers, config.brapiBatchSize)) {
+  const abort = (from: number, e: unknown) => tickers.slice(from).forEach((t) => failed.push({ ticker: t, message: errorMessage(e) }));
+  const batches = chunk(tickers, config.brapiBatchSize);
+  let done = 0;
+  for (const batch of batches) {
     try {
       ok.push(...(await requestQuotes(batch, extra)));
     } catch (batchErr) {
+      if (isAccountError(batchErr) && batch.length === 1) return abort(done, batchErr), { ok, failed };
       if (batch.length === 1) {
         failed.push({ ticker: batch[0], message: errorMessage(batchErr) });
-        continue;
+      } else {
+        for (const [i, t] of batch.entries()) {
+          try {
+            ok.push(...(await requestQuotes([t], extra)));
+          } catch (e) {
+            if (isAccountError(e)) return abort(done + i, e), { ok, failed };
+            failed.push({ ticker: t, message: errorMessage(e) });
+          }
+        }
       }
-      const single = await Promise.allSettled(batch.map((t) => requestQuotes([t], extra)));
-      single.forEach((r, i) => {
-        if (r.status === "fulfilled") ok.push(...r.value);
-        else failed.push({ ticker: batch[i], message: errorMessage(r.reason) });
-      });
     }
+    done += batch.length;
   }
   return { ok, failed };
 }
