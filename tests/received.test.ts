@@ -3,8 +3,8 @@ import os from "node:os";
 import path from "node:path";
 import { promises as fs } from "node:fs";
 import ExcelJS from "exceljs";
-import { classifyMovement, mergePayments, parseMoney, parseMovimentacaoRows, summarizeReceived } from "@/lib/received";
-import { readXlsxRows } from "../scripts/import-b3";
+import { classifyMovement, mergePayments, ownersOf, parseMoney, parseMovimentacaoRows, summarizeReceived } from "@/lib/received";
+import { ownerLabel, readXlsxRows } from "../scripts/import-b3";
 
 const HEAD = ["Entrada/Saída", "Data", "Movimentação", "Produto", "Instituição", "Quantidade", "Preço unitário", "Valor da Operação"];
 const rowsData: unknown[][] = [
@@ -43,6 +43,15 @@ describe("extracto de Movimentação de B3", () => {
     ]);
   });
 
+  it("el mismo pago en cuentas de dos titulares cuenta dos veces", () => {
+    const a = parseMovimentacaoRows(toRows());
+    const yo = a.map((p) => ({ ...p, owner: "Yo" }));
+    const ella = a.map((p) => ({ ...p, owner: "Esposa" }));
+    const merged = mergePayments(yo, ella, yo);
+    expect(merged).toHaveLength(6);
+    expect(ownersOf(merged)).toEqual(["Esposa", "Yo"]);
+  });
+
   it("une extractos superpuestos sin duplicar", () => {
     const a = parseMovimentacaoRows(toRows());
     expect(mergePayments(a, a)).toHaveLength(3);
@@ -59,6 +68,13 @@ describe("extracto de Movimentação de B3", () => {
     const payments = parseMovimentacaoRows(await readXlsxRows(file));
     expect(payments).toHaveLength(4); // antes de deduplicar
     expect(payments[0]).toMatchObject({ ticker: "MXRF11", quantity: 1021, unitValue: 0.1, amount: 102.1, institution: "XP INVESTIMENTOS CCTVM S/A" });
+  });
+});
+
+describe("titulares", () => {
+  it("nombre visible desde la carpeta", () => {
+    expect(ownerLabel("esposa")).toBe("Esposa");
+    expect(ownerLabel("maria-luz")).toBe("Maria Luz");
   });
 });
 

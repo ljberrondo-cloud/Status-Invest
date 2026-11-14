@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { useJson } from "@/components/data";
 import { Card, ErrorState, Skeleton } from "@/components/ui";
@@ -10,6 +11,7 @@ interface ReceivedResponse {
   imported: boolean;
   importedAt?: string;
   sourceFiles?: string[];
+  owners?: string[];
   summary?: ReceivedSummary;
 }
 
@@ -85,7 +87,7 @@ export function EmptyReceived() {
           </li>
           <li>Elegí el período (por ejemplo, desde que empezaste a invertir) y descargá el Excel.</li>
           <li>
-            Subilo a la carpeta <code className="rounded bg-surface-2 px-1">data/b3/</code> del repositorio, o mandáselo a Claude.
+            Subilo a la carpeta del titular, por ejemplo <code className="rounded bg-surface-2 px-1">data/b3/esposa/</code>, o mandáselo a Claude.
           </li>
         </ol>
         <p className="text-xs text-ink-3">En 1–2 minutos aparecen acá el acumulado, los JCP y los rendimientos.</p>
@@ -95,17 +97,34 @@ export function EmptyReceived() {
 }
 
 export function ReceivedView() {
-  const { data, error, isLoading } = useJson<ReceivedResponse>("/api/received");
+  const [owner, setOwner] = useState<string | null>(null);
+  const { data, error, isLoading } = useJson<ReceivedResponse>(owner ? `/api/received?owner=${encodeURIComponent(owner)}` : "/api/received");
   if (error && !data) return <ErrorState message={error.message} />;
   if (isLoading || !data) return <Skeleton className="h-72" />;
   if (!data.imported || !data.summary) return <EmptyReceived />;
   const s = data.summary;
   const thisYear = new Date().getFullYear().toString();
 
+  const owners = data.owners ?? [];
+
   return (
     <div className="space-y-4">
+      {owners.length > 1 && (
+        <div className="flex flex-wrap gap-1.5" role="group" aria-label="Titular">
+          {[null, ...owners].map((o) => (
+            <button
+              key={o ?? "todos"}
+              onClick={() => setOwner(o)}
+              aria-pressed={owner === o}
+              className={`rounded-full px-3.5 py-1.5 text-sm ${owner === o ? "bg-ink font-medium text-bg" : "bg-surface text-ink-2 ring-1 ring-line"}`}
+            >
+              {o ?? "Todos"}
+            </button>
+          ))}
+        </div>
+      )}
       <section className="pt-1">
-        <div className="text-sm text-ink-3">Recibido en los últimos 12 meses</div>
+        <div className="text-sm text-ink-3">Recibido en los últimos 12 meses{owner ? ` · ${owner}` : ""}</div>
         <div className="num text-3xl font-semibold tracking-tight">{fmtBRL(s.last12m)}</div>
         <div className="num mt-1 text-sm text-ink-2">
           {fmtBRL(s.last12m / 12)} por mes en promedio · en {thisYear}: {fmtBRL(s.ytd)} · histórico: {fmtBRL(s.total)}
@@ -181,7 +200,10 @@ export function ReceivedView() {
                     </div>
                     <div className="text-[11px] text-ink-3">{fmtDateLong(p.date)}</div>
                   </div>
-                  <span className="num font-medium">{fmtBRL(p.amount)}</span>
+                  <div className="text-right">
+                    <div className="num font-medium">{fmtBRL(p.amount)}</div>
+                    {!owner && owners.length > 1 && p.owner && <div className="text-[11px] text-ink-3">{p.owner}</div>}
+                  </div>
                 </li>
               ))}
             </ul>

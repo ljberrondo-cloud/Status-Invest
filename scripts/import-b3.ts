@@ -47,22 +47,43 @@ export async function readXlsxRows(file: string): Promise<Record<string, unknown
   return rows;
 }
 
+/** Nombre de carpeta → nombre visible: "esposa" → "Esposa", "maria-luz" → "Maria Luz". */
+export const ownerLabel = (dir: string) => dir.replace(/[-_]+/g, " ").replace(/\b\p{L}/gu, (c) => c.toUpperCase());
+
+/**
+ * Extractos a procesar. Cada subcarpeta de data/b3/ es un titular (data/b3/esposa/*.xlsx).
+ * Los .xlsx sueltos en data/b3/ se toman sin titular.
+ */
+async function listFiles(): Promise<{ rel: string; full: string; owner?: string }[]> {
+  const out: { rel: string; full: string; owner?: string }[] = [];
+  const entries = await fs.readdir(DIR, { withFileTypes: true }).catch(() => []);
+  for (const e of entries) {
+    if (e.isFile() && /\.xlsx$/i.test(e.name)) out.push({ rel: e.name, full: path.join(DIR, e.name) });
+    if (e.isDirectory()) {
+      for (const f of await fs.readdir(path.join(DIR, e.name))) {
+        if (/\.xlsx$/i.test(f)) out.push({ rel: `${e.name}/${f}`, full: path.join(DIR, e.name, f), owner: ownerLabel(e.name) });
+      }
+    }
+  }
+  return out.sort((a, b) => a.rel.localeCompare(b.rel));
+}
+
 async function main() {
-  const files = (await fs.readdir(DIR).catch(() => [] as string[])).filter((f) => /\.xlsx$/i.test(f)).sort();
+  const files = await listFiles();
   if (!files.length) {
     console.error(`No hay archivos .xlsx en ${DIR}`);
     process.exit(1);
   }
   const lists: ReceivedPayment[][] = [];
   for (const f of files) {
-    const rows = await readXlsxRows(path.join(DIR, f));
-    const payments = parseMovimentacaoRows(rows);
-    console.log(`${f}: ${rows.length} filas, ${payments.length} proventos`);
-    if (rows.length && !payments.length) console.warn(`  ⚠ No se reconocieron proventos en ${f}: ¿es el extracto de Movimentação?`);
+    const rows = await readXlsxRows(f.full);
+    const payments = parseMovimentacaoRows(rows).map((p) => (f.owner ? { ...p, owner: f.owner } : p));
+    console.log(`${f.rel}: ${rows.length} filas, ${payments.length} proventos${f.owner ? ` (titular: ${f.owner})` : ""}`);
+    if (rows.length && !payments.length) console.warn(`  ⚠ No se reconocieron proventos en ${f.rel}: ¿es el extracto de Movimentação?`);
     lists.push(payments);
   }
   const payments = mergePayments(...lists);
-  const out: ReceivedFile = { imported_at: new Date().toISOString(), source_files: files, payments };
+  const out: ReceivedFile = { imported_at: new Date().toISOString(), source_files: files.map((f) => f.rel), payments };
   await fs.writeFile(OUT, JSON.stringify(out, null, 2) + "\n");
   const total = payments.reduce((s, p) => s + p.amount, 0);
   console.log(`→ ${payments.length} proventos únicos, total R$ ${total.toFixed(2)}, guardado en data/proventos-recebidos.json`);

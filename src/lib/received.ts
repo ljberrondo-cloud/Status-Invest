@@ -22,6 +22,8 @@ export interface ReceivedPayment {
   unitValue: number | null;
   amount: number;
   institution?: string;
+  /** Titular de la cuenta (nombre de la subcarpeta de data/b3/). */
+  owner?: string;
 }
 
 export interface ReceivedFile {
@@ -116,13 +118,13 @@ export function parseMovimentacaoRows(rows: Record<string, unknown>[]): Received
 
 /**
  * Une pagos de varios extractos sin duplicar.
- * Clave: fecha + ticker + tipo + monto + institución. "Dividendo" y "Dividendo - Transferido" del mismo
+ * Clave: titular + fecha + ticker + tipo + monto + institución (dos titulares con el mismo pago cuentan ambos). "Dividendo" y "Dividendo - Transferido" del mismo
  * evento comparten clave y cuentan una sola vez.
  */
 export function mergePayments(...lists: ReceivedPayment[][]): ReceivedPayment[] {
   const map = new Map<string, ReceivedPayment>();
   for (const p of lists.flat()) {
-    const key = `${p.date}|${p.ticker}|${p.type}|${p.amount.toFixed(2)}|${p.institution ?? ""}`;
+    const key = `${p.owner ?? ""}|${p.date}|${p.ticker}|${p.type}|${p.amount.toFixed(2)}|${p.institution ?? ""}`;
     if (!map.has(key)) map.set(key, p);
   }
   return [...map.values()].sort((a, b) => b.date.localeCompare(a.date) || a.ticker.localeCompare(b.ticker));
@@ -208,4 +210,9 @@ export function summarizeReceived(payments: ReceivedPayment[], today: string): R
       .sort((a, b) => b.total - a.total),
     recent: [...payments].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 8),
   };
+}
+
+/** Titulares presentes, en orden alfabético. */
+export function ownersOf(payments: ReceivedPayment[]): string[] {
+  return [...new Set(payments.map((p) => p.owner).filter((o): o is string => !!o))].sort((a, b) => a.localeCompare(b));
 }
