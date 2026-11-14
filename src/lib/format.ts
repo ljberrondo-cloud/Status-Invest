@@ -31,8 +31,12 @@ export function fmtPrice(n: number | null | undefined) {
 const TZ = "America/Sao_Paulo";
 export const fmtDDMM = (iso: string) => new Intl.DateTimeFormat("es-AR", { timeZone: TZ, day: "2-digit", month: "2-digit" }).format(new Date(iso));
 export const fmtTime = (iso: string) => new Intl.DateTimeFormat("es-AR", { timeZone: TZ, hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(new Date(iso));
-export const fmtDateLong = (isoDate: string) =>
-  new Intl.DateTimeFormat("es-AR", { timeZone: "UTC", weekday: "short", day: "2-digit", month: "2-digit" }).format(new Date(`${isoDate}T12:00:00Z`));
+const WEEKDAYS = ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"];
+/** "lun 09/11" */
+export const fmtDateLong = (isoDate: string) => {
+  const [, m, d] = isoDate.slice(0, 10).split("-");
+  return `${WEEKDAYS[new Date(`${isoDate.slice(0, 10)}T12:00:00Z`).getUTCDay()]} ${d}/${m}`;
+};
 
 export const signClass = (n: number | null | undefined) =>
   n === null || n === undefined || Math.abs(n) < 0.005 ? "text-ink-2" : n > 0 ? "text-pos" : "text-neg";

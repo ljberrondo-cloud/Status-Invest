@@ -13,7 +13,7 @@ export async function GET() {
     const [data, targets] = await Promise.all([getPortfolioData(), loadTargets()]);
     if (!targets) return Response.json({ targets: null, alerts: [], allocation: null });
     return Response.json(
-      { targets, alerts: computeAlerts(data, targets), allocation: allocationVsTarget(data, targets) },
+      { targets, alerts: computeAlerts(data, targets), allocation: allocationVsTarget(data, targets), missing: data.missing },
       { headers: { "cache-control": "no-store" } },
     );
   } catch (e) {

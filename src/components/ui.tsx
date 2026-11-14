@@ -44,12 +44,12 @@ export function Badge({ tone, children }: { tone: "muted" | "warn" | "neg"; chil
   return <span className={`inline-flex whitespace-nowrap rounded px-1.5 py-0.5 text-[11px] font-medium leading-4 ${cls}`}>{children}</span>;
 }
 
-export function ProviderErrors({ errors }: { errors: ProviderError[] }) {
+export function ProviderErrors({ errors, summary }: { errors: ProviderError[]; summary?: string }) {
   if (!errors.length) return null;
   return (
     <details className="rounded-xl border border-line bg-warn-bg px-4 py-3 text-sm text-warn">
       <summary className="cursor-pointer font-medium">
-        Algunas fuentes no respondieron ({errors.reduce((s, e) => s + Math.max(1, e.tickers.length), 0)}). Se muestra la última cotización disponible.
+        {summary ?? `Algunas fuentes no respondieron (${errors.reduce((s, e) => s + Math.max(1, e.tickers.length), 0)}). Se muestra la última cotización disponible.`}
       </summary>
       <ul className="mt-2 space-y-1 text-xs">
         {errors.map((e, i) => (
