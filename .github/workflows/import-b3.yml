@@ -1,0 +1,39 @@
+name: Importar proventos B3
+
+on:
+  push:
+    paths: ["data/b3/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: import-b3
+  cancel-in-progress: false
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Procesar extractos
+        run: npm run import:b3
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/proventos-recebidos.json
+          if git diff --cached --quiet; then
+            echo "Sin cambios"
+          else
+            git commit -m "proventos: importar extractos de B3"
+            git pull --rebase
+            git push
+          fi

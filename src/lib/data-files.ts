@@ -1,6 +1,7 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import type { HistoryPoint, Portfolio, Snapshot, Targets } from "./types";
+import type { ReceivedFile } from "./received";
 
 /**
  * Ruta a un archivo de data/. El path queda acotado a data/ para que el bundler
@@ -42,4 +43,8 @@ export async function writeJson(file: string, data: unknown) {
   const full = dataPath(file);
   await fs.mkdir(path.dirname(full), { recursive: true });
   await fs.writeFile(full, JSON.stringify(data, null, 2) + "\n");
+}
+
+export async function loadReceived(): Promise<ReceivedFile | null> {
+  return readJson<ReceivedFile>("proventos-recebidos.json");
 }

@@ -22,6 +22,7 @@ Otros comandos:
 | `npm run typecheck` | Chequeo de tipos |
 | `npm run build && npm start` | Build y servidor de producción |
 | `npm run snapshot` | Genera el snapshot del día en `data/` (lo mismo que hace el Action) |
+| `npm run import:b3` | Importa los extractos de B3 de `data/b3/` a `data/proventos-recebidos.json` |
 | `npx tsx scripts/check-providers.ts` | Diagnóstico: consulta todas las fuentes e imprime precios y errores |
 
 > Detrás de un proxy corporativo, Node no usa `HTTPS_PROXY` por defecto: anteponé `NODE_USE_ENV_PROXY=1` (Node ≥ 22.21).
@@ -91,6 +92,10 @@ Cada activo en `data/portfolio.json` tiene `ticker`, `class` (`acciones` · `fii
 - **Sin cotización** (previdencia, FGTS): `"provider": "manual"`, `manual_value`, `manual_date`.
 
 `data/targets.json` define los límites de concentración (`max_asset_pct`, `max_class_pct`), la asignación objetivo por clase, la tolerancia en puntos porcentuales y los activos excluidos del cálculo de asignación (p.ej. FGTS).
+
+## Proventos recibidos (extracto de B3)
+
+B3 no ofrece una API abierta para personas, pero permite descargar el extracto de **Movimentação** (Área do Investidor → Extratos → Movimentação → Excel). Subí ese `.xlsx` a [`data/b3/`](data/b3/) y el workflow [`import-b3.yml`](.github/workflows/import-b3.yml) genera `data/proventos-recebidos.json`. La pestaña **Proventos → Recibidos** muestra el acumulado (12 meses, año, histórico), separado en dividendos, JCP y rendimientos, por mes y por activo. Podés subir extractos superpuestos: los pagos repetidos se cuentan una sola vez. Localmente: `npm run import:b3`.
 
 ## Limitaciones conocidas
 

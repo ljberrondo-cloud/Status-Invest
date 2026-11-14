@@ -41,5 +41,6 @@ jobs:
             echo "Sin cambios"
           else
             git commit -m "snapshot: $(TZ=America/Sao_Paulo date +%F)"
+            git pull --rebase
             git push
           fi

@@ -22,6 +22,10 @@
   --c-etfs: #1baf7a;
   --c-cripto: #eda100;
   --c-renta_fija: #e87ba4;
+  --r-dividendo: #2a78d6;
+  --r-jcp: #eb6834;
+  --r-rendimento: #1baf7a;
+  --r-outro: #eda100;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -47,6 +51,10 @@
     --c-etfs: #199e70;
     --c-cripto: #c98500;
     --c-renta_fija: #d55181;
+    --r-dividendo: #3987e5;
+    --r-jcp: #d95926;
+    --r-rendimento: #199e70;
+    --r-outro: #c98500;
   }
 }
 

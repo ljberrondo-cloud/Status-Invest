@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    paths-ignore: ["data/snapshots/**", "data/history.json"]
+    paths-ignore: ["data/snapshots/**", "data/history.json", "data/b3/**", "data/proventos-recebidos.json"]
   pull_request:
 
 jobs:
