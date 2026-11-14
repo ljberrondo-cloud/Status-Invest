@@ -5,6 +5,9 @@ on:
     # 21:40 UTC = 18:40 en São Paulo, después del cierre de B3. Todos los días (cripto no cierra).
     - cron: "40 21 * * *"
   workflow_dispatch:
+  # Corre también cuando cambia este archivo (registra el workflow en GitHub y sirve de prueba).
+  push:
+    paths: [".github/workflows/daily-snapshot.yml"]
 
 permissions:
   contents: write
