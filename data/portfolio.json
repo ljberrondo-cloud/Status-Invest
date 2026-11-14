@@ -1,0 +1,46 @@
+{
+  "$schema": "./portfolio.schema.json",
+  "base_currency": "BRL",
+  "assets": [
+    { "ticker": "BBAS3", "class": "acciones", "quantity": 94 },
+    { "ticker": "VBBR3", "class": "acciones", "quantity": 42 },
+    { "ticker": "PRIO3", "class": "acciones", "quantity": 25 },
+    { "ticker": "RANI3", "class": "acciones", "quantity": 188 },
+    { "ticker": "BPAC11", "class": "acciones", "quantity": 24 },
+    { "ticker": "PETR4", "class": "acciones", "quantity": 30 },
+    { "ticker": "CMIG4", "class": "acciones", "quantity": 120 },
+    { "ticker": "TAEE3", "class": "acciones", "quantity": 97 },
+    { "ticker": "VIVT3", "class": "acciones", "quantity": 43 },
+    { "ticker": "SANB3", "class": "acciones", "quantity": 84 },
+    { "ticker": "VALE3", "class": "acciones", "quantity": 16 },
+
+    { "ticker": "XPML11", "class": "fiis", "quantity": 166 },
+    { "ticker": "HFOF11", "class": "fiis", "quantity": 2558 },
+    { "ticker": "VILG11", "class": "fiis", "quantity": 169 },
+    { "ticker": "HABT11", "class": "fiis", "quantity": 202 },
+    { "ticker": "KNCR11", "class": "fiis", "quantity": 101 },
+    { "ticker": "MXRF11", "class": "fiis", "quantity": 1021 },
+    { "ticker": "BTLG11", "class": "fiis", "quantity": 83 },
+    { "ticker": "TGAR11", "class": "fiis", "quantity": 124 },
+    { "ticker": "HGLG11", "class": "fiis", "quantity": 17 },
+    { "ticker": "KNIP11", "class": "fiis", "quantity": 25 },
+    { "ticker": "RZTR11", "class": "fiis", "quantity": 20 },
+
+    { "ticker": "SPYI11", "class": "etfs", "quantity": 65 },
+    { "ticker": "IVVB11", "class": "etfs", "quantity": 15 },
+    { "ticker": "QQQI11", "class": "etfs", "quantity": 68 },
+
+    { "ticker": "BTC", "name": "Bitcoin", "class": "cripto", "quantity": 0.02626951, "provider_id": "bitcoin" },
+    { "ticker": "ETH", "name": "Ethereum", "class": "cripto", "quantity": 0.86603751, "provider_id": "ethereum" },
+    { "ticker": "SOL", "name": "Solana", "class": "cripto", "quantity": 17.76897154, "provider_id": "solana" },
+    { "ticker": "DOGE", "name": "Dogecoin", "class": "cripto", "quantity": 5255.17, "provider_id": "dogecoin" },
+    { "ticker": "DOT", "name": "Polkadot", "class": "cripto", "quantity": 275.55193867, "provider_id": "polkadot" },
+    { "ticker": "AVAX", "name": "Avalanche", "class": "cripto", "quantity": 27.99118188, "provider_id": "avalanche-2" },
+
+    { "ticker": "IPCA+2029", "name": "Tesouro IPCA+ 2029", "class": "renta_fija", "quantity": 20.32, "provider": "tesouro", "provider_id": "Tesouro IPCA+;15/05/2029" },
+    { "ticker": "SELIC2031", "name": "Tesouro Selic 2031", "class": "renta_fija", "quantity": 0.55, "provider": "tesouro", "provider_id": "Tesouro Selic;01/03/2031" },
+    { "ticker": "CDB-BTG", "name": "CDB BTG 100% CDI", "class": "renta_fija", "quantity": 1, "provider": "cdi", "cdi_percent": 100, "manual_value": 15870, "manual_date": "2026-11-14" },
+    { "ticker": "ZURICH-ANGA", "name": "Zurich Angá Previdenciário CP FIM", "class": "renta_fija", "quantity": 1, "provider": "manual", "manual_value": 88138, "manual_date": "2026-11-14" },
+    { "ticker": "FGTS", "name": "FGTS", "class": "renta_fija", "quantity": 1, "provider": "manual", "manual_value": 27531, "manual_date": "2026-11-14", "note": "No es activo de mercado" }
+  ]
+}

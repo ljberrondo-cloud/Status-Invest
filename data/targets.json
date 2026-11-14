@@ -1,0 +1,15 @@
+{
+  "concentration": {
+    "max_asset_pct": 12,
+    "max_class_pct": 45
+  },
+  "allocation": {
+    "acciones": 20,
+    "fiis": 30,
+    "etfs": 10,
+    "cripto": 10,
+    "renta_fija": 30
+  },
+  "tolerance_pct": 5,
+  "exclude_from_allocation": ["FGTS"]
+}
