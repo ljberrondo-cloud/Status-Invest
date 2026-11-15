@@ -1,6 +1,6 @@
 # Extractos de B3
 
-Una subcarpeta por titular: `mi-cuenta/` y `esposa/` (el nombre de la carpeta es el que se ve en la app; podés renombrarlas o agregar otras).
+Una subcarpeta por cuenta: `mi-cuenta/` y `esposa/`. En la app se muestran siempre juntas; las carpetas separadas sólo sirven para que un mismo pago recibido en las dos cuentas no se cuente como repetido.
 
 1. Área do Investidor de B3 → **Extratos** → **Movimentação**.
 2. Elegí el período y descargá el Excel.
