@@ -30,6 +30,7 @@ async function main() {
     date,
     generated_at: data.generatedAt,
     total: Math.round(data.total * 100) / 100,
+    invested: Math.round(data.invested * 100) / 100,
     day_change: Math.round(data.dayChange * 100) / 100,
     by_class: classTotals(data),
     quotes,
@@ -38,7 +39,7 @@ async function main() {
   await writeJson(`snapshots/${date}.json`, snapshot);
   await writeJson("snapshots/latest.json", snapshot);
 
-  const point: HistoryPoint & { missing?: number } = { date, total: snapshot.total, by_class: snapshot.by_class };
+  const point: HistoryPoint & { missing?: number } = { date, total: snapshot.total, invested: snapshot.invested, by_class: snapshot.by_class };
   if (data.missing.length) point.missing = data.missing.length;
   const history = (await loadHistory()).filter((h) => h.date !== date);
   history.push(point);

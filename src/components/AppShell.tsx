@@ -7,7 +7,7 @@ import { fmtTime } from "@/lib/format";
 
 const NAV = [
   { href: "/", label: "Resumen", icon: "M3 12l9-8 9 8M5 10v10h14V10" },
-  { href: "/clase/acciones", match: "/clase", label: "Activos", icon: "M4 19h16M7 16V9m5 7V5m5 11v-4" },
+  { href: "/activos", label: "Activos", icon: "M4 19h16M7 16V9m5 7V5m5 11v-4" },
   { href: "/proventos", label: "Proventos", icon: "M4 7h16v13H4zM4 7l2-3h12l2 3M9 12h6" },
   { href: "/alertas", label: "Alertas", icon: "M12 3a6 6 0 0 0-6 6v4l-2 3h16l-2-3V9a6 6 0 0 0-6-6zM10 19a2 2 0 0 0 4 0" },
 ];
@@ -51,9 +51,9 @@ export function RefreshBar() {
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const path = usePathname();
-  const active = (n: (typeof NAV)[number]) => (n.match ? path.startsWith(n.match) : path === n.href);
+  const active = (n: (typeof NAV)[number]) => (n.href === "/" ? path === "/" : path.startsWith(n.href));
   return (
-    <div className="mx-auto min-h-dvh max-w-5xl pb-24 sm:pb-10">
+    <div className="mx-auto min-h-dvh max-w-6xl pb-24 sm:pb-10">
       <header className="sticky top-0 z-20 border-b border-line/70 bg-bg/85 backdrop-blur">
         <div className="flex items-center justify-between gap-4 px-4 py-3 sm:px-6">
           <Link href="/" className="text-base font-semibold tracking-tight">

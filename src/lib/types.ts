@@ -1,4 +1,4 @@
-export const ASSET_CLASSES = ["acciones", "fiis", "etfs", "cripto", "renta_fija"] as const;
+export const ASSET_CLASSES = ["acciones", "fiis", "etfs", "cripto", "tesouro", "renta_fija", "fondos", "otros"] as const;
 export type AssetClass = (typeof ASSET_CLASSES)[number];
 
 export const CLASS_LABELS: Record<AssetClass, string> = {
@@ -6,7 +6,10 @@ export const CLASS_LABELS: Record<AssetClass, string> = {
   fiis: "FIIs",
   etfs: "ETFs",
   cripto: "Cripto",
+  tesouro: "Tesouro Directo",
   renta_fija: "Renta fija",
+  fondos: "Fondos",
+  otros: "Otros",
 };
 
 export type ProviderName = "brapi" | "coingecko" | "tesouro" | "cdi" | "manual";
@@ -20,6 +23,8 @@ export interface Asset {
   provider?: ProviderName;
   provider_id?: string;
   cdi_percent?: number;
+  /** Precio medio de compra en BRL por unidad. Permite calcular invertido, ganancia y rentabilidad. */
+  avg_price?: number;
   manual_value?: number;
   manual_date?: string; // YYYY-MM-DD
   note?: string;
@@ -78,6 +83,11 @@ export interface Position {
   /** % sobre el patrimonio total. */
   weight: number | null;
   status: PositionStatus;
+  /** Costo = cantidad × precio medio. null si no hay precio medio. */
+  cost: number | null;
+  /** Ganancia de capital en R$ y % sobre el costo. */
+  gain: number | null;
+  gainPct: number | null;
 }
 
 export interface ClassSummary {
@@ -88,6 +98,11 @@ export interface ClassSummary {
   dayChangePct: number | null;
   weight: number;
   count: number;
+  /** Costo de las posiciones con precio medio, y su valor actual (para comparar en igualdad). */
+  cost: number;
+  costedValue: number;
+  gain: number;
+  gainPct: number | null;
 }
 
 export interface Valuation {
@@ -97,6 +112,10 @@ export interface Valuation {
   positions: Position[];
   byClass: ClassSummary[];
   missing: string[];
+  /** Valor invertido (suma de costos conocidos) y ganancia de capital sobre esas posiciones. */
+  invested: number;
+  gain: number;
+  gainPct: number | null;
 }
 
 export interface PortfolioResponse extends Valuation {
@@ -115,6 +134,7 @@ export interface Targets {
 export interface HistoryPoint {
   date: string;
   total: number;
+  invested?: number;
   by_class: Partial<Record<AssetClass, number>>;
 }
 
@@ -122,6 +142,7 @@ export interface Snapshot {
   date: string;
   generated_at: string;
   total: number;
+  invested?: number;
   day_change: number;
   by_class: Partial<Record<AssetClass, number>>;
   quotes: Record<string, Quote>;

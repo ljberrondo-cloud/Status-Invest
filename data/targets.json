@@ -4,12 +4,15 @@
     "max_class_pct": 45
   },
   "allocation": {
-    "acciones": 20,
-    "fiis": 30,
+    "acciones": 10,
+    "fiis": 20,
     "etfs": 10,
     "cripto": 10,
-    "renta_fija": 30
+    "tesouro": 30,
+    "renta_fija": 10,
+    "fondos": 0,
+    "otros": 10
   },
   "tolerance_pct": 5,
-  "exclude_from_allocation": ["FGTS"]
+  "exclude_from_allocation": []
 }

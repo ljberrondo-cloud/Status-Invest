@@ -132,3 +132,42 @@ describe("accrueCdi", () => {
     expect(r.asOf).toBe("2026-11-14");
   });
 });
+
+describe("costo y ganancia (precio medio)", () => {
+  const withPm: Asset[] = [
+    { ticker: "AAA3", class: "acciones", quantity: 10, avg_price: 20 }, // costo 200
+    { ticker: "BBB11", class: "fiis", quantity: 100, avg_price: 9 }, // costo 900
+    { ticker: "CCC3", class: "acciones", quantity: 5 }, // sin precio medio
+  ];
+  const v = valuePortfolio(
+    withPm,
+    new Map([
+      ["AAA3", q("AAA3", 25, 25)], // 250 → +50 (+25%)
+      ["BBB11", q("BBB11", 8.1, 8.1)], // 810 → −90 (−10%)
+      ["CCC3", q("CCC3", 10, 10)], // 50, fuera del cálculo de ganancia
+    ]),
+  );
+
+  it("por posición", () => {
+    const a = v.positions[0];
+    expect(a.cost).toBe(200);
+    expect(a.gain).toBe(50);
+    expect(a.gainPct).toBeCloseTo(25, 10);
+    expect(v.positions[2].cost).toBeNull();
+    expect(v.positions[2].gain).toBeNull();
+  });
+
+  it("totales: invertido y ganancia sólo sobre posiciones con precio medio", () => {
+    expect(v.invested).toBe(1100);
+    expect(v.gain).toBeCloseTo(-40, 10);
+    expect(v.gainPct).toBeCloseTo((-40 / 1100) * 100, 10);
+    expect(v.total).toBeCloseTo(1110, 10); // incluye CCC3
+  });
+
+  it("por clase", () => {
+    const acc = v.byClass.find((c) => c.class === "acciones")!;
+    expect(acc.cost).toBe(200);
+    expect(acc.costedValue).toBe(250);
+    expect(acc.gainPct).toBeCloseTo(25, 10);
+  });
+});

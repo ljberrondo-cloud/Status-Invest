@@ -81,3 +81,14 @@ describe("proventos", () => {
     expect(rows[1].estimated).toBeCloseTo(102.1, 10);
   });
 });
+
+import { assetTargets } from "@/lib/alerts";
+describe("% ideal por activo", () => {
+  it("objetivo de la clase ÷ cantidad de activos, y 'comprar' si pesa menos", () => {
+    const t = assetTargets(v, targets);
+    expect(t.BBB11.idealPct).toBe(25); // fiis 50% / 2
+    expect(t.CCC11.buy).toBe(true); // pesa 10%
+    expect(t.AAA3.idealPct).toBe(50);
+    expect(t.AAA3.buy).toBe(false); // pesa 50%
+  });
+});

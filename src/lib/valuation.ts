@@ -25,10 +25,12 @@ function statusOf(q: Quote | null): PositionStatus {
 }
 
 export function valuePosition(asset: Asset, quote: Quote | null): Position {
+  const cost = typeof asset.avg_price === "number" && asset.avg_price > 0 ? asset.quantity * asset.avg_price : null;
   if (!quote) {
-    return { asset, quote: null, price: null, value: null, dayChange: null, dayChangePct: null, weight: null, status: "missing" };
+    return { asset, quote: null, price: null, value: null, dayChange: null, dayChangePct: null, weight: null, status: "missing", cost, gain: null, gainPct: null };
   }
   const value = asset.quantity * quote.price;
+  const gain = cost !== null ? value - cost : null;
   const dayChange = positionDayChange(asset.quantity, quote);
   const base = dayChange !== null ? value - dayChange : null;
   return {
@@ -40,6 +42,9 @@ export function valuePosition(asset: Asset, quote: Quote | null): Position {
     dayChangePct: dayChange !== null && base ? (dayChange / base) * 100 : null,
     weight: null,
     status: statusOf(quote),
+    cost,
+    gain,
+    gainPct: gain !== null && cost ? (gain / cost) * 100 : null,
   };
 }
 
@@ -60,6 +65,7 @@ export function valuePortfolio(assets: Asset[], quotes: Map<string, Quote> | Rec
     if (!ps.length) continue;
     const value = ps.reduce((s, p) => s + (p.value ?? 0), 0);
     const change = ps.reduce((s, p) => s + (p.dayChange ?? 0), 0);
+    const g = gainTotals(ps);
     byClass.push({
       class: cls,
       label: CLASS_LABELS[cls],
@@ -68,17 +74,35 @@ export function valuePortfolio(assets: Asset[], quotes: Map<string, Quote> | Rec
       dayChangePct: value - change > 0 ? (change / (value - change)) * 100 : null,
       weight: total > 0 ? (value / total) * 100 : 0,
       count: ps.length,
+      ...g,
     });
   }
 
+  const g = gainTotals(positions);
   return {
     total,
+    invested: g.cost,
+    gain: g.gain,
+    gainPct: g.gainPct,
     dayChange,
     dayChangePct: prevTotal > 0 ? (dayChange / prevTotal) * 100 : null,
     positions,
     byClass,
     missing: positions.filter((p) => p.status === "missing").map((p) => p.asset.ticker),
   };
+}
+
+/** Costo, valor y ganancia de las posiciones que tienen precio medio y cotización. */
+export function gainTotals(ps: Position[]) {
+  let cost = 0,
+    costedValue = 0;
+  for (const p of ps) {
+    if (p.cost === null || p.value === null) continue;
+    cost += p.cost;
+    costedValue += p.value;
+  }
+  const gain = costedValue - cost;
+  return { cost, costedValue, gain, gainPct: cost > 0 ? (gain / cost) * 100 : null };
 }
 
 export function classTotals(v: Valuation): Partial<Record<AssetClass, number>> {

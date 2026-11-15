@@ -1,6 +1,6 @@
 import type { Position, ProviderError } from "@/lib/types";
 import { fmtDDMM, fmtPct, signClass } from "@/lib/format";
-import { isoDateSP } from "@/lib/dates";
+import { addDays, isoDateSP } from "@/lib/dates";
 
 export function Skeleton({ className = "" }: { className?: string }) {
   return <div className={`skeleton ${className}`} aria-hidden />;
@@ -35,7 +35,8 @@ export function QuoteBadge({ p }: { p: Position }) {
   if (p.status === "missing") return <Badge tone="neg">Sin cotización</Badge>;
   if (p.status === "manual") return <Badge tone="muted">Manual{p.quote ? ` · ${fmtDDMM(p.quote.asOf)}` : ""}</Badge>;
   if (p.status === "stale" && p.quote) return <Badge tone="warn">Última cotización del {fmtDDMM(p.quote.asOf)}</Badge>;
-  if (p.quote && isoDateSP(p.quote.asOf) !== isoDateSP()) return <Badge tone="muted">Al {fmtDDMM(p.quote.asOf)}</Badge>;
+  // Fines de semana y feriados la última cotización es de días atrás: sólo se marca si tiene más de 4 días.
+  if (p.quote && addDays(isoDateSP(), -4) > isoDateSP(p.quote.asOf)) return <Badge tone="muted">Al {fmtDDMM(p.quote.asOf)}</Badge>;
   return null;
 }
 

@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { useJson, usePortfolio } from "@/components/data";
-import { AllocationDonut, EvolutionChart, Heatmap } from "@/components/charts";
-import { Card, ChangePill, ChangeText, ErrorState, ProviderErrors, Skeleton } from "@/components/ui";
-import { fmtBRL, fmtDDMM, fmtPct, fmtSignedBRL } from "@/lib/format";
-import type { HistoryPoint, Indicator } from "@/lib/types";
+import { AllocationDonut, Heatmap } from "@/components/charts";
+import { KpiCards, MonthlyEvolution } from "@/components/summary";
+import { Card, ChangePill, ErrorState, ProviderErrors, Skeleton } from "@/components/ui";
+import { fmtBRL, fmtDDMM, fmtPct } from "@/lib/format";
+import type { HistoryPoint, Indicator, Targets } from "@/lib/types";
+import type { ReceivedSummary } from "@/lib/received";
 
 function Indicators({ items }: { items: Indicator[] }) {
   if (!items.length) return null;
@@ -26,62 +28,48 @@ function Indicators({ items }: { items: Indicator[] }) {
 }
 
 export default function Resumen() {
-  const { data, error, isLoading } = usePortfolio();
+  const { data, error } = usePortfolio();
   const history = useJson<{ history: HistoryPoint[] }>("/api/history");
+  const received = useJson<{ imported: boolean; summary?: ReceivedSummary }>("/api/received");
+  const alerts = useJson<{ targets: Targets | null }>("/api/alerts");
 
   if (!data && error) return <ErrorState message={error.message} />;
-  if (!data || (isLoading && !data)) return <LoadingResumen />;
-
-  const manualTotal = data.positions.filter((p) => p.status === "manual").reduce((s, p) => s + (p.value ?? 0), 0);
+  if (!data) return <LoadingResumen />;
+  const targets = alerts.data?.targets;
+  const rec = received.data?.imported ? (received.data.summary ?? null) : null;
 
   return (
     <div className="space-y-4 sm:space-y-5">
-      <section className="pt-2 pb-1">
-        <div className="text-sm text-ink-3">Patrimonio total</div>
-        <div className="num mt-1 text-[2.4rem] leading-none font-semibold tracking-tight sm:text-5xl">{fmtBRL(data.total)}</div>
-        <div className="mt-2.5 flex flex-wrap items-center gap-2 text-sm">
-          <ChangeText value={data.dayChange}>{fmtSignedBRL(data.dayChange)}</ChangeText>
-          <ChangePill pct={data.dayChangePct} />
-          <span className="text-ink-3">hoy</span>
-        </div>
-        {(data.missing.length > 0 || manualTotal > 0) && (
-          <p className="mt-2 text-xs text-ink-3">
-            {manualTotal > 0 && <>Incluye {fmtBRL(manualTotal)} en valores manuales. </>}
-            {data.missing.length > 0 && <span className="text-neg">
-                {data.missing.length} activo{data.missing.length > 1 ? "s" : ""} sin cotización, fuera del total ({data.missing.slice(0, 4).join(", ")}
-                {data.missing.length > 4 ? "…" : ""}).
-              </span>}
-          </p>
-        )}
-      </section>
-
+      <KpiCards data={data} received={rec} />
+      {data.missing.length > 0 && (
+        <p className="text-xs text-neg">
+          {data.missing.length} activo{data.missing.length > 1 ? "s" : ""} sin cotización, fuera del total ({data.missing.slice(0, 4).join(", ")}
+          {data.missing.length > 4 ? "…" : ""}).
+        </p>
+      )}
       <Indicators items={data.indicators} />
       <ProviderErrors errors={data.errors} />
 
-      <Card title="Evolución">
-        {history.data ? (
-          <EvolutionChart history={history.data.history} liveTotal={data.total} />
-        ) : (
-          <Skeleton className="h-52" />
-        )}
+      <Card title="Evolución del patrimonio">
+        {history.data ? <MonthlyEvolution history={history.data.history} data={data} /> : <Skeleton className="h-60" />}
       </Card>
 
       <div className="grid gap-4 sm:gap-5 lg:grid-cols-2">
         <Card title="Distribución por clase">
           <AllocationDonut classes={data.byClass} total={data.total} />
         </Card>
-        <Card title="Por clase, hoy">
+        <Card title="Por clase" action={<span className="text-[11px] text-ink-3">actual / ideal · hoy</span>}>
           <ul className="divide-y divide-line">
             {data.byClass.map((c) => (
               <li key={c.class}>
-                <Link href={`/clase/${c.class}`} className="flex items-center gap-3 py-2.5 hover:opacity-80">
-                  <span className="h-2.5 w-2.5 rounded-full" style={{ background: `var(--c-${c.class})` }} />
-                  <span className="flex-1 text-sm">{c.label}</span>
-                  {c.value === 0 ? (
-                    <span className="text-xs text-neg">Sin cotización</span>
-                  ) : (
-                    <span className="num text-sm text-ink-2">{fmtBRL(c.value)}</span>
-                  )}
+                <Link href={`/activos#${c.class}`} className="flex items-center gap-3 py-2.5 hover:opacity-80">
+                  <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: `var(--c-${c.class})` }} />
+                  <span className="min-w-0 flex-1 truncate text-sm">{c.label}</span>
+                  <span className="num text-xs text-ink-3">
+                    {fmtPct(c.weight, 0, false)}
+                    {targets ? ` / ${fmtPct(targets.allocation[c.class] ?? 0, 0, false)}` : ""}
+                  </span>
+                  <span className="num w-24 text-right text-sm text-ink-2">{fmtBRL(c.value)}</span>
                   <ChangePill pct={c.dayChangePct} className="w-16 justify-center" />
                 </Link>
               </li>
@@ -94,9 +82,7 @@ export default function Resumen() {
         <Heatmap positions={data.positions} />
       </Card>
 
-      <p className="pb-2 text-center text-[11px] text-ink-3">
-        Precios: brapi (B3), CoinGecko, Tesouro Transparente, Banco Central. Variación hoy {fmtPct(data.dayChangePct)} sobre activos con cotización de mercado.
-      </p>
+      <p className="pb-2 text-center text-[11px] text-ink-3">Precios: brapi (B3), CoinGecko, Tesouro Transparente, Banco Central. Valores manuales: Zurich, FGTS.</p>
     </div>
   );
 }
@@ -104,15 +90,13 @@ export default function Resumen() {
 function LoadingResumen() {
   return (
     <div className="space-y-4" aria-busy>
-      <Skeleton className="h-4 w-28" />
-      <Skeleton className="h-11 w-64" />
-      <Skeleton className="h-5 w-40" />
-      <div className="flex gap-2">
+      <div className="grid grid-cols-2 gap-2.5 lg:grid-cols-4">
         {[0, 1, 2, 3].map((i) => (
-          <Skeleton key={i} className="h-12 w-24" />
+          <Skeleton key={i} className="h-24" />
         ))}
       </div>
-      <Skeleton className="h-64" />
+      <Skeleton className="h-12" />
+      <Skeleton className="h-72" />
       <Skeleton className="h-48" />
     </div>
   );

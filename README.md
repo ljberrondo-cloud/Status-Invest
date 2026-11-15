@@ -70,7 +70,7 @@ src/lib/
   dividends.ts            proventos de un período × cantidades
   portfolio-service.ts    orquesta proveedores + fallback al último snapshot
 src/app/api/              portfolio · history · dividends · alerts · refresh
-src/app/                  Resumen (/) · /clase/[clase] · /proventos · /alertas
+src/app/                  Resumen (/) · /activos · /proventos · /alertas
 scripts/snapshot.ts       snapshot diario
 tests/                    Vitest
 ```
@@ -83,7 +83,7 @@ tests/                    Vitest
 
 ## Editar posiciones
 
-Cada activo en `data/portfolio.json` tiene `ticker`, `class` (`acciones` · `fiis` · `etfs` · `cripto` · `renta_fija`) y `quantity`, más campos opcionales (ver [`portfolio.schema.json`](data/portfolio.schema.json)):
+Cada activo en `data/portfolio.json` tiene `ticker`, `class` (`acciones` · `fiis` · `etfs` · `cripto` · `tesouro` · `renta_fija` · `fondos` · `otros`), `quantity` y `avg_price` (precio medio, para calcular invertido, ganancia y rentabilidad), más campos opcionales (ver [`portfolio.schema.json`](data/portfolio.schema.json)):
 
 - **B3**: sólo ticker, clase y cantidad.
 - **Cripto**: `provider_id` = id de CoinGecko (p.ej. `avalanche-2`).

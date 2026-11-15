@@ -95,3 +95,18 @@ export function computeAlerts(v: Valuation, t: Targets): Alert[] {
   }
   return alerts;
 }
+
+/**
+ * % ideal por activo = objetivo de su clase ÷ cantidad de activos de la clase (criterio de Investidor10).
+ * "Comprar" = el activo pesa menos que su ideal.
+ */
+export function assetTargets(v: Valuation, t: Targets): Record<string, { idealPct: number; buy: boolean }> {
+  const counts = new Map<AssetClass, number>();
+  for (const p of v.positions) counts.set(p.asset.class, (counts.get(p.asset.class) ?? 0) + 1);
+  const out: Record<string, { idealPct: number; buy: boolean }> = {};
+  for (const p of v.positions) {
+    const idealPct = (t.allocation[p.asset.class] ?? 0) / (counts.get(p.asset.class) ?? 1);
+    out[p.asset.ticker] = { idealPct, buy: p.weight !== null && p.weight < idealPct };
+  }
+  return out;
+}
