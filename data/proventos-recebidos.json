@@ -1,0 +1,184 @@
+{
+  "imported_at": "2026-11-15T23:39:23.472Z",
+  "source_files": [
+    "mi-cuenta/movimentacao-2026-10-14_2026-11-13.xlsx"
+  ],
+  "payments": [
+    {
+      "date": "2026-11-13",
+      "ticker": "KNCR11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 103,
+      "unitValue": 1.1,
+      "amount": 113.3,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-11-13",
+      "ticker": "KNIP11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 25,
+      "unitValue": 0.71,
+      "amount": 17.75,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-11-12",
+      "ticker": "HABT11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 104,
+      "unitValue": 0.92,
+      "amount": 95.68,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-11-10",
+      "ticker": "QQQI11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 68,
+      "unitValue": 1.08,
+      "amount": 62.61,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-11-10",
+      "ticker": "SPYI11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 65,
+      "unitValue": 1,
+      "amount": 55.49,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-11-09",
+      "ticker": "RZTR11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 20,
+      "unitValue": 0.85,
+      "amount": 17,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-11-09",
+      "ticker": "SANB3",
+      "type": "jcp",
+      "label": "Juros Sobre Capital Próprio",
+      "quantity": 84,
+      "unitValue": 0.19,
+      "amount": 13.24,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-10-23",
+      "ticker": "BTLG11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 12,
+      "unitValue": 0.81,
+      "amount": 9.72,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-10-23",
+      "ticker": "XPML11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 117,
+      "unitValue": 0.92,
+      "amount": 107.64,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-10-15",
+      "ticker": "HFOF11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 902,
+      "unitValue": 0.06,
+      "amount": 54.12,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-10-15",
+      "ticker": "HGLG11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 17,
+      "unitValue": 1.17,
+      "amount": 19.89,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-10-15",
+      "ticker": "MXRF11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 1033,
+      "unitValue": 0.1,
+      "amount": 103.3,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-10-15",
+      "ticker": "TGAR11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 125,
+      "unitValue": 0.7,
+      "amount": 87.5,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-10-15",
+      "ticker": "VILG11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 98,
+      "unitValue": 0.82,
+      "amount": 80.36,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-10-14",
+      "ticker": "KNCR11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 102,
+      "unitValue": 1.13,
+      "amount": 115.26,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-10-14",
+      "ticker": "KNIP11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 25,
+      "unitValue": 0.6,
+      "amount": 15,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    }
+  ]
+}

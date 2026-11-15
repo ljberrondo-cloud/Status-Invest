@@ -8,7 +8,7 @@ export type ReceivedType = "dividendo" | "jcp" | "rendimento" | "outro";
 export const RECEIVED_LABELS: Record<ReceivedType, string> = {
   dividendo: "Dividendos",
   jcp: "JCP",
-  rendimento: "Rendimientos FII",
+  rendimento: "Rendimientos (FII y ETF)",
   outro: "Otros",
 };
 
@@ -138,6 +138,8 @@ export interface ReceivedSummary {
   last12m: number;
   ytd: number;
   lastDate: string | null;
+  /** Primer pago importado: los totales sólo cubren desde acá. */
+  firstDate: string | null;
   byType: ByType;
   byYear: { year: string; total: number; byType: ByType }[];
   /** Últimos 12 meses calendario, incluido el actual, en orden cronológico. */
@@ -197,6 +199,7 @@ export function summarizeReceived(payments: ReceivedPayment[], today: string): R
     last12m: round2(last12m),
     ytd: round2(ytd),
     lastDate: payments.reduce<string | null>((m, p) => (m === null || p.date > m ? p.date : m), null),
+    firstDate: payments.reduce<string | null>((m, p) => (m === null || p.date < m ? p.date : m), null),
     byType: roundType(byType),
     byYear: [...years]
       .sort(([a], [b]) => b.localeCompare(a))

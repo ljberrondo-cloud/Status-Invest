@@ -87,6 +87,7 @@ describe("resumen de proventos recibidos", () => {
     expect(s.last12m).toBe(171); // 12/2025 entra (ventana: dic-2025 a nov-2026)
     expect(s.ytd).toBe(135);
     expect(s.lastDate).toBe("2026-11-14");
+    expect(s.firstDate).toBe("2025-12-15");
   });
 
   it("por tipo, por año, por mes y por activo", () => {

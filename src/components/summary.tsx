@@ -6,6 +6,7 @@ import { Bar, BarChart, CartesianGrid, ReferenceLine, ResponsiveContainer, Toolt
 import type { HistoryPoint, PortfolioResponse } from "@/lib/types";
 import type { ReceivedSummary } from "@/lib/received";
 import { fmtBRL, fmtBRLCompact, fmtPct, fmtSignedBRL, signClass } from "@/lib/format";
+import { isoToBr } from "@/lib/dates";
 import { isoDateSP } from "@/lib/dates";
 import { ChangePill } from "./ui";
 
@@ -38,6 +39,7 @@ export function KpiCards({ data, received }: { data: PortfolioResponse; received
         {received ? (
           <>
             Capital {fmtSignedBRL(data.gain)} · Proventos {fmtBRL(prov)}
+            {received.firstDate ? ` (desde ${isoToBr(received.firstDate).slice(0, 5)}/${received.firstDate.slice(2, 4)})` : ""}
             <br />
             Rentabilidad <span className={signClass(rent)}>{fmtPct(rent)}</span>
           </>
@@ -53,7 +55,15 @@ export function KpiCards({ data, received }: { data: PortfolioResponse; received
       </Kpi>
       <Kpi title="Proventos (12 meses)" value={received ? fmtBRL(received.last12m) : "—"}>
         {received ? (
-          <>Histórico {fmtBRL(received.total)}</>
+          <>
+            Histórico {fmtBRL(received.total)}
+            {received.firstDate && (
+              <>
+                <br />
+                <span className="text-warn">Datos importados desde {isoToBr(received.firstDate)}</span>
+              </>
+            )}
+          </>
         ) : (
           <Link href="/proventos" className="text-accent underline-offset-2 hover:underline">
             Importar extracto de B3

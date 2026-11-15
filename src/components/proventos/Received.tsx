@@ -103,6 +103,10 @@ export function ReceivedView() {
   if (!data.imported || !data.summary) return <EmptyReceived />;
   const s = data.summary;
   const thisYear = new Date().getFullYear().toString();
+  // Meses cubiertos por los datos importados (máx. 12), para no subestimar el promedio.
+  const months = s.firstDate
+    ? Math.min(12, Math.max(1, (Number(thisYear) - Number(s.firstDate.slice(0, 4))) * 12 + (new Date().getMonth() + 1) - Number(s.firstDate.slice(5, 7)) + 1))
+    : 12;
 
   const owners = data.owners ?? [];
 
@@ -111,8 +115,13 @@ export function ReceivedView() {
       <section className="pt-1">
         <div className="text-sm text-ink-3">Recibido en los últimos 12 meses{owners.length > 1 ? " · ambas cuentas" : ""}</div>
         <div className="num text-3xl font-semibold tracking-tight">{fmtBRL(s.last12m)}</div>
+        {s.firstDate && (
+          <div className="mt-1 inline-block rounded-md bg-warn-bg px-2 py-0.5 text-xs text-warn">
+            Incluye sólo lo importado: desde {fmtDateLong(s.firstDate)} {s.firstDate.slice(0, 4)}. Subí extractos más antiguos para completar el historial.
+          </div>
+        )}
         <div className="num mt-1 text-sm text-ink-2">
-          {fmtBRL(s.last12m / 12)} por mes en promedio · en {thisYear}: {fmtBRL(s.ytd)} · histórico: {fmtBRL(s.total)}
+          {fmtBRL(s.last12m / months)} por mes en promedio{months < 12 ? ` (${months} ${months === 1 ? "mes" : "meses"})` : ""} · en {thisYear}: {fmtBRL(s.ytd)} · histórico: {fmtBRL(s.total)}
         </div>
       </section>
 
