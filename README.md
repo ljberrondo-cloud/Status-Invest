@@ -4,7 +4,7 @@ App web mobile-first para ver el patrimonio valuado en reales con precios del d�
 
 - **Stack**: Next.js 16 (App Router) + TypeScript + Tailwind 4 + Recharts + SWR. Tests con Vitest.
 - **Sin base de datos**: las posiciones viven en [`data/portfolio.json`](data/portfolio.json) y los objetivos en [`data/targets.json`](data/targets.json). El código no tiene activos hardcodeados.
-- **Fuentes gratuitas, sin scraping**: brapi.dev (B3), CoinGecko (cripto), API SGS del Banco Central (CDI, Selic, IPCA, dólar PTAX) y el CSV de datos abiertos de Tesouro Transparente (Tesouro Direto).
+- **Fuentes gratuitas, sin scraping**: brapi.dev (B3), CoinGecko (cripto), API SGS del Banco Central (CDI, Selic, IPCA, dólar PTAX), el CSV de datos abiertos de Tesouro Transparente (Tesouro Direto) y DolarAPI (peso argentino: dólar oficial, blue, MEP y real).
 
 ## Correrla localmente
 
@@ -63,6 +63,7 @@ src/providers/            un adaptador por fuente, misma interfaz (PriceProvider
   bcb.ts                  indicadores (CDI, Selic, IPCA, PTAX) + devengo CDI para CDB
   tesouro.ts              PU base de Tesouro Direto (CSV oficial, D-1)
   manual.ts               valores manuales (previdencia, FGTS)
+  dolarapi.ts             peso argentino vs dólar (oficial, blue, MEP) y vs real
   index.ts                registro y ruteo activo → proveedor
 src/lib/
   valuation.ts            lógica pura: cantidad × precio, totales, variaciones, pesos, devengo CDI

@@ -73,36 +73,86 @@ function UpdatedAt() {
 const fmtIndicator = (i: Indicator) =>
   i.unit === "R$"
     ? i.value.toLocaleString("pt-BR", { style: "currency", currency: "BRL", minimumFractionDigits: 4 })
-    : `${i.value.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`;
+    : i.unit === "AR$"
+      ? `$ ${i.value.toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+      : `${i.value.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`;
+
+const RATE_IDS: Indicator["id"][] = ["cdi", "selic", "ipca12m", "ipcaMes"];
+
+/** Pares de monedas: cuánto cuesta 1 unidad de la segunda en la primera. */
+function currencyRows(ind: Indicator[]) {
+  const by = new Map(ind.map((i) => [i.id, i]));
+  const rows: { key: string; label: string; hint: string; main?: Indicator; extra?: string }[] = [
+    { key: "brlusd", label: "Real vs Dólar", hint: "R$ por 1 US$ · PTAX (BCB)", main: by.get("usd") },
+    {
+      key: "arsusd",
+      label: "Peso vs Dólar",
+      hint: "$ por 1 US$ · oficial",
+      main: by.get("usdArs"),
+      extra: [by.get("usdArsBlue") && `Blue ${fmtIndicator(by.get("usdArsBlue")!)}`, by.get("usdArsMep") && `MEP ${fmtIndicator(by.get("usdArsMep")!)}`]
+        .filter(Boolean)
+        .join(" · "),
+    },
+    { key: "arsbrl", label: "Peso vs Real", hint: "$ por 1 R$ · oficial", main: by.get("brlArs") },
+  ];
+  return rows.filter((r) => r.main);
+}
 
 function MarketList() {
   const { data } = usePortfolio();
   if (!data?.indicators.length) return null;
+  const rates = data.indicators.filter((i) => RATE_IDS.includes(i.id));
+  const fx = currencyRows(data.indicators);
   return (
-    <div>
-      <div className="eyebrow mb-2 px-3">Mercado</div>
-      <ul className="space-y-0.5">
-        {data.indicators.map((i) => (
-          <li key={i.id} className="flex items-baseline justify-between rounded-lg px-3 py-1.5 text-[13px]">
-            <span className="text-ink-2">{i.label}</span>
-            <span className="num font-medium">{fmtIndicator(i)}</span>
-          </li>
-        ))}
-      </ul>
+    <div className="space-y-6">
+      {fx.length > 0 && (
+        <div>
+          <div className="eyebrow mb-2 px-3">Monedas</div>
+          <ul className="space-y-0.5">
+            {fx.map((r) => (
+              <li key={r.key} className="rounded-lg px-3 py-1.5" title={r.hint}>
+                <div className="flex items-baseline justify-between gap-2 text-[13px]">
+                  <span className="text-ink-2">{r.label}</span>
+                  <span className="num font-medium">{fmtIndicator(r.main!)}</span>
+                </div>
+                {r.extra && <div className="num mt-0.5 text-right text-[11px] text-ink-3">{r.extra}</div>}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {rates.length > 0 && (
+        <div>
+          <div className="eyebrow mb-2 px-3">Tasas</div>
+          <ul className="space-y-0.5">
+            {rates.map((i) => (
+              <li key={i.id} className="flex items-baseline justify-between rounded-lg px-3 py-1.5 text-[13px]">
+                <span className="text-ink-2">{i.label}</span>
+                <span className="num font-medium">{fmtIndicator(i)}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
 
-/** Indicadores en fila horizontal (celular). */
+/** Monedas y tasas en fila horizontal (celular). */
 export function MarketStrip() {
   const { data } = usePortfolio();
   if (!data?.indicators.length) return null;
+  const items = [
+    ...currencyRows(data.indicators).map((r) => ({ key: r.key, label: r.label, value: fmtIndicator(r.main!), extra: r.extra })),
+    ...data.indicators.filter((i) => RATE_IDS.includes(i.id)).map((i) => ({ key: i.id, label: i.label, value: fmtIndicator(i), extra: undefined as string | undefined })),
+  ];
   return (
     <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 lg:hidden">
-      {data.indicators.map((i) => (
-        <div key={i.id} className="shrink-0 rounded-xl border border-line bg-surface px-3 py-2">
+      {items.map((i) => (
+        <div key={i.key} className="shrink-0 rounded-xl border border-line bg-surface px-3 py-2">
           <div className="text-[11px] text-ink-3">{i.label}</div>
-          <div className="num text-sm font-medium">{fmtIndicator(i)}</div>
+          <div className="num text-sm font-medium">{i.value}</div>
+          {i.extra && <div className="num text-[10px] text-ink-3">{i.extra}</div>}
         </div>
       ))}
     </div>
@@ -130,10 +180,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </Link>
           ))}
         </nav>
-        <div className="mt-8">
+        <div className="no-scrollbar mt-8 min-h-0 flex-1 overflow-y-auto pb-4">
           <MarketList />
         </div>
-        <div className="mt-auto space-y-3 px-3">
+        <div className="space-y-3 border-t border-line px-3 pt-4">
           <UpdatedAt />
           <RefreshButton />
         </div>

@@ -125,3 +125,17 @@ describe("brapi: errores de cuenta", () => {
     expect(r.errors[0].message).toBe("HTTP 403: Dividendos e JCP requer o plano Startup");
   });
 });
+
+import { mapDolarApi } from "@/providers/dolarapi";
+describe("dolarapi", () => {
+  it("usa el valor de venta y la fecha de São Paulo", () => {
+    expect(mapDolarApi("usdArs", "Dólar oficial", { moneda: "USD", casa: "oficial", compra: 1525, venta: 1575, fechaActualizacion: "2026-11-17T18:55:00.000Z" })).toEqual({
+      id: "usdArs",
+      label: "Dólar oficial",
+      value: 1575,
+      unit: "AR$",
+      date: "2026-11-17",
+    });
+    expect(mapDolarApi("brlArs", "Real", { moneda: "BRL", casa: "oficial", compra: null, venta: null, fechaActualizacion: "" })).toBeNull();
+  });
+});

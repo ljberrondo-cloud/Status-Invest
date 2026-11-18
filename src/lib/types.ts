@@ -63,10 +63,10 @@ export interface ProviderError {
 }
 
 export interface Indicator {
-  id: "cdi" | "selic" | "ipca12m" | "ipcaMes" | "usd";
+  id: "cdi" | "selic" | "ipca12m" | "ipcaMes" | "usd" | "usdArs" | "usdArsBlue" | "usdArsMep" | "brlArs";
   label: string;
   value: number;
-  unit: "% a.a." | "% mes" | "% 12m" | "R$";
+  unit: "% a.a." | "% mes" | "% 12m" | "R$" | "AR$";
   date: string; // YYYY-MM-DD
 }
 

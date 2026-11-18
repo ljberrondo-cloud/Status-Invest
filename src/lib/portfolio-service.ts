@@ -1,4 +1,4 @@
-import { indicatorProvider, priceProviders, routeAssets, dividendProviders } from "@/providers";
+import { indicatorProviders, priceProviders, routeAssets, dividendProviders } from "@/providers";
 import { errorMessage } from "@/providers/http";
 import { loadLatestSnapshot, loadPortfolio } from "./data-files";
 import { valuePortfolio } from "./valuation";
@@ -43,11 +43,16 @@ export async function fetchQuotes(assets: Asset[]): Promise<{ quotes: Map<string
 }
 
 async function safeIndicators(): Promise<{ indicators: Indicator[]; errors: ProviderError[] }> {
-  try {
-    return await indicatorProvider.getIndicators();
-  } catch (e) {
-    return { indicators: [], errors: [{ provider: indicatorProvider.id, message: errorMessage(e), tickers: [] }] };
-  }
+  const results = await Promise.allSettled(indicatorProviders.map((p) => p.getIndicators()));
+  const indicators: Indicator[] = [];
+  const errors: ProviderError[] = [];
+  results.forEach((r, i) => {
+    if (r.status === "fulfilled") {
+      indicators.push(...r.value.indicators);
+      errors.push(...r.value.errors);
+    } else errors.push({ provider: indicatorProviders[i].id, message: errorMessage(r.reason), tickers: [] });
+  });
+  return { indicators, errors };
 }
 
 export async function getPortfolioData(): Promise<PortfolioResponse> {
@@ -55,7 +60,8 @@ export async function getPortfolioData(): Promise<PortfolioResponse> {
   const [{ quotes, errors }, ind] = await Promise.all([fetchQuotes(portfolio.assets), safeIndicators()]);
   applyFallback(portfolio.assets, quotes, snapshot);
   const valuation = valuePortfolio(portfolio.assets, quotes);
-  const indicators = ind.indicators.length ? ind.indicators : (snapshot?.indicators ?? []);
+  const got = new Set(ind.indicators.map((i) => i.id));
+  const indicators = [...ind.indicators, ...(snapshot?.indicators ?? []).filter((i) => !got.has(i.id))];
   return {
     ...valuation,
     generatedAt: new Date().toISOString(),
