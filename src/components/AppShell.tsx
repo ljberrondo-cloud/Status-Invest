@@ -22,7 +22,10 @@ function Logo() {
           <path d="M4 17l5-5 4 3 7-8" />
         </svg>
       </span>
-      <span className="text-[15px] font-semibold tracking-tight">Patrimonio</span>
+      <span className="leading-tight">
+        <span className="block text-[14px] font-semibold tracking-tight">Cartera de inversiones</span>
+        <span className="num block text-xs font-medium text-ink-3">2026</span>
+      </span>
     </Link>
   );
 }
@@ -56,7 +59,8 @@ function UpdatedAt() {
     <div className="text-xs leading-tight text-ink-3">
       {data ? (
         <>
-          {fromDevice ? "Guardado en el dispositivo" : "Actualizado"} · <span className="num text-ink-2">{fmtTime(data.generatedAt)}</span>
+          <span className="hidden sm:inline">{fromDevice ? "Guardado en el dispositivo" : "Actualizado"} · </span>
+          <span className="num text-ink-2">{fmtTime(data.generatedAt)}</span>
         </>
       ) : (
         "Cargando…"

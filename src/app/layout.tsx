@@ -5,9 +5,9 @@ import "./globals.css";
 import { AppShell } from "@/components/AppShell";
 
 export const metadata: Metadata = {
-  title: "Patrimonio",
+  title: "Cartera de inversiones 2026",
   description: "Seguimiento personal de inversiones en BRL",
-  appleWebApp: { capable: true, title: "Patrimonio", statusBarStyle: "default" },
+  appleWebApp: { capable: true, title: "Cartera de inversiones 2026", statusBarStyle: "default" },
 };
 
 export const viewport: Viewport = {
