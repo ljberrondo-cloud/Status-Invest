@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { usePortfolio, useRefresh } from "./data";
 import { Icon, type IconName } from "./icons";
+import { ThemeToggle } from "./theme";
 import { fmtTime } from "@/lib/format";
 import type { Indicator } from "@/lib/types";
 
@@ -184,6 +185,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <MarketList />
         </div>
         <div className="space-y-3 border-t border-line px-3 pt-4">
+          <ThemeToggle />
           <UpdatedAt />
           <RefreshButton />
         </div>
@@ -194,6 +196,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <Logo />
         <div className="flex items-center gap-3">
           <UpdatedAt />
+          <ThemeToggle compact />
           <RefreshButton compact />
         </div>
       </header>

@@ -44,8 +44,9 @@
   --r-outro: #eda100;
 }
 
+/* Oscuro: por preferencia del sistema (salvo que se elija "Claro") o elegido a mano. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     color-scheme: dark;
     --bg: #090b0f;
     --surface: #111419;
@@ -83,6 +84,49 @@
     --r-rendimento: #199e70;
     --r-outro: #c98500;
   }
+}
+
+:root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #090b0f;
+    --surface: #111419;
+    --surface-2: #171b22;
+    --surface-3: #1f242d;
+    --border: #20252e;
+    --border-strong: #2c323d;
+    --text: #eef1f5;
+    --text-2: #aab2bf;
+    --text-3: #6f7888;
+    --accent: #3987e5;
+    --accent-soft: #14233a;
+    --pos: #3fbf6a;
+    --neg: #ee6b6b;
+    --pos-bg: #12261a;
+    --neg-bg: #2f1719;
+    --warn: #f0b84a;
+    --warn-bg: #2b2210;
+    --heat-mid: #232832;
+    --gain-bar: #9ec5f4;
+    --shadow: 0 1px 0 rgb(255 255 255 / 0.02) inset;
+    --shadow-lg: 0 16px 40px -16px rgb(0 0 0 / 0.6);
+    --hero-from: #121620;
+    --hero-to: #0f1218;
+    --c-acciones: #d55181;
+    --c-fiis: #199e70;
+    --c-etfs: #9085e9;
+    --c-cripto: #0ca30c;
+    --c-tesouro: #d95926;
+    --c-renta_fija: #c98500;
+    --c-fondos: #3987e5;
+    --c-otros: #5b616b;
+    --r-dividendo: #3987e5;
+    --r-jcp: #d95926;
+    --r-rendimento: #199e70;
+    --r-outro: #c98500;
+  }
+
+:root[data-theme="light"] {
+  color-scheme: light;
 }
 
 @theme inline {
