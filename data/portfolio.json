@@ -255,26 +255,15 @@
       "manual_date": "2026-11-15"
     },
     {
-      "ticker": "FGTS-1",
+      "ticker": "FGTS",
       "class": "otros",
       "quantity": 1,
-      "avg_price": 20397.06,
-      "name": "FGTS (cuenta 1)",
+      "avg_price": 31196.74,
+      "name": "FGTS",
       "provider": "manual",
-      "manual_value": 20399.1,
+      "manual_value": 31198.78,
       "manual_date": "2026-11-15",
-      "note": "No es activo de mercado"
-    },
-    {
-      "ticker": "FGTS-2",
-      "class": "otros",
-      "quantity": 1,
-      "avg_price": 10799.68,
-      "name": "FGTS (cuenta 2)",
-      "provider": "manual",
-      "manual_value": 10799.68,
-      "manual_date": "2026-11-15",
-      "note": "No es activo de mercado"
+      "note": "No es activo de mercado. Suma de las dos cuentas de FGTS."
     }
   ]
 }
