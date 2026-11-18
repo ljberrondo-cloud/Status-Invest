@@ -38,6 +38,7 @@ Van en `.env.local` (local), en las variables de entorno de Vercel (producción)
 | `QUOTES_REVALIDATE_SECONDS` | No | Caché de cotizaciones (3600–21600). Default 3600 (1 h). |
 | `SLOW_REVALIDATE_SECONDS` | No | Caché de BCB, Tesouro y proventos. Default 21600 (6 h). |
 | `APP_PASSWORD` | Recomendada | Contraseña de la pantalla de ingreso. Elegila vos; queda recordada un año en cada dispositivo. Sin esta variable la app no pide contraseña. |
+| `GITHUB_UPLOAD_TOKEN` | Para subir extractos | Token *fine-grained* de GitHub (github.com/settings/personal-access-tokens/new) con acceso sólo a este repositorio y permiso **Contents: Read and write**. Lo usa el botón "Subir extracto de B3". |
 | `BRAPI_BATCH_SIZE` | No | Tickers por request a brapi. Default 1 (límite del plan gratuito); con plan pago, hasta 10. Si un lote falla se reintenta de a uno. |
 
 BCB y Tesouro Transparente no requieren clave.
@@ -96,6 +97,10 @@ Cada activo en `data/portfolio.json` tiene `ticker`, `class` (`acciones` · `fii
 `data/targets.json` define los límites de concentración (`max_asset_pct`, `max_class_pct`), la asignación objetivo por clase, la tolerancia en puntos porcentuales y los activos excluidos del cálculo de asignación (p.ej. FGTS).
 
 ## Proventos recibidos (extracto de B3)
+
+**Desde la app:** Proventos → *Subir extracto de B3*: elegís la cuenta y el PDF o Excel de Movimentação. La app lo lee (PDF con `src/lib/b3-pdf.ts`, Excel con `src/lib/b3-xlsx.ts`), guarda en GitHub sólo los proventos como `data/b3/<cuenta>/<período>.json` (el archivo original no se guarda: tiene nombre y CPF) y el workflow recalcula el acumulado. Subir dos veces el mismo extracto no duplica nada.
+
+**A mano:**
 
 B3 no ofrece una API abierta para personas, pero permite descargar el extracto de **Movimentação** (Área do Investidor → Extratos → Movimentação → Excel). Subí ese `.xlsx` a la carpeta del titular en [`data/b3/`](data/b3/) (`mi-cuenta/`, `esposa/`; la app las muestra consolidadas, la separación evita descartar como duplicado un mismo pago recibido en ambas cuentas) y el workflow [`import-b3.yml`](.github/workflows/import-b3.yml) genera `data/proventos-recebidos.json`. La pestaña **Proventos → Recibidos** muestra el acumulado (12 meses, año, histórico), separado en dividendos, JCP y rendimientos, por mes y por activo. Podés subir extractos superpuestos: los pagos repetidos se cuentan una sola vez. Localmente: `npm run import:b3`.
 

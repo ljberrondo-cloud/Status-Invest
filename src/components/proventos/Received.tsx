@@ -3,6 +3,7 @@
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { useJson } from "@/components/data";
 import { Card, ErrorState, Skeleton } from "@/components/ui";
+import { UploadExtract } from "./Upload";
 import { RECEIVED_LABELS, type ReceivedSummary, type ReceivedType } from "@/lib/received";
 import { fmtBRL, fmtBRLCompact, fmtDateLong, fmtPct } from "@/lib/format";
 
@@ -77,21 +78,10 @@ function MonthlyChart({ s }: { s: ReceivedSummary }) {
 
 export function EmptyReceived() {
   return (
-    <Card>
-      <div className="space-y-3 py-2 text-sm">
-        <p className="font-medium">Todavía no importaste tus proventos de B3</p>
-        <ol className="list-decimal space-y-1 pl-5 text-ink-2">
-          <li>
-            Entrá a la <b>Área do Investidor</b> de B3 → <b>Extratos</b> → <b>Movimentação</b>.
-          </li>
-          <li>Elegí el período (por ejemplo, desde que empezaste a invertir) y descargá el Excel.</li>
-          <li>
-            Subilo a la carpeta del titular, por ejemplo <code className="rounded bg-surface-2 px-1">data/b3/esposa/</code>, o mandáselo a Claude.
-          </li>
-        </ol>
-        <p className="text-xs text-ink-3">En 1–2 minutos aparecen acá el acumulado, los JCP y los rendimientos.</p>
-      </div>
-    </Card>
+    <div className="space-y-4">
+      <p className="text-sm text-ink-2">Todavía no hay proventos cargados. Subí el extracto de Movimentação de B3 de cada cuenta.</p>
+      <UploadExtract defaultOpen />
+    </div>
   );
 }
 
@@ -112,6 +102,9 @@ export function ReceivedView() {
 
   return (
     <div className="space-y-4">
+      <div className="flex justify-end">
+        <UploadExtract />
+      </div>
       <section className="card hero p-5 sm:p-7">
         <div className="eyebrow">Recibido en los últimos 12 meses{owners.length > 1 ? " · ambas cuentas" : ""}</div>
         <div className="num mt-2 text-[2.4rem] leading-none font-semibold tracking-[-0.03em] sm:text-5xl">{fmtBRL(s.last12m)}</div>
