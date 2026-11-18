@@ -53,19 +53,31 @@ export function useJson<T>(url: string | null) {
   return useSWR<T>(url, fetcher, { revalidateOnFocus: false, keepPreviousData: true });
 }
 
+/* Aviso del botón "Actualizar", compartido entre todas las instancias del hook. */
+let refreshNote: string | null = null;
+const noteListeners = new Set<() => void>();
+const setRefreshNote = (n: string | null) => {
+  refreshNote = n;
+  noteListeners.forEach((l) => l());
+};
+const subscribeNote = (l: () => void) => {
+  noteListeners.add(l);
+  return () => noteListeners.delete(l);
+};
+
 /** Invalida el caché del servidor y vuelve a pedir todo. */
 export function useRefresh() {
   const { mutate } = useSWRConfig();
   const [busy, setBusy] = useState(false);
-  const [note, setNote] = useState<string | null>(null);
+  const note = useSyncExternalStore(subscribeNote, () => refreshNote, () => null);
   const refresh = useCallback(async () => {
     setBusy(true);
-    setNote(null);
+    setRefreshNote(null);
     try {
       const r = await fetch("/api/refresh", { method: "POST" });
       if (r.status === 429) {
         const j = await r.json().catch(() => ({}));
-        setNote(`Ya se actualizó hace instantes. Reintentá en ${j.retryInSeconds ?? 60} s.`);
+        setRefreshNote(`Ya se actualizó hace instantes. Reintentá en ${j.retryInSeconds ?? 60} s.`);
       }
       await mutate(() => true);
     } finally {

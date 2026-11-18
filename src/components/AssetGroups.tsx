@@ -3,8 +3,9 @@
 import { useEffect, useMemo, useState } from "react";
 import type { ClassSummary, Position, Targets } from "@/lib/types";
 import { fmtBRL, fmtPct, fmtPrice, fmtQty, signClass } from "@/lib/format";
-import { ChangePill, QuoteBadge } from "./ui";
 import { sortPositions, type SortKey } from "@/lib/sort";
+import { Badge, ChangePill, QuoteBadge, TickerAvatar } from "./ui";
+import { Icon } from "./icons";
 
 export interface AssetExtra {
   idealPct: number;
@@ -19,26 +20,30 @@ export function rentability(p: Position, received: number): number | null {
   return ((p.gain + received) / p.cost) * 100;
 }
 
-const COLS: { key: SortKey | null; label: string; title?: string }[] = [
-  { key: "ticker", label: "Activo" },
-  { key: "quantity", label: "Cant." },
+const COLS: { key: SortKey | null; label: string; title?: string; align?: "left" }[] = [
+  { key: "ticker", label: "Activo", align: "left" },
+  { key: "quantity", label: "Cantidad" },
   { key: "avg", label: "P. medio" },
   { key: "price", label: "Precio" },
   { key: "change", label: "Hoy", title: "Variación del día" },
   { key: "gain", label: "Variación", title: "Precio actual vs precio medio" },
   { key: "rent", label: "Rentab.", title: "Ganancia de capital + proventos recibidos, sobre el costo" },
   { key: "value", label: "Saldo" },
-  { key: "weight", label: "% cartera" },
-  { key: null, label: "% ideal" },
-  { key: null, label: "¿Comprar?" },
+  { key: "weight", label: "Cartera", title: "% de la cartera / % ideal" },
+  { key: null, label: "" },
 ];
 
 function BuyTag({ buy }: { buy: boolean }) {
+  return buy ? <Badge tone="accent">Comprar</Badge> : null;
+}
+
+/** Barra de % actual con marca del objetivo. */
+function WeightBar({ value, target, color, max }: { value: number; target: number | null; color: string; max: number }) {
   return (
-    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium ${buy ? "bg-surface-2 text-ink" : "text-ink-3"}`}>
-      <span aria-hidden>{buy ? "●" : "○"}</span>
-      {buy ? "Sí" : "No"}
-    </span>
+    <div className="relative h-1.5 w-full rounded-full bg-surface-2">
+      <div className="absolute inset-y-0 left-0 rounded-full" style={{ width: `${Math.min(100, (value / max) * 100)}%`, background: color }} />
+      {target !== null && <div className="absolute -top-1 -bottom-1 w-[2px] rounded bg-ink/70" style={{ left: `calc(${Math.min(100, (target / max) * 100)}% - 1px)` }} />}
+    </div>
   );
 }
 
@@ -47,6 +52,7 @@ function Group({
   positions,
   extra,
   targetPct,
+  tolerance,
   open,
   onToggle,
   sort,
@@ -56,6 +62,7 @@ function Group({
   positions: Position[];
   extra: Record<string, AssetExtra>;
   targetPct: number | null;
+  tolerance: number;
   open: boolean;
   onToggle: () => void;
   sort: { key: SortKey; dir: 1 | -1 };
@@ -64,51 +71,45 @@ function Group({
   const rows = useMemo(() => sortPositions(positions, sort.key, sort.dir, extra), [positions, sort, extra]);
   const receivedTotal = positions.reduce((s, p) => s + (extra[p.asset.ticker]?.received ?? 0), 0);
   const rent = summary.cost > 0 ? ((summary.gain + receivedTotal) / summary.cost) * 100 : null;
+  const color = `var(--c-${summary.class})`;
+  const off = targetPct !== null && Math.abs(summary.weight - targetPct) > tolerance;
+  const maxW = Math.max(summary.weight, targetPct ?? 0, 1) * 1.15;
   const arrow = (k: SortKey | null) => (k && k === sort.key ? (sort.dir === 1 ? " ↑" : " ↓") : "");
 
   return (
-    <section id={summary.class} className="card scroll-mt-20 overflow-hidden">
-      <button onClick={onToggle} aria-expanded={open} className="flex w-full items-center gap-3 px-4 py-3.5 text-left hover:bg-surface-2/50 sm:px-5">
-        <span className="h-3 w-3 shrink-0 rounded-full" style={{ background: `var(--c-${summary.class})` }} />
-        <span className="min-w-0 flex-1">
-          <span className="block font-semibold">{summary.label}</span>
-          <span className="block text-xs text-ink-3">{summary.count} activos</span>
-        </span>
-        <span className="hidden text-right sm:block">
-          <span className="block text-[11px] text-ink-3">Variación</span>
-          <span className={`num text-sm font-medium ${signClass(summary.gainPct)}`}>{fmtPct(summary.gainPct)}</span>
-        </span>
-        <span className="hidden w-24 text-right sm:block">
-          <span className="block text-[11px] text-ink-3">Rentab.</span>
-          <span className={`num text-sm font-medium ${signClass(rent)}`}>{fmtPct(rent)}</span>
-        </span>
-        <span className="hidden w-24 text-right md:block">
-          <span className="block text-[11px] text-ink-3">Actual / ideal</span>
-          <span className="num text-sm">
-            {fmtPct(summary.weight, 0, false)} / {targetPct !== null ? fmtPct(targetPct, 0, false) : "—"}
-          </span>
-        </span>
-        <span className="w-28 text-right">
-          <span className="block text-[11px] text-ink-3">Valor total</span>
-          <span className="num text-sm font-semibold">{fmtBRL(summary.value)}</span>
-        </span>
-        <svg viewBox="0 0 24 24" className={`h-4 w-4 shrink-0 text-ink-3 transition ${open ? "rotate-180" : ""}`} fill="none" stroke="currentColor" strokeWidth={2} aria-hidden>
-          <path d="M6 9l6 6 6-6" />
-        </svg>
+    <section id={summary.class} className="card scroll-mt-24 overflow-hidden">
+      <button onClick={onToggle} aria-expanded={open} className="relative flex w-full items-center gap-4 px-5 py-4 text-left transition hover:bg-surface-2/40 sm:px-6">
+        <span className="absolute inset-y-3 left-0 w-1 rounded-r-full" style={{ background: color }} aria-hidden />
+        <div className="min-w-0 flex-1">
+          <div className="flex items-baseline gap-2">
+            <span className="text-[15px] leading-tight font-semibold tracking-tight sm:truncate">{summary.label}</span>
+            <span className="text-xs text-ink-3">{summary.count}</span>
+          </div>
+          <div className="mt-2 flex items-center gap-3">
+            <div className="w-20 shrink-0 sm:w-40">
+              <WeightBar value={summary.weight} target={targetPct} color={color} max={maxW} />
+            </div>
+            <span className="num text-xs whitespace-nowrap text-ink-2">
+              {fmtPct(summary.weight, 1, false)}
+              {targetPct !== null && <span className={off ? "text-warn" : "text-ink-3"}> / {fmtPct(targetPct, 0, false)}</span>}
+            </span>
+          </div>
+        </div>
+        <div className="hidden text-right sm:block">
+          <div className="text-[11px] text-ink-3">Variación</div>
+          <div className={`num text-sm font-semibold ${signClass(summary.gainPct)}`}>{fmtPct(summary.gainPct)}</div>
+        </div>
+        <div className="hidden w-24 text-right md:block">
+          <div className="text-[11px] text-ink-3">Rentab.</div>
+          <div className={`num text-sm font-semibold ${signClass(rent)}`}>{fmtPct(rent)}</div>
+        </div>
+        <div className="shrink-0 text-right sm:w-32">
+          <div className="num text-[15px] font-semibold tracking-tight">{fmtBRL(summary.value)}</div>
+          <div className={`num text-xs sm:hidden ${signClass(summary.gainPct)}`}>{fmtPct(summary.gainPct)}</div>
+          <div className="hidden text-[11px] text-ink-3 sm:block">{summary.cost > 0 ? `inv. ${fmtBRL(summary.cost)}` : ""}</div>
+        </div>
+        <Icon name="chevron" className={`h-4 w-4 shrink-0 text-ink-3 transition ${open ? "rotate-180" : ""}`} strokeWidth={2} />
       </button>
-
-      {/* En celular, el resumen de la clase va debajo del título */}
-      <div className="num flex flex-wrap gap-x-4 gap-y-1 px-4 pb-3 text-xs text-ink-3 sm:hidden">
-        <span>
-          Variación <span className={signClass(summary.gainPct)}>{fmtPct(summary.gainPct)}</span>
-        </span>
-        <span>
-          Rentab. <span className={signClass(rent)}>{fmtPct(rent)}</span>
-        </span>
-        <span>
-          {fmtPct(summary.weight, 0, false)} / {targetPct !== null ? fmtPct(targetPct, 0, false) : "—"} ideal
-        </span>
-      </div>
 
       {open && (
         <div className="border-t border-line">
@@ -118,36 +119,33 @@ function Group({
               const x = extra[p.asset.ticker];
               const r = rentability(p, x?.received ?? 0);
               return (
-                <li key={p.asset.ticker} className="px-4 py-3">
-                  <div className="flex items-baseline justify-between gap-3">
-                    <div className="min-w-0">
-                      <div className="font-medium">{p.asset.name && p.asset.class !== "acciones" && p.asset.class !== "fiis" ? p.asset.name : p.asset.ticker}</div>
-                      <div className="num text-xs text-ink-3">
-                        {fmtQty(p.asset.quantity)} × {fmtPrice(p.price)}
-                        {p.asset.avg_price ? ` · PM ${fmtPrice(p.asset.avg_price)}` : ""}
-                      </div>
+                <li key={p.asset.ticker} className="flex gap-3 px-5 py-3.5">
+                  <TickerAvatar ticker={p.asset.ticker} cls={p.asset.class} size={38} />
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-baseline justify-between gap-3">
+                      <span className="truncate font-medium">{p.asset.ticker}</span>
+                      <span className="num font-semibold">{fmtBRL(p.value)}</span>
                     </div>
-                    <div className="num text-right font-medium">{fmtBRL(p.value)}</div>
-                  </div>
-                  <div className="num mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink-3">
-                    <span className="flex items-center gap-1">
-                      Hoy <ChangePill pct={p.dayChangePct} />
-                    </span>
-                    <span>
-                      Var. <span className={signClass(p.gainPct)}>{fmtPct(p.gainPct)}</span>
-                    </span>
-                    {x?.received ? (
-                      <span>
-                        Rentab. <span className={signClass(r)}>{fmtPct(r)}</span>
+                    <div className="mt-0.5 flex items-baseline justify-between gap-3 text-xs text-ink-3">
+                      <span className="num truncate">
+                        {fmtQty(p.asset.quantity)} × {fmtPrice(p.price)}
                       </span>
-                    ) : null}
-                    <span>
-                      {fmtPct(p.weight, 2, false)} / {x ? fmtPct(x.idealPct, 2, false) : "—"}
-                    </span>
-                    {x && <BuyTag buy={x.buy} />}
-                  </div>
-                  <div className="mt-1 empty:hidden">
-                    <QuoteBadge p={p} />
+                      <span className={`num ${signClass(p.gainPct)}`}>{fmtPct(p.gainPct)}</span>
+                    </div>
+                    <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[11px] text-ink-3">
+                      <ChangePill pct={p.dayChangePct} />
+                      {p.asset.avg_price ? <span className="num">PM {fmtPrice(p.asset.avg_price)}</span> : null}
+                      {x?.received ? (
+                        <span className="num">
+                          Rentab. <span className={signClass(r)}>{fmtPct(r)}</span>
+                        </span>
+                      ) : null}
+                      <span className="num">
+                        {fmtPct(p.weight, 2, false)} / {x ? fmtPct(x.idealPct, 2, false) : "—"}
+                      </span>
+                      {x && <BuyTag buy={x.buy} />}
+                      <QuoteBadge p={p} />
+                    </div>
                   </div>
                 </li>
               );
@@ -158,11 +156,16 @@ function Group({
           <div className="hidden overflow-x-auto md:block">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-line bg-surface-2/50 text-xs text-ink-3">
+                <tr className="text-[11px] tracking-wide text-ink-3 uppercase">
                   {COLS.map((c, i) => (
-                    <th key={c.label} title={c.title} className={`px-3 py-2 font-normal whitespace-nowrap ${i === 0 ? "pl-5 text-left" : "text-right"} ${i === COLS.length - 1 ? "pr-5" : ""}`}>
+                    <th
+                      key={i}
+                      title={c.title}
+                      aria-sort={c.key && sort.key === c.key ? (sort.dir === 1 ? "ascending" : "descending") : undefined}
+                      className={`border-b border-line bg-surface-2/40 px-3 py-2.5 font-medium whitespace-nowrap ${c.align === "left" ? "pl-6 text-left" : "text-right"} ${i === COLS.length - 1 ? "pr-6" : ""}`}
+                    >
                       {c.key ? (
-                        <button onClick={() => onSort(c.key!)} className={`hover:text-ink ${sort.key === c.key ? "font-medium text-ink" : ""}`}>
+                        <button onClick={() => onSort(c.key!)} className={`uppercase hover:text-ink ${sort.key === c.key ? "text-ink" : ""}`}>
                           {c.label}
                           {arrow(c.key)}
                         </button>
@@ -178,13 +181,18 @@ function Group({
                   const x = extra[p.asset.ticker];
                   const r = rentability(p, x?.received ?? 0);
                   return (
-                    <tr key={p.asset.ticker} className="hover:bg-surface-2/50">
-                      <td className="py-2.5 pr-3 pl-5">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <span className="font-medium">{p.asset.ticker}</span>
-                          <QuoteBadge p={p} />
+                    <tr key={p.asset.ticker} className="transition hover:bg-surface-2/50">
+                      <td className="py-3 pr-3 pl-6">
+                        <div className="flex items-center gap-3">
+                          <TickerAvatar ticker={p.asset.ticker} cls={p.asset.class} size={34} />
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-2">
+                              <span className="font-medium">{p.asset.ticker}</span>
+                              <QuoteBadge p={p} />
+                            </div>
+                            {p.asset.name && <div className="max-w-52 truncate text-xs text-ink-3">{p.asset.name}</div>}
+                          </div>
                         </div>
-                        {p.asset.name && <div className="max-w-48 truncate text-[11px] text-ink-3">{p.asset.name}</div>}
                       </td>
                       <td className="num px-3 text-right text-ink-2">{fmtQty(p.asset.quantity)}</td>
                       <td className="num px-3 text-right text-ink-2" title={p.asset.note}>
@@ -195,14 +203,16 @@ function Group({
                       <td className="px-3 text-right">
                         <ChangePill pct={p.dayChangePct} />
                       </td>
-                      <td className={`num px-3 text-right ${signClass(p.gainPct)}`}>{fmtPct(p.gainPct)}</td>
+                      <td className={`num px-3 text-right font-medium ${signClass(p.gainPct)}`}>{fmtPct(p.gainPct)}</td>
                       <td className={`num px-3 text-right ${signClass(r)}`} title={x?.received ? `Incluye ${fmtBRL(x.received)} en proventos` : "Sin proventos importados"}>
                         {fmtPct(r)}
                       </td>
-                      <td className="num px-3 text-right font-medium">{fmtBRL(p.value)}</td>
-                      <td className="num px-3 text-right text-ink-2">{fmtPct(p.weight, 2, false)}</td>
-                      <td className="num px-3 text-right text-ink-3">{x ? fmtPct(x.idealPct, 2, false) : "—"}</td>
-                      <td className="pr-5 pl-3 text-right">{x && <BuyTag buy={x.buy} />}</td>
+                      <td className="num px-3 text-right font-semibold">{fmtBRL(p.value)}</td>
+                      <td className="num px-3 text-right">
+                        <div className="text-ink-2">{fmtPct(p.weight, 2, false)}</div>
+                        <div className="text-[11px] text-ink-3">ideal {x ? fmtPct(x.idealPct, 2, false) : "—"}</div>
+                      </td>
+                      <td className="pr-6 pl-3 text-right">{x && <BuyTag buy={x.buy} />}</td>
                     </tr>
                   );
                 })}
@@ -220,11 +230,13 @@ export function AssetGroups({
   positions,
   extra,
   targets,
+  query,
 }: {
   classes: ClassSummary[];
   positions: Position[];
   extra: Record<string, AssetExtra>;
   targets: Targets | null;
+  query: string;
 }) {
   const [open, setOpen] = useState<Set<string>>(new Set());
   const [sort, setSort] = useState<{ key: SortKey; dir: 1 | -1 }>({ key: "value", dir: -1 });
@@ -240,38 +252,42 @@ export function AssetGroups({
     return () => window.removeEventListener("hashchange", sync);
   }, []);
 
+  const q = query.trim().toUpperCase();
+  const match = (p: Position) => !q || p.asset.ticker.toUpperCase().includes(q) || (p.asset.name ?? "").toUpperCase().includes(q);
+  const visible = classes.filter((c) => positions.some((p) => p.asset.class === c.class && match(p)));
   const onSort = (k: SortKey) => setSort((s) => (s.key === k ? { key: k, dir: s.dir === 1 ? -1 : 1 } : { key: k, dir: k === "ticker" ? 1 : -1 }));
-  const allOpen = open.size === classes.length;
+  const allOpen = visible.every((c) => open.has(c.class));
+
+  if (!visible.length) return <p className="card p-10 text-center text-sm text-ink-3">Ningún activo coincide con “{query}”.</p>;
 
   return (
     <div className="space-y-3">
       <div className="flex justify-end">
-        <button onClick={() => setOpen(allOpen ? new Set() : new Set(classes.map((c) => c.class)))} className="text-xs text-accent hover:underline">
+        <button onClick={() => setOpen(allOpen ? new Set() : new Set(classes.map((c) => c.class)))} className="text-xs font-medium text-accent hover:underline">
           {allOpen ? "Contraer todo" : "Expandir todo"}
         </button>
       </div>
-      {[...classes]
-        .sort((a, b) => b.value - a.value)
-        .map((c) => (
-          <Group
-            key={c.class}
-            summary={c}
-            positions={positions.filter((p) => p.asset.class === c.class)}
-            extra={extra}
-            targetPct={targets ? (targets.allocation[c.class] ?? 0) : null}
-            open={open.has(c.class)}
-            onToggle={() =>
-              setOpen((s) => {
-                const n = new Set(s);
-                if (n.has(c.class)) n.delete(c.class);
-                else n.add(c.class);
-                return n;
-              })
-            }
-            sort={sort}
-            onSort={onSort}
-          />
-        ))}
+      {visible.map((c) => (
+        <Group
+          key={c.class}
+          summary={c}
+          positions={positions.filter((p) => p.asset.class === c.class && match(p))}
+          extra={extra}
+          targetPct={targets ? (targets.allocation[c.class] ?? 0) : null}
+          tolerance={targets?.tolerance_pct ?? 5}
+          open={q ? true : open.has(c.class)}
+          onToggle={() =>
+            setOpen((s) => {
+              const n = new Set(s);
+              if (n.has(c.class)) n.delete(c.class);
+              else n.add(c.class);
+              return n;
+            })
+          }
+          sort={sort}
+          onSort={onSort}
+        />
+      ))}
     </div>
   );
 }

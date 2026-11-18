@@ -112,17 +112,29 @@ export function ReceivedView() {
 
   return (
     <div className="space-y-4">
-      <section className="pt-1">
-        <div className="text-sm text-ink-3">Recibido en los últimos 12 meses{owners.length > 1 ? " · ambas cuentas" : ""}</div>
-        <div className="num text-3xl font-semibold tracking-tight">{fmtBRL(s.last12m)}</div>
+      <section className="card hero p-5 sm:p-7">
+        <div className="eyebrow">Recibido en los últimos 12 meses{owners.length > 1 ? " · ambas cuentas" : ""}</div>
+        <div className="num mt-2 text-[2.4rem] leading-none font-semibold tracking-[-0.03em] sm:text-5xl">{fmtBRL(s.last12m)}</div>
         {s.firstDate && (
-          <div className="mt-1 inline-block rounded-md bg-warn-bg px-2 py-0.5 text-xs text-warn">
+          <div className="mt-3 inline-flex rounded-lg bg-warn-bg px-2.5 py-1 text-xs text-warn">
             Incluye sólo lo importado: desde {fmtDateLong(s.firstDate)} {s.firstDate.slice(0, 4)}. Subí extractos más antiguos para completar el historial.
           </div>
         )}
-        <div className="num mt-1 text-sm text-ink-2">
-          {fmtBRL(s.last12m / months)} por mes en promedio{months < 12 ? ` (${months} ${months === 1 ? "mes" : "meses"})` : ""} · en {thisYear}: {fmtBRL(s.ytd)} · histórico: {fmtBRL(s.total)}
-        </div>
+        <dl className="mt-5 grid grid-cols-3 gap-4 sm:max-w-xl">
+          <div>
+            <dt className="text-xs text-ink-3">Por mes</dt>
+            <dd className="num mt-1 font-semibold">{fmtBRL(s.last12m / months)}</dd>
+            {months < 12 && <dd className="text-[11px] text-ink-3">promedio de {months} {months === 1 ? "mes" : "meses"}</dd>}
+          </div>
+          <div>
+            <dt className="text-xs text-ink-3">En {thisYear}</dt>
+            <dd className="num mt-1 font-semibold">{fmtBRL(s.ytd)}</dd>
+          </div>
+          <div>
+            <dt className="text-xs text-ink-3">Histórico</dt>
+            <dd className="num mt-1 font-semibold">{fmtBRL(s.total)}</dd>
+          </div>
+        </dl>
       </section>
 
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
