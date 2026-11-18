@@ -160,8 +160,26 @@ export function MarketStrip() {
   );
 }
 
+function Logout() {
+  return (
+    <button
+      onClick={async () => {
+        await fetch("/api/logout", { method: "POST" });
+        // Recarga completa a propósito: limpia los datos de la cartera que quedaron en memoria.
+        // eslint-disable-next-line @next/next/no-location-assign-relative-destination
+        window.location.href = "/login";
+      }}
+      className="text-xs text-ink-3 hover:text-ink-2 hover:underline"
+    >
+      Cerrar sesión
+    </button>
+  );
+}
+
 export function AppShell({ children }: { children: React.ReactNode }) {
   const active = useActive();
+  const path = usePathname();
+  if (path === "/login") return <>{children}</>;
   return (
     <div className="min-h-dvh">
       {/* Barra lateral (compu) */}
@@ -188,6 +206,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <ThemeToggle />
           <UpdatedAt />
           <RefreshButton />
+          <Logout />
         </div>
       </aside>
 

@@ -37,6 +37,7 @@ Van en `.env.local` (local), en las variables de entorno de Vercel (producción)
 | `COINGECKO_API_KEY` | No | Clave "Demo" gratuita en [coingecko.com/en/api](https://www.coingecko.com/en/api/pricing). Sin clave funciona, pero con límite de requests más bajo. |
 | `QUOTES_REVALIDATE_SECONDS` | No | Caché de cotizaciones (3600–21600). Default 3600 (1 h). |
 | `SLOW_REVALIDATE_SECONDS` | No | Caché de BCB, Tesouro y proventos. Default 21600 (6 h). |
+| `APP_PASSWORD` | Recomendada | Contraseña de la pantalla de ingreso. Elegila vos; queda recordada un año en cada dispositivo. Sin esta variable la app no pide contraseña. |
 | `BRAPI_BATCH_SIZE` | No | Tickers por request a brapi. Default 1 (límite del plan gratuito); con plan pago, hasta 10. Si un lote falla se reintenta de a uno. |
 
 BCB y Tesouro Transparente no requieren clave.
@@ -49,7 +50,7 @@ BCB y Tesouro Transparente no requieren clave.
 
 **Snapshot diario (GitHub Action)**: en el repo, *Settings → Secrets and variables → Actions*, creá `BRAPI_TOKEN` (y `COINGECKO_API_KEY` si la tenés). El workflow [`daily-snapshot.yml`](.github/workflows/daily-snapshot.yml) corre todos los días a las 18:40 de São Paulo (también se puede lanzar a mano desde *Actions → Snapshot diario → Run workflow*). Commitea `data/snapshots/` y `data/history.json`; ese commit dispara un redeploy en Vercel, así la app ve el historial nuevo.
 
-> Si el repo es privado y no querés que tu patrimonio sea visible, mantenelo privado: los snapshots incluyen valores. Para proteger la URL, usá *Vercel Authentication* (Settings → Deployment Protection).
+> **Acceso:** cargá `APP_PASSWORD` en Vercel y redesplegá: la app pide esa contraseña (pantallas y `/api/*`, vía `src/proxy.ts`). Así se puede compartir con quien tenga la contraseña sin cuenta de Vercel. Mantené el repositorio privado: los snapshots incluyen valores.
 
 **Cloudflare**: es posible con [`@opennextjs/cloudflare`](https://opennext.js.org/cloudflare), pero no está probado en este repo. Las rutas leen `data/` con `fs` y el CSV del Tesouro se procesa en streaming (~15 MB), así que Vercel es el destino recomendado.
 
