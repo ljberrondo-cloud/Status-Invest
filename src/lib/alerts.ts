@@ -49,7 +49,7 @@ export function allocationVsTarget(v: Valuation, t: Targets): { base: number; ro
       outOfBand: Math.abs(deviation) > t.tolerance_pct,
     };
   });
-  rows.sort((a, b) => Math.abs(b.deviation) - Math.abs(a.deviation));
+  rows.sort((a, b) => b.currentPct - a.currentPct || b.targetPct - a.targetPct);
   return { base, rows };
 }
 
@@ -93,7 +93,7 @@ export function computeAlerts(v: Valuation, t: Targets): Alert[] {
       limit: r.targetPct,
     });
   }
-  return alerts;
+  return alerts.sort((a, b) => b.current - a.current);
 }
 
 /**

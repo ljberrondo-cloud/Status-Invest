@@ -149,12 +149,13 @@ describe("costo y ganancia (precio medio)", () => {
   );
 
   it("por posición", () => {
-    const a = v.positions[0];
+    const by = (t: string) => v.positions.find((p) => p.asset.ticker === t)!;
+    const a = by("AAA3");
     expect(a.cost).toBe(200);
     expect(a.gain).toBe(50);
     expect(a.gainPct).toBeCloseTo(25, 10);
-    expect(v.positions[2].cost).toBeNull();
-    expect(v.positions[2].gain).toBeNull();
+    expect(by("CCC3").cost).toBeNull();
+    expect(by("CCC3").gain).toBeNull();
   });
 
   it("totales: invertido y ganancia sólo sobre posiciones con precio medio", () => {
@@ -169,5 +170,24 @@ describe("costo y ganancia (precio medio)", () => {
     expect(acc.cost).toBe(200);
     expect(acc.costedValue).toBe(250);
     expect(acc.gainPct).toBeCloseTo(25, 10);
+  });
+});
+
+describe("orden", () => {
+  it("clases y posiciones de mayor a menor valor; sin cotización al final", () => {
+    const v = valuePortfolio(
+      [
+        { ticker: "CHICO3", class: "acciones", quantity: 1 },
+        { ticker: "SINPRECIO3", class: "acciones", quantity: 1 },
+        { ticker: "GRANDE11", class: "fiis", quantity: 1 },
+      ],
+      new Map([
+        ["CHICO3", q("CHICO3", 10, 10)],
+        ["GRANDE11", q("GRANDE11", 100, 100)],
+      ]),
+    );
+    expect(v.byClass.map((c) => c.class)).toEqual(["fiis", "acciones"]);
+    expect(v.positions.map((p) => p.asset.ticker)).toEqual(["GRANDE11", "CHICO3", "SINPRECIO3"]);
+    expect(v.missing).toEqual(["SINPRECIO3"]);
   });
 });

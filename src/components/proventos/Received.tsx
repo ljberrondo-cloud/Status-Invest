@@ -126,7 +126,9 @@ export function ReceivedView() {
       </section>
 
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-        {TYPES.filter((t) => s.byType[t] > 0 || t !== "outro").map((t) => (
+        {TYPES.filter((t) => s.byType[t] > 0 || t !== "outro")
+          .sort((a, b) => s.byType[b] - s.byType[a])
+          .map((t) => (
           <div key={t} className="card px-3 py-2.5">
             <div className="flex items-center gap-1.5 text-xs text-ink-3">
               <span className="h-2 w-2 rounded-sm" style={{ background: color(t) }} />

@@ -78,6 +78,9 @@ export function valuePortfolio(assets: Asset[], quotes: Map<string, Quote> | Rec
     });
   }
 
+  // Siempre de mayor a menor valor: todas las vistas (anillo, listas, grupos) heredan este orden.
+  byClass.sort((a, b) => b.value - a.value);
+  positions.sort((a, b) => (b.value ?? -1) - (a.value ?? -1));
   const g = gainTotals(positions);
   return {
     total,
