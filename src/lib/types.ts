@@ -27,6 +27,8 @@ export interface Asset {
   avg_price?: number;
   /** Cantidad por cuenta (activos de B3). `quantity` es la suma. */
   accounts?: Record<string, { quantity: number; invested?: number }>;
+  /** Activos fuera de B3 (cripto, previdencia, FGTS…): de qué cuenta son. */
+  owner?: string;
   manual_value?: number;
   manual_date?: string; // YYYY-MM-DD
   note?: string;
