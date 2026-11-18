@@ -1,0 +1,275 @@
+{
+  "account": "mi-cuenta",
+  "asOf": "2026-08-31",
+  "positions": [
+    {
+      "ticker": "BBAS3",
+      "name": "BCO BRASIL S.A.",
+      "class": "acciones",
+      "quantity": 94
+    },
+    {
+      "ticker": "BBSE3",
+      "name": "BB SEGURIDADE PARTICIPAÇÕES S.A.",
+      "class": "acciones",
+      "quantity": 28
+    },
+    {
+      "ticker": "BPAC11",
+      "name": "BCO BTG PACTUAL S.A.",
+      "class": "acciones",
+      "quantity": 24
+    },
+    {
+      "ticker": "CMIG4",
+      "name": "CIA ENERGETICA DE MINAS GERAIS - CEMIG",
+      "class": "acciones",
+      "quantity": 120
+    },
+    {
+      "ticker": "PETR4",
+      "name": "PETROLEO BRASILEIRO S.A. PETROBRAS",
+      "class": "acciones",
+      "quantity": 30
+    },
+    {
+      "ticker": "PRIO3",
+      "name": "PRIO S.A.",
+      "class": "acciones",
+      "quantity": 25
+    },
+    {
+      "ticker": "PSSA3",
+      "name": "PORTO SEGURO S.A.",
+      "class": "acciones",
+      "quantity": 24
+    },
+    {
+      "ticker": "RANI3",
+      "name": "IRANI PAPEL E EMBALAGEM S.A.",
+      "class": "acciones",
+      "quantity": 188
+    },
+    {
+      "ticker": "SANB3",
+      "name": "BCO SANTANDER (BRASIL) S.A.",
+      "class": "acciones",
+      "quantity": 84
+    },
+    {
+      "ticker": "TAEE3",
+      "name": "TRANSMISSORA ALIANÇA DE ENERGIA ELÉTRICA S.A.",
+      "class": "acciones",
+      "quantity": 97
+    },
+    {
+      "ticker": "VALE3",
+      "name": "VALE S.A.",
+      "class": "acciones",
+      "quantity": 16
+    },
+    {
+      "ticker": "VBBR3",
+      "name": "VIBRA ENERGIA S.A.",
+      "class": "acciones",
+      "quantity": 42
+    },
+    {
+      "ticker": "VIVT3",
+      "name": "TELEFÔNICA BRASIL S.A",
+      "class": "acciones",
+      "quantity": 43
+    },
+    {
+      "ticker": "IVVB11",
+      "name": "ISHARES S&P 500 FUNDO DE ÍNDICE",
+      "class": "etfs",
+      "quantity": 16
+    },
+    {
+      "ticker": "QQQI11",
+      "name": "FUNDO BUENA VISTA II FUNDO DE ÍNDICE",
+      "class": "etfs",
+      "quantity": 68
+    },
+    {
+      "ticker": "SPYI11",
+      "name": "BUENA VISTA I FUNDO DE ÍNDICE",
+      "class": "etfs",
+      "quantity": 65
+    },
+    {
+      "ticker": "BTLG11",
+      "name": "BTG PACTUAL LOGISTICA FDO INV IMOB RESP LIM",
+      "class": "fiis",
+      "quantity": 12
+    },
+    {
+      "ticker": "HABT11",
+      "name": "HABITAT RECEBÍVEIS PULVERIZADOS - FII RESP LIM",
+      "class": "fiis",
+      "quantity": 102
+    },
+    {
+      "ticker": "HFOF11",
+      "name": "HEDGE TOP FOFII 3 FII RESP LIM",
+      "class": "fiis",
+      "quantity": 893
+    },
+    {
+      "ticker": "HGLG11",
+      "name": "PATRIA LOG - FDO INV IMOB - RESPONSABILIDADE LTDA.",
+      "class": "fiis",
+      "quantity": 17
+    },
+    {
+      "ticker": "HGLG12",
+      "name": "PATRIA LOG - FDO INV IMOB - RESPONSABILIDADE LTDA.",
+      "class": "fiis",
+      "quantity": 3
+    },
+    {
+      "ticker": "KNCR11",
+      "name": "KINEA RENDIMENTOS IMOBILIÁRIOS FII RESP LIM",
+      "class": "fiis",
+      "quantity": 101
+    },
+    {
+      "ticker": "KNIP11",
+      "name": "KINEA ÍNDICES DE PREÇOS FII RESP LIM",
+      "class": "fiis",
+      "quantity": 25
+    },
+    {
+      "ticker": "MXRF11",
+      "name": "MAXI RENDA FDO INV IMOB RESP LIM",
+      "class": "fiis",
+      "quantity": 1021
+    },
+    {
+      "ticker": "RZTR11",
+      "name": "FUNDO DE INVEST IMOB RIZA TERRAX RESP LIM",
+      "class": "fiis",
+      "quantity": 20
+    },
+    {
+      "ticker": "TGAR11",
+      "name": "FDO INV IMOB TG ATIVO REAL RESP LIM",
+      "class": "fiis",
+      "quantity": 124
+    },
+    {
+      "ticker": "VILG11",
+      "name": "VINCI LOGÍSTICA FII RESP LIM",
+      "class": "fiis",
+      "quantity": 98
+    },
+    {
+      "ticker": "XPML11",
+      "name": "XP MALLS FDO INV IMOB FII RESP LIM",
+      "class": "fiis",
+      "quantity": 116
+    },
+    {
+      "ticker": "SELIC2031",
+      "name": "Tesouro Selic 2031",
+      "class": "tesouro",
+      "quantity": 0.61,
+      "tesouroId": "Tesouro Selic;01/03/2031",
+      "invested": 11933.48
+    }
+  ],
+  "trades": [
+    {
+      "ticker": "BPAC11",
+      "buyQty": 15,
+      "sellQty": 0,
+      "buyAvg": 52.91,
+      "from": "2026-08-07"
+    },
+    {
+      "ticker": "HABT11",
+      "buyQty": 2,
+      "sellQty": 0,
+      "buyAvg": 69.08,
+      "from": "2026-08-12"
+    },
+    {
+      "ticker": "HFOF11",
+      "buyQty": 8,
+      "sellQty": 0,
+      "buyAvg": 6.02,
+      "from": "2026-08-14"
+    },
+    {
+      "ticker": "HGLG11",
+      "buyQty": 7,
+      "sellQty": 0,
+      "buyAvg": 144.74,
+      "from": "2026-08-17"
+    },
+    {
+      "ticker": "KNCR11",
+      "buyQty": 1,
+      "sellQty": 0,
+      "buyAvg": 105.91,
+      "from": "2026-08-13"
+    },
+    {
+      "ticker": "KNIP11",
+      "buyQty": 12,
+      "sellQty": 0,
+      "buyAvg": 89.94,
+      "from": "2026-08-11"
+    },
+    {
+      "ticker": "MXRF11",
+      "buyQty": 10,
+      "sellQty": 0,
+      "buyAvg": 9.33,
+      "from": "2026-08-14"
+    },
+    {
+      "ticker": "RANI3",
+      "buyQty": 1,
+      "sellQty": 0,
+      "buyAvg": 8.28,
+      "from": "2026-08-07"
+    },
+    {
+      "ticker": "TGAR11",
+      "buyQty": 1,
+      "sellQty": 0,
+      "buyAvg": 44.87,
+      "from": "2026-08-14"
+    },
+    {
+      "ticker": "VALE3",
+      "buyQty": 1,
+      "sellQty": 0,
+      "buyAvg": 75.02,
+      "from": "2026-08-07"
+    },
+    {
+      "ticker": "VILG11",
+      "buyQty": 5,
+      "sellQty": 0,
+      "buyAvg": 90.69,
+      "from": "2026-08-07"
+    },
+    {
+      "ticker": "VIVT3",
+      "buyQty": 11,
+      "sellQty": 0,
+      "buyAvg": 29.71,
+      "from": "2026-08-17"
+    },
+    {
+      "ticker": "XPML11",
+      "buyQty": 1,
+      "sellQty": 0,
+      "buyAvg": 97.82,
+      "from": "2026-08-25"
+    }
+  ]
+}

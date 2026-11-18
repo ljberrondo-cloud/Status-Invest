@@ -7,7 +7,7 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { ACCOUNTS } from "../src/lib/accounts";
-import { buildUploadRecord, parseExtract } from "../src/lib/b3-upload";
+import { buildPositionRecord, buildUploadRecord, parseExtract } from "../src/lib/b3-upload";
 
 async function main() {
   const [accountId, ...files] = process.argv.slice(2);
@@ -19,6 +19,12 @@ async function main() {
   for (const f of files) {
     const buf = await fs.readFile(f);
     const parsed = await parseExtract(buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength) as ArrayBuffer, path.basename(f));
+    if (parsed.positions) {
+      const pr = buildPositionRecord(parsed.positions, account.id);
+      await fs.mkdir(path.dirname(path.join(process.cwd(), pr.path)), { recursive: true });
+      await fs.writeFile(path.join(process.cwd(), pr.path), pr.content);
+      console.log(`${path.basename(f)}: posiciones al ${parsed.positions.asOf} (${parsed.positions.positions.length} activos) → ${pr.path}`);
+    }
     if (!parsed.payments.length) {
       console.log(`${path.basename(f)}: sin proventos (${parsed.kind}, ${parsed.rowsRead} filas)`);
       continue;

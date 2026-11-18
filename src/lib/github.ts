@@ -37,18 +37,24 @@ async function gh(path: string, init: RequestInit = {}) {
   return res;
 }
 
-/** true si el archivo ya existe en la rama. */
-export async function githubFileExists(repo: string, path: string, branch?: string): Promise<boolean> {
+/** sha del archivo si ya existe en la rama, o null. */
+export async function githubFileSha(repo: string, path: string, branch?: string): Promise<string | null> {
   const res = await gh(`/repos/${repo}/contents/${encodeURI(path)}${branch ? `?ref=${encodeURIComponent(branch)}` : ""}`);
-  if (res.status === 404) return false;
+  if (res.status === 404) return null;
   if (!res.ok) throw new GithubError(res.status, `GitHub respondió ${res.status}`);
-  return true;
+  const j = (await res.json().catch(() => ({}))) as { sha?: string };
+  return j.sha ?? "";
 }
 
-export async function githubPutFile(repo: string, path: string, content: string, message: string, branch?: string) {
+export async function githubFileExists(repo: string, path: string, branch?: string): Promise<boolean> {
+  return (await githubFileSha(repo, path, branch)) !== null;
+}
+
+/** Crea o reemplaza (con `sha`) un archivo. */
+export async function githubPutFile(repo: string, path: string, content: string, message: string, branch?: string, sha?: string) {
   const res = await gh(`/repos/${repo}/contents/${encodeURI(path)}`, {
     method: "PUT",
-    body: JSON.stringify({ message, content: Buffer.from(content, "utf8").toString("base64"), ...(branch ? { branch } : {}) }),
+    body: JSON.stringify({ message, content: Buffer.from(content, "utf8").toString("base64"), ...(branch ? { branch } : {}), ...(sha ? { sha } : {}) }),
   });
   if (!res.ok) {
     const j = (await res.json().catch(() => ({}))) as { message?: string };

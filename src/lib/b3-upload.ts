@@ -1,5 +1,6 @@
 import { parseB3PdfPages, type PdfItem } from "./b3-pdf";
 import { findProventosSheet, parseRelatorio } from "./b3-relatorio";
+import { parsePositions, type PositionFile } from "./b3-positions";
 import { loadWorkbook, readSheets, readXlsxWorkbook } from "./b3-xlsx";
 import { mergePayments, parseMovimentacaoRows, type ReceivedPayment } from "./received";
 
@@ -42,7 +43,15 @@ export function detectKind(buf: ArrayBuffer): "pdf" | "xlsx" | null {
  * Lee un archivo de B3 y devuelve sólo los proventos:
  * extracto de Movimentação (PDF o Excel) o relatório consolidado (mensual o anual, Excel).
  */
-export async function parseExtract(buf: ArrayBuffer | string, fileName = ""): Promise<{ kind: ExtractKind; rowsRead: number; payments: ReceivedPayment[] }> {
+export interface ParsedExtract {
+  kind: ExtractKind;
+  rowsRead: number;
+  payments: ReceivedPayment[];
+  /** Relatório mensual: posiciones de la cuenta a fin de mes (la cuenta se completa al guardar). */
+  positions?: Omit<PositionFile, "account"> | null;
+}
+
+export async function parseExtract(buf: ArrayBuffer | string, fileName = ""): Promise<ParsedExtract> {
   if (typeof buf !== "string") {
     const kind = detectKind(buf);
     if (!kind) throw new Error("El archivo no es un PDF ni un Excel");
@@ -53,9 +62,11 @@ export async function parseExtract(buf: ArrayBuffer | string, fileName = ""): Pr
   }
   const wb = await loadWorkbook(buf);
   const sheets = readSheets(wb);
-  if (findProventosSheet(sheets)) {
-    const r = parseRelatorio(sheets, fileName || (typeof buf === "string" ? buf : ""));
-    return { ...r, payments: mergePayments(r.payments) };
+  const name = fileName || (typeof buf === "string" ? buf : "");
+  if (findProventosSheet(sheets) || sheets.some((s) => /^Posi/.test(s.name))) {
+    const r = findProventosSheet(sheets) ? parseRelatorio(sheets, name) : { kind: "relatorio-mensal" as const, rowsRead: 0, payments: [] };
+    const pos = r.kind === "relatorio-mensal" ? parsePositions(sheets, "", name) : null;
+    return { ...r, payments: mergePayments(r.payments), positions: pos ? { asOf: pos.asOf, positions: pos.positions, trades: pos.trades } : null };
   }
   const rows = await readXlsxWorkbook(wb);
   return { kind: "xlsx", rowsRead: rows.length, payments: mergePayments(parseMovimentacaoRows(rows)) };
@@ -85,4 +96,10 @@ export async function buildUploadRecord(
     period,
     total: Math.round(payments.reduce((s, p) => s + p.amount, 0) * 100) / 100,
   };
+}
+
+/** data/b3/<cuenta>/posicion-AAAA-MM.json (posiciones a fin de mes; sin datos personales). */
+export function buildPositionRecord(positions: NonNullable<ParsedExtract["positions"]>, accountId: string) {
+  const file: PositionFile = { account: accountId, ...positions };
+  return { path: `data/b3/${accountId}/posicion-${positions.asOf.slice(0, 7)}.json`, content: JSON.stringify(file, null, 2) + "\n", file };
 }

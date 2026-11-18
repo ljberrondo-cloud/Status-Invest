@@ -1,168 +1,321 @@
 {
-  "$schema": "./portfolio.schema.json",
   "base_currency": "BRL",
+  "positions_as_of": {
+    "mi-cuenta": "2026-11-13",
+    "esposa": "2026-11-15"
+  },
   "assets": [
     {
       "ticker": "PRIO3",
       "class": "acciones",
       "quantity": 25,
-      "avg_price": 38.29
+      "avg_price": 38.29,
+      "accounts": {
+        "mi-cuenta": {
+          "quantity": 25
+        }
+      }
     },
     {
       "ticker": "RANI3",
       "class": "acciones",
       "quantity": 188,
-      "avg_price": 8.05
+      "avg_price": 8.05,
+      "accounts": {
+        "mi-cuenta": {
+          "quantity": 188
+        }
+      }
     },
     {
       "ticker": "VIVT3",
       "class": "acciones",
       "quantity": 43,
-      "avg_price": 30.26
+      "avg_price": 30.26,
+      "accounts": {
+        "mi-cuenta": {
+          "quantity": 43
+        }
+      }
     },
     {
       "ticker": "BBAS3",
       "class": "acciones",
       "quantity": 94,
-      "avg_price": 20.76
+      "avg_price": 20.76,
+      "accounts": {
+        "mi-cuenta": {
+          "quantity": 94
+        }
+      }
     },
     {
       "ticker": "PETR4",
       "class": "acciones",
       "quantity": 30,
-      "avg_price": 31.07
+      "avg_price": 31.07,
+      "accounts": {
+        "mi-cuenta": {
+          "quantity": 30
+        }
+      }
     },
     {
       "ticker": "TAEE3",
       "class": "acciones",
       "quantity": 97,
-      "avg_price": 12.34
+      "avg_price": 12.34,
+      "accounts": {
+        "mi-cuenta": {
+          "quantity": 97
+        }
+      }
     },
     {
       "ticker": "VALE3",
       "class": "acciones",
       "quantity": 21,
-      "avg_price": 57.36
+      "avg_price": 57.36,
+      "accounts": {
+        "mi-cuenta": {
+          "quantity": 21
+        }
+      }
     },
     {
       "ticker": "CMIG4",
       "class": "acciones",
       "quantity": 120,
-      "avg_price": 10.89
+      "avg_price": 10.89,
+      "accounts": {
+        "mi-cuenta": {
+          "quantity": 120
+        }
+      }
     },
     {
       "ticker": "BPAC11",
       "class": "acciones",
       "quantity": 24,
-      "avg_price": 54.32
+      "avg_price": 54.32,
+      "accounts": {
+        "mi-cuenta": {
+          "quantity": 24
+        }
+      }
     },
     {
       "ticker": "VBBR3",
       "class": "acciones",
       "quantity": 42,
-      "avg_price": 22.94
+      "avg_price": 22.94,
+      "accounts": {
+        "mi-cuenta": {
+          "quantity": 42
+        }
+      }
     },
     {
       "ticker": "SANB3",
       "class": "acciones",
       "quantity": 85,
-      "avg_price": 15.31
+      "avg_price": 15.31,
+      "accounts": {
+        "mi-cuenta": {
+          "quantity": 85
+        }
+      }
     },
     {
       "ticker": "PSSA3",
       "class": "acciones",
       "quantity": 24,
-      "avg_price": 49.77
+      "avg_price": 49.77,
+      "accounts": {
+        "mi-cuenta": {
+          "quantity": 24
+        }
+      }
     },
     {
       "ticker": "BBSE3",
       "class": "acciones",
       "quantity": 29,
-      "avg_price": 35.98
+      "avg_price": 35.98,
+      "accounts": {
+        "mi-cuenta": {
+          "quantity": 29
+        }
+      }
     },
     {
       "ticker": "XPML11",
       "class": "fiis",
       "quantity": 168,
-      "avg_price": 105.86
+      "avg_price": 105.86,
+      "accounts": {
+        "mi-cuenta": {
+          "quantity": 118
+        },
+        "esposa": {
+          "quantity": 50
+        }
+      }
     },
     {
       "ticker": "VILG11",
       "class": "fiis",
       "quantity": 169,
-      "avg_price": 77.72
+      "avg_price": 77.72,
+      "accounts": {
+        "mi-cuenta": {
+          "quantity": 98
+        },
+        "esposa": {
+          "quantity": 71
+        }
+      }
     },
     {
       "ticker": "HFOF11",
       "class": "fiis",
       "quantity": 2575,
-      "avg_price": 5.8
+      "avg_price": 5.8,
+      "accounts": {
+        "mi-cuenta": {
+          "quantity": 910
+        },
+        "esposa": {
+          "quantity": 1665
+        }
+      }
     },
     {
       "ticker": "HABT11",
       "class": "fiis",
       "quantity": 205,
-      "avg_price": 79.62
+      "avg_price": 79.62,
+      "accounts": {
+        "mi-cuenta": {
+          "quantity": 104
+        },
+        "esposa": {
+          "quantity": 101
+        }
+      }
     },
     {
       "ticker": "KNCR11",
       "class": "fiis",
       "quantity": 103,
-      "avg_price": 103.14
+      "avg_price": 103.14,
+      "accounts": {
+        "mi-cuenta": {
+          "quantity": 103
+        }
+      }
     },
     {
       "ticker": "MXRF11",
       "class": "fiis",
       "quantity": 1043,
-      "avg_price": 9.93
+      "avg_price": 9.93,
+      "accounts": {
+        "mi-cuenta": {
+          "quantity": 1043
+        }
+      }
     },
     {
       "ticker": "BTLG11",
       "class": "fiis",
       "quantity": 83,
-      "avg_price": 98.88
+      "avg_price": 98.88,
+      "accounts": {
+        "mi-cuenta": {
+          "quantity": 12
+        },
+        "esposa": {
+          "quantity": 71
+        }
+      }
     },
     {
       "ticker": "TGAR11",
       "class": "fiis",
       "quantity": 126,
-      "avg_price": 99.15
+      "avg_price": 99.15,
+      "accounts": {
+        "mi-cuenta": {
+          "quantity": 126
+        }
+      }
     },
     {
       "ticker": "HGLG11",
       "class": "fiis",
       "quantity": 17,
-      "avg_price": 151.36
+      "avg_price": 151.36,
+      "accounts": {
+        "mi-cuenta": {
+          "quantity": 17
+        }
+      }
     },
     {
       "ticker": "KNIP11",
       "class": "fiis",
       "quantity": 25,
-      "avg_price": 89.86
+      "avg_price": 89.86,
+      "accounts": {
+        "mi-cuenta": {
+          "quantity": 25
+        }
+      }
     },
     {
       "ticker": "RZTR11",
       "class": "fiis",
       "quantity": 20,
-      "avg_price": 92.14
+      "avg_price": 92.14,
+      "accounts": {
+        "mi-cuenta": {
+          "quantity": 20
+        }
+      }
     },
     {
       "ticker": "SPYI11",
       "class": "etfs",
       "quantity": 65,
-      "avg_price": 117.83
+      "avg_price": 117.83,
+      "accounts": {
+        "mi-cuenta": {
+          "quantity": 65
+        }
+      }
     },
     {
       "ticker": "IVVB11",
       "class": "etfs",
-      "quantity": 15,
-      "avg_price": 384.84
+      "quantity": 16,
+      "avg_price": 384.84,
+      "accounts": {
+        "mi-cuenta": {
+          "quantity": 16
+        }
+      }
     },
     {
       "ticker": "QQQI11",
       "class": "etfs",
       "quantity": 68,
-      "avg_price": 100.04
+      "avg_price": 100.04,
+      "accounts": {
+        "mi-cuenta": {
+          "quantity": 68
+        }
+      }
     },
     {
       "ticker": "BTC",
@@ -220,17 +373,27 @@
       "name": "Tesouro IPCA+ 2029",
       "provider": "tesouro",
       "provider_id": "Tesouro IPCA+;15/05/2029",
-      "note": "Precio medio derivado de la variación informada por Investidor10"
+      "note": "Precio medio derivado de la variación informada por Investidor10",
+      "accounts": {
+        "esposa": {
+          "quantity": 20.32
+        }
+      }
     },
     {
       "ticker": "SELIC2031",
       "class": "tesouro",
       "quantity": 0.55,
-      "avg_price": 19562.96,
+      "avg_price": 19565.09,
       "name": "Tesouro Selic 2031",
       "provider": "tesouro",
       "provider_id": "Tesouro Selic;01/03/2031",
-      "note": "Precio medio derivado de la variación informada por Investidor10"
+      "accounts": {
+        "mi-cuenta": {
+          "quantity": 0.55,
+          "invested": 10760.8
+        }
+      }
     },
     {
       "ticker": "CDB-BTG",

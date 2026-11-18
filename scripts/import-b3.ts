@@ -10,6 +10,8 @@ import path from "node:path";
 import { parseExtract } from "../src/lib/b3-upload";
 import type { UploadedExtract } from "../src/lib/b3-upload";
 import { mergePayments, reconcileAnnual, type ReceivedFile, type ReceivedPayment } from "../src/lib/received";
+import { applyPositionFiles, type PositionFile } from "../src/lib/b3-positions";
+import type { Portfolio } from "../src/lib/types";
 
 const DATA = process.env.PORTFOLIO_DATA_DIR ?? path.join(process.cwd(), "data"); // override sólo para pruebas
 const DIR = path.join(DATA, "b3");
@@ -29,10 +31,10 @@ async function listFiles(): Promise<{ rel: string; full: string; owner?: string 
   const out: { rel: string; full: string; owner?: string }[] = [];
   const entries = await fs.readdir(DIR, { withFileTypes: true }).catch(() => []);
   for (const e of entries) {
-    if (e.isFile() && /\.(xlsx|json)$/i.test(e.name)) out.push({ rel: e.name, full: path.join(DIR, e.name) });
+    if (e.isFile() && /\.(xlsx|json)$/i.test(e.name) && !e.name.startsWith("posicion-")) out.push({ rel: e.name, full: path.join(DIR, e.name) });
     if (e.isDirectory()) {
       for (const f of await fs.readdir(path.join(DIR, e.name))) {
-        if (/\.(xlsx|json)$/i.test(f)) out.push({ rel: `${e.name}/${f}`, full: path.join(DIR, e.name, f), owner: ownerLabel(e.name) });
+        if (/\.(xlsx|json)$/i.test(f) && !f.startsWith("posicion-")) out.push({ rel: `${e.name}/${f}`, full: path.join(DIR, e.name, f), owner: ownerLabel(e.name) });
       }
     }
   }
@@ -71,6 +73,31 @@ async function main() {
   await fs.writeFile(OUT, JSON.stringify(out, null, 2) + "\n");
   const total = payments.reduce((s, p) => s + p.amount, 0);
   console.log(`→ ${payments.length} proventos únicos, total R$ ${total.toFixed(2)}, guardado en data/proventos-recebidos.json`);
+  await applyPositions();
+}
+
+/** Posiciones por cuenta de los relatórios mensuales (posicion-AAAA-MM.json) → data/portfolio.json. */
+async function applyPositions() {
+  const files: PositionFile[] = [];
+  for (const e of await fs.readdir(DIR, { withFileTypes: true }).catch(() => [])) {
+    if (!e.isDirectory()) continue;
+    for (const f of await fs.readdir(path.join(DIR, e.name))) {
+      if (/^posicion-\d{4}-\d{2}\.json$/.test(f)) files.push(JSON.parse(await fs.readFile(path.join(DIR, e.name, f), "utf8")) as PositionFile);
+    }
+  }
+  if (!files.length) return;
+  const portfolioPath = path.join(DATA, "portfolio.json");
+  const portfolio = JSON.parse(await fs.readFile(portfolioPath, "utf8")) as Portfolio;
+  const { portfolio: next, changes } = applyPositionFiles(portfolio, files);
+  if (!changes.length && JSON.stringify(next.positions_as_of) === JSON.stringify(portfolio.positions_as_of)) {
+    console.log(`Posiciones: nada nuevo (aplicadas hasta ${JSON.stringify(portfolio.positions_as_of ?? {})})`);
+    return;
+  }
+  await fs.writeFile(portfolioPath, JSON.stringify(next, null, 2) + "\n");
+  for (const c of changes) {
+    const avg = c.avgBefore !== c.avgAfter && c.avgAfter !== undefined ? `, precio medio ${c.avgBefore ?? "—"} → ${c.avgAfter}` : "";
+    console.log(`Posición ${c.account} al ${c.asOf}: ${c.ticker} ${c.before} → ${c.after}${c.added ? " (nuevo)" : ""}${avg}`);
+  }
 }
 
 if (process.argv[1]?.includes("import-b3")) {

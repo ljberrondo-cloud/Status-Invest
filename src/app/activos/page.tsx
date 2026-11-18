@@ -9,6 +9,8 @@ import { assetTargets } from "@/lib/alerts";
 import type { ReceivedSummary } from "@/lib/received";
 import type { Targets } from "@/lib/types";
 import { fmtBRL, fmtPct, fmtSignedBRL, signClass } from "@/lib/format";
+import { ACCOUNTS } from "@/lib/accounts";
+import { isoToBr } from "@/lib/dates";
 
 export default function Activos() {
   const { data, error } = usePortfolio();
@@ -40,7 +42,23 @@ export default function Activos() {
 
   return (
     <div className="space-y-5">
-      <PageHeader title="Activos" subtitle={`${data.positions.length} activos en ${data.byClass.length} clases, de mayor a menor valor`} />
+      <PageHeader
+        title="Activos"
+        subtitle={
+          <>
+            {data.positions.length} activos en {data.byClass.length} clases, de mayor a menor valor
+            {data.positionsAsOf && (
+              <span className="block text-xs">
+                Posiciones de B3 al{" "}
+                {Object.entries(data.positionsAsOf)
+                  .map(([id, d]) => `${isoToBr(d)} (${ACCOUNTS.find((a) => a.id === id)?.label ?? id})`)
+                  .join(" · ")}
+                . Se actualizan al subir el relatório mensual de cada cuenta.
+              </span>
+            )}
+          </>
+        }
+      />
       <dl className="card grid grid-cols-2 gap-y-4 py-4 sm:grid-cols-4 sm:divide-x sm:divide-line">
         {metrics.map((m) => (
           <div key={m.label} className="px-5">

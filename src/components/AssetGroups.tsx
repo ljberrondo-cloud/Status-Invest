@@ -6,6 +6,14 @@ import { fmtBRL, fmtPct, fmtPrice, fmtQty, signClass } from "@/lib/format";
 import { sortPositions, type SortKey } from "@/lib/sort";
 import { Badge, ChangePill, QuoteBadge, TickerAvatar } from "./ui";
 import { Icon } from "./icons";
+import { ACCOUNTS } from "@/lib/accounts";
+
+/** "Mi Cuenta 910 · Esposa 1.665" (sólo si hay más de una cuenta con cantidad). */
+function splitText(p: Position): string | null {
+  const acc = Object.entries(p.asset.accounts ?? {}).filter(([, v]) => v.quantity > 0);
+  if (acc.length < 2) return null;
+  return acc.map(([id, v]) => `${ACCOUNTS.find((a) => a.id === id)?.label ?? id} ${fmtQty(v.quantity)}`).join(" · ");
+}
 
 export interface AssetExtra {
   idealPct: number;
@@ -129,6 +137,7 @@ function Group({
                     <div className="mt-0.5 flex items-baseline justify-between gap-3 text-xs text-ink-3">
                       <span className="num truncate">
                         {fmtQty(p.asset.quantity)} × {fmtPrice(p.price)}
+                        {splitText(p) && <span className="block text-[10px]">{splitText(p)}</span>}
                       </span>
                       <span className={`num ${signClass(p.gainPct)}`}>{fmtPct(p.gainPct)}</span>
                     </div>
@@ -194,7 +203,10 @@ function Group({
                           </div>
                         </div>
                       </td>
-                      <td className="num px-3 text-right text-ink-2">{fmtQty(p.asset.quantity)}</td>
+                      <td className="num px-3 text-right text-ink-2" title={splitText(p) ?? undefined}>
+                        {fmtQty(p.asset.quantity)}
+                        {splitText(p) && <div className="text-[10px] whitespace-nowrap text-ink-3">{splitText(p)}</div>}
+                      </td>
                       <td className="num px-3 text-right text-ink-2" title={p.asset.note}>
                         {p.asset.avg_price ? fmtPrice(p.asset.avg_price) : "—"}
                         {p.asset.note?.includes("derivad") ? "*" : ""}

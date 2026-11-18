@@ -104,6 +104,17 @@ Cada activo en `data/portfolio.json` tiene `ticker`, `class` (`acciones` · `fii
 
 B3 no ofrece una API abierta para personas, pero permite descargar el extracto de **Movimentação** (Área do Investidor → Extratos → Movimentação → Excel). Subí ese `.xlsx` a la carpeta del titular en [`data/b3/`](data/b3/) (`mi-cuenta/`, `esposa/`; la app las muestra consolidadas, la separación evita descartar como duplicado un mismo pago recibido en ambas cuentas) y el workflow [`import-b3.yml`](.github/workflows/import-b3.yml) genera `data/proventos-recebidos.json`. La pestaña **Proventos → Recibidos** muestra el acumulado (12 meses, año, histórico), separado en dividendos, JCP y rendimientos, por mes y por activo. Podés subir extractos superpuestos: los pagos repetidos se cuentan una sola vez. Localmente: `npm run import:b3`.
 
+## Posiciones por cuenta (relatório consolidado mensual)
+
+Cada activo de B3 guarda la cantidad de cada cuenta (`accounts` en `portfolio.json`); `quantity` es la suma. Al subir el **relatório consolidado mensual** de una cuenta se guarda `data/b3/<cuenta>/posicion-AAAA-MM.json` y el importador (`src/lib/b3-positions.ts`):
+
+- reemplaza la posición de esa cuenta con la de fin de mes (incluye acciones prestadas como doador),
+- actualiza el precio medio con las compras del mes (las ventas no lo cambian),
+- toma el invertido del Tesouro de B3, agrega activos nuevos y quita los vendidos,
+- sólo aplica relatórios más nuevos que `positions_as_of` de esa cuenta.
+
+Cripto, previdencia (Zurich), FGTS y el CDB no están en B3: siguen siendo valores manuales.
+
 ## Limitaciones conocidas
 
 - La variación diaria de cripto es la de las últimas 24 h (CoinGecko). En B3, fuera del horario de mercado se muestra la del último pregão.

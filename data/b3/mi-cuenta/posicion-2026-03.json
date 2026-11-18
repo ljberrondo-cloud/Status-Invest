@@ -1,0 +1,185 @@
+{
+  "account": "mi-cuenta",
+  "asOf": "2026-03-31",
+  "positions": [
+    {
+      "ticker": "BBAS3",
+      "name": "BCO BRASIL S.A.",
+      "class": "acciones",
+      "quantity": 65
+    },
+    {
+      "ticker": "CMIG4",
+      "name": "CIA ENERGETICA DE MINAS GERAIS - CEMIG",
+      "class": "acciones",
+      "quantity": 90
+    },
+    {
+      "ticker": "NEOE3",
+      "name": "NEOENERGIA S.A.",
+      "class": "acciones",
+      "quantity": 32
+    },
+    {
+      "ticker": "PETR4",
+      "name": "PETROLEO BRASILEIRO S.A. PETROBRAS",
+      "class": "acciones",
+      "quantity": 30
+    },
+    {
+      "ticker": "PRIO3",
+      "name": "PRIO S.A.",
+      "class": "acciones",
+      "quantity": 25
+    },
+    {
+      "ticker": "PSSA3",
+      "name": "PORTO SEGURO S.A.",
+      "class": "acciones",
+      "quantity": 24
+    },
+    {
+      "ticker": "RANI3",
+      "name": "IRANI PAPEL E EMBALAGEM S.A.",
+      "class": "acciones",
+      "quantity": 125
+    },
+    {
+      "ticker": "SANB3",
+      "name": "BCO SANTANDER (BRASIL) S.A.",
+      "class": "acciones",
+      "quantity": 54
+    },
+    {
+      "ticker": "TAEE3",
+      "name": "TRANSMISSORA ALIANÇA DE ENERGIA ELÉTRICA S.A.",
+      "class": "acciones",
+      "quantity": 77
+    },
+    {
+      "ticker": "VALE3",
+      "name": "VALE S.A.",
+      "class": "acciones",
+      "quantity": 15
+    },
+    {
+      "ticker": "VBBR3",
+      "name": "VIBRA ENERGIA S.A.",
+      "class": "acciones",
+      "quantity": 42
+    },
+    {
+      "ticker": "VIVT3",
+      "name": "TELEFÔNICA BRASIL S.A",
+      "class": "acciones",
+      "quantity": 32
+    },
+    {
+      "ticker": "IVVB11",
+      "name": "ISHARES S&P 500 FUNDO DE ÍNDICE",
+      "class": "etfs",
+      "quantity": 16
+    },
+    {
+      "ticker": "QQQI11",
+      "name": "FUNDO BUENA VISTA II FUNDO DE ÍNDICE",
+      "class": "etfs",
+      "quantity": 66
+    },
+    {
+      "ticker": "SPYI11",
+      "name": "BUENA VISTA I FUNDO DE ÍNDICE",
+      "class": "etfs",
+      "quantity": 60
+    },
+    {
+      "ticker": "BTLG11",
+      "name": "BTG PACTUAL LOGISTICA FDO INV IMOB RESP LIM",
+      "class": "fiis",
+      "quantity": 10
+    },
+    {
+      "ticker": "HABT11",
+      "name": "HABITAT RECEBÍVEIS PULVERIZADOS - FII RESP LIM",
+      "class": "fiis",
+      "quantity": 100
+    },
+    {
+      "ticker": "HFOF11",
+      "name": "HEDGE TOP FOFII 3 FII RESP LIM",
+      "class": "fiis",
+      "quantity": 845
+    },
+    {
+      "ticker": "HGLG11",
+      "name": "PATRIA LOG - FDO INV IMOB - RESPONSABILIDADE LTDA.",
+      "class": "fiis",
+      "quantity": 10
+    },
+    {
+      "ticker": "KNCR11",
+      "name": "KINEA RENDIMENTOS IMOBILIÁRIOS FII RESP LIM",
+      "class": "fiis",
+      "quantity": 100
+    },
+    {
+      "ticker": "KNIP11",
+      "name": "KINEA ÍNDICES DE PREÇOS FII RESP LIM",
+      "class": "fiis",
+      "quantity": 13
+    },
+    {
+      "ticker": "MXRF11",
+      "name": "MAXI RENDA FDO INV IMOB RESP LIM",
+      "class": "fiis",
+      "quantity": 1011
+    },
+    {
+      "ticker": "RZTR11",
+      "name": "FUNDO DE INVEST IMOB RIZA TERRAX RESP LIM",
+      "class": "fiis",
+      "quantity": 10
+    },
+    {
+      "ticker": "TGAR11",
+      "name": "FDO INV IMOB TG ATIVO REAL RESP LIM",
+      "class": "fiis",
+      "quantity": 123
+    },
+    {
+      "ticker": "VILG11",
+      "name": "VINCI LOGÍSTICA FII RESP LIM",
+      "class": "fiis",
+      "quantity": 93
+    },
+    {
+      "ticker": "XPML11",
+      "name": "XP MALLS FDO INV IMOB FII RESP LIM",
+      "class": "fiis",
+      "quantity": 115
+    }
+  ],
+  "trades": [
+    {
+      "ticker": "BBAS3",
+      "buyQty": 15,
+      "sellQty": 0,
+      "buyAvg": 23.82,
+      "from": "2026-03-17"
+    },
+    {
+      "ticker": "TAEE3",
+      "buyQty": 13,
+      "sellQty": 0,
+      "buyAvg": 13.97,
+      "from": "2026-03-12"
+    },
+    {
+      "ticker": "VBBR3",
+      "buyQty": 10,
+      "sellQty": 0,
+      "buyAvg": 30.84,
+      "from": "2026-03-17"
+    }
+  ]
+}

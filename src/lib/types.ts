@@ -25,6 +25,8 @@ export interface Asset {
   cdi_percent?: number;
   /** Precio medio de compra en BRL por unidad. Permite calcular invertido, ganancia y rentabilidad. */
   avg_price?: number;
+  /** Cantidad por cuenta (activos de B3). `quantity` es la suma. */
+  accounts?: Record<string, { quantity: number; invested?: number }>;
   manual_value?: number;
   manual_date?: string; // YYYY-MM-DD
   note?: string;
@@ -32,6 +34,8 @@ export interface Asset {
 
 export interface Portfolio {
   base_currency?: "BRL";
+  /** Hasta qué fecha están aplicadas las posiciones de B3 de cada cuenta. */
+  positions_as_of?: Record<string, string>;
   assets: Asset[];
 }
 
@@ -119,6 +123,8 @@ export interface Valuation {
 }
 
 export interface PortfolioResponse extends Valuation {
+  /** Hasta qué fecha están aplicadas las posiciones de B3 de cada cuenta. */
+  positionsAsOf?: Record<string, string>;
   generatedAt: string;
   indicators: Indicator[];
   errors: ProviderError[];

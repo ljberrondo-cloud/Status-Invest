@@ -65,6 +65,7 @@ export async function getPortfolioData(): Promise<PortfolioResponse> {
   return {
     ...valuation,
     generatedAt: new Date().toISOString(),
+    positionsAsOf: portfolio.positions_as_of,
     indicators,
     errors: [...errors, ...ind.errors],
   };

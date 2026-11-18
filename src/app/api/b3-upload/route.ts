@@ -1,7 +1,7 @@
 import type { NextRequest } from "next/server";
-import { ACCOUNTS, buildUploadRecord, parseExtract } from "@/lib/b3-upload";
+import { ACCOUNTS, buildPositionRecord, buildUploadRecord, parseExtract } from "@/lib/b3-upload";
 import { loadReceived } from "@/lib/data-files";
-import { githubFileExists, githubPutFile, githubTarget, GithubError } from "@/lib/github";
+import { githubFileExists, githubFileSha, githubPutFile, githubTarget, GithubError } from "@/lib/github";
 import { mergePayments, reconcileAnnual } from "@/lib/received";
 import { errorMessage } from "@/providers/http";
 
@@ -33,9 +33,30 @@ export async function POST(req: NextRequest) {
   } catch (e) {
     return fail(422, `No se pudo leer el archivo: ${errorMessage(e)}`);
   }
-  if (!parsed.rowsRead) return fail(422, "No parece un extracto de Movimentação de B3 (no se encontró la tabla).");
+  if (!parsed.rowsRead && !parsed.positions) return fail(422, "No parece un archivo de B3 (extracto de Movimentação o relatório consolidado).");
+
+  // Relatório mensual: posiciones de la cuenta a fin de mes (actualizan cantidades y precio medio).
+  let positionsSaved: { asOf: string; count: number } | null = null;
+  if (parsed.positions) {
+    const pr = buildPositionRecord(parsed.positions, account.id);
+    try {
+      const sha = await githubFileSha(repo, pr.path, branch);
+      await githubPutFile(repo, pr.path, pr.content, `posiciones: ${account.label} al ${parsed.positions.asOf}`, branch, sha ?? undefined);
+      positionsSaved = { asOf: parsed.positions.asOf, count: parsed.positions.positions.length };
+    } catch (e) {
+      return fail(502, `No se pudo guardar en GitHub: ${errorMessage(e)}.`);
+    }
+  }
   if (!parsed.payments.length) {
-    return Response.json({ ok: true, saved: false, rowsRead: parsed.rowsRead, found: 0, message: "El extracto no tiene proventos (dividendos, JCP o rendimientos)." });
+    return Response.json({
+      ok: true,
+      saved: !!positionsSaved,
+      positions: positionsSaved,
+      rowsRead: parsed.rowsRead,
+      found: 0,
+      message: positionsSaved ? undefined : "El archivo no tiene proventos (dividendos, JCP o rendimientos).",
+      account: account.label,
+    });
   }
 
   const rec = await buildUploadRecord(parsed, account.id, account.label);
@@ -46,10 +67,10 @@ export async function POST(req: NextRequest) {
   const before = reconcileAnnual(mergePayments(current));
   const after = reconcileAnnual(mergePayments(current, payments));
   const isNew = after.length - before.length;
-  const summary = { kind: parsed.kind, rowsRead: parsed.rowsRead, found: payments.length, isNew, total, period, account: account.label };
+  const summary = { kind: parsed.kind, rowsRead: parsed.rowsRead, found: payments.length, isNew, total, period, account: account.label, positions: positionsSaved };
 
   try {
-    if (await githubFileExists(repo, path, branch)) return Response.json({ ok: true, saved: false, duplicate: true, ...summary });
+    if (await githubFileExists(repo, path, branch)) return Response.json({ ok: true, saved: !!positionsSaved, duplicate: true, ...summary });
     await githubPutFile(repo, path, content, `proventos: extracto de ${account.label} (${period.from} a ${period.to})`, branch);
   } catch (e) {
     const perm = e instanceof GithubError && [401, 403, 404].includes(e.status);
