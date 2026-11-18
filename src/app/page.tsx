@@ -64,8 +64,15 @@ export default function Resumen() {
               <li key={c.class}>
                 <Link href={`/activos#${c.class}`} className="flex items-center gap-3 py-2.5 hover:opacity-80">
                   <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: `var(--c-${c.class})` }} />
-                  <span className="min-w-0 flex-1 truncate text-sm">{c.label}</span>
-                  <span className="num text-xs text-ink-3">
+                  <span className="min-w-0 flex-1 text-sm">
+                    {c.label}
+                    {/* En celular, el % actual / ideal va debajo del nombre para que no se corte */}
+                    <span className="num block text-[11px] text-ink-3 sm:hidden">
+                      {fmtPct(c.weight, 0, false)}
+                      {targets ? ` / ${fmtPct(targets.allocation[c.class] ?? 0, 0, false)}` : ""} ideal
+                    </span>
+                  </span>
+                  <span className="num hidden text-xs text-ink-3 sm:inline">
                     {fmtPct(c.weight, 0, false)}
                     {targets ? ` / ${fmtPct(targets.allocation[c.class] ?? 0, 0, false)}` : ""}
                   </span>
