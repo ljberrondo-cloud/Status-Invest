@@ -5,7 +5,7 @@ import { useJson } from "@/components/data";
 import { Card, ErrorState, Skeleton } from "@/components/ui";
 import { UploadExtract } from "./Upload";
 import { RECEIVED_LABELS, type ReceivedSummary, type ReceivedType } from "@/lib/received";
-import { fmtBRL, fmtBRLCompact, fmtDateLong, fmtPct } from "@/lib/format";
+import { fmtBRL, fmtBRLCompact, fmtDateLong, fmtPct, fmtSince } from "@/lib/format";
 
 interface ReceivedResponse {
   imported: boolean;
@@ -110,7 +110,7 @@ export function ReceivedView() {
         <div className="num mt-2 text-[2.4rem] leading-none font-semibold tracking-[-0.03em] sm:text-5xl">{fmtBRL(s.last12m)}</div>
         {s.firstDate && (
           <div className="mt-3 inline-flex rounded-lg bg-warn-bg px-2.5 py-1 text-xs text-warn">
-            Incluye sólo lo importado: desde {fmtDateLong(s.firstDate)} {s.firstDate.slice(0, 4)}. Subí extractos más antiguos para completar el historial.
+            Incluye sólo lo importado: datos desde {fmtSince(s.firstDate)}{owners.length < 2 ? ", de una sola cuenta" : ""}. Subí los relatórios que falten para completar el historial.
           </div>
         )}
         <dl className="mt-5 grid grid-cols-3 gap-4 sm:max-w-xl">
@@ -145,7 +145,7 @@ export function ReceivedView() {
         ))}
       </div>
 
-      <Card title="Por mes · últimos 12 meses">
+      <Card title="Por mes · últimos 12 meses" subtitle="Pagos con fecha. Los años que sólo tienen total anual no se reparten por mes.">
         <MonthlyChart s={s} />
       </Card>
 
@@ -165,7 +165,7 @@ export function ReceivedView() {
                   <td className="py-2">
                     <div className="font-medium">{t.ticker}</div>
                     <div className="text-[11px] text-ink-3">
-                      {t.count} pagos · último {fmtDateLong(t.lastDate)}
+                      {t.lastDate ? `${t.count} ${t.count === 1 ? "pago" : "pagos"} · último ${fmtDateLong(t.lastDate)}` : "sólo totales anuales"}
                     </div>
                   </td>
                   <td className="num py-2 text-right">{fmtBRL(t.last12m)}</td>
@@ -212,7 +212,8 @@ export function ReceivedView() {
       </div>
 
       <p className="text-xs text-ink-3">
-        Fuente: extracto de Movimentação de B3 ({data.sourceFiles?.join(", ")}). Datos hasta {s.lastDate ? fmtDateLong(s.lastDate) : "—"}. Montos tal como los informa B3.
+        Fuente: B3 (extractos de Movimentação y relatórios consolidados, {data.sourceFiles?.length ?? 0} archivos importados). Datos hasta{" "}
+        {s.lastDate ? fmtDateLong(s.lastDate) : "—"}. Montos líquidos tal como los informa B3.
       </p>
     </div>
   );

@@ -1,0 +1,242 @@
+{
+  "source": "relatorio-anual",
+  "period": {
+    "from": "2025-01-01",
+    "to": "2025-12-31"
+  },
+  "rows_read": 21,
+  "payments": [
+    {
+      "date": "2025-01-01",
+      "ticker": "BBAS3",
+      "type": "jcp",
+      "label": "Juros Sobre Capital Próprio",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 4,
+      "annual": true,
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2025-01-01",
+      "ticker": "BTLG11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 948.82,
+      "annual": true,
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2025-01-01",
+      "ticker": "CMIG4",
+      "type": "dividendo",
+      "label": "Dividendo",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 13.12,
+      "annual": true,
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2025-01-01",
+      "ticker": "HABT11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 1219.9,
+      "annual": true,
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2025-01-01",
+      "ticker": "HFOF11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 385,
+      "annual": true,
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2025-01-01",
+      "ticker": "HGLG11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 1179.2,
+      "annual": true,
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2025-01-01",
+      "ticker": "KNCR11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 1372.02,
+      "annual": true,
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2025-01-01",
+      "ticker": "KNIP11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 969.32,
+      "annual": true,
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2025-01-01",
+      "ticker": "MXRF11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 1166.29,
+      "annual": true,
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2025-01-01",
+      "ticker": "NEOE3",
+      "type": "jcp",
+      "label": "Juros Sobre Capital Próprio",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 3.69,
+      "annual": true,
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2025-01-01",
+      "ticker": "QQQI11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 560.54,
+      "annual": true,
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2025-01-01",
+      "ticker": "RANI3",
+      "type": "dividendo",
+      "label": "Dividendo",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 17.11,
+      "annual": true,
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2025-01-01",
+      "ticker": "RZTR11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 1095.4,
+      "annual": true,
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2025-01-01",
+      "ticker": "SANB3",
+      "type": "jcp",
+      "label": "Juros Sobre Capital Próprio",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 14.74,
+      "annual": true,
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2025-01-01",
+      "ticker": "SPYI11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 528.37,
+      "annual": true,
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2025-01-01",
+      "ticker": "TAEE3",
+      "type": "dividendo",
+      "label": "Dividendo",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 3.75,
+      "annual": true,
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2025-01-01",
+      "ticker": "TAEE3",
+      "type": "jcp",
+      "label": "Juros Sobre Capital Próprio",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 8.87,
+      "annual": true,
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2025-01-01",
+      "ticker": "TGAR11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 1399.9,
+      "annual": true,
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2025-01-01",
+      "ticker": "VALE3",
+      "type": "jcp",
+      "label": "Juros Sobre Capital Próprio",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 16.11,
+      "annual": true,
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2025-01-01",
+      "ticker": "VILG11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 763.07,
+      "annual": true,
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2025-01-01",
+      "ticker": "XPML11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 1269.6,
+      "annual": true,
+      "owner": "Mi Cuenta"
+    }
+  ],
+  "uploaded_at": "2026-11-18T18:47:49.885Z"
+}

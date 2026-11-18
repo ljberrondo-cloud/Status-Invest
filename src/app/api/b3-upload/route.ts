@@ -1,8 +1,8 @@
 import type { NextRequest } from "next/server";
-import { ACCOUNTS, parseExtract, sha256Hex, type UploadedExtract } from "@/lib/b3-upload";
+import { ACCOUNTS, buildUploadRecord, parseExtract } from "@/lib/b3-upload";
 import { loadReceived } from "@/lib/data-files";
 import { githubFileExists, githubPutFile, githubTarget, GithubError } from "@/lib/github";
-import { mergePayments } from "@/lib/received";
+import { mergePayments, reconcileAnnual } from "@/lib/received";
 import { errorMessage } from "@/providers/http";
 
 export const maxDuration = 60;
@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
 
   let parsed;
   try {
-    parsed = await parseExtract(await file.arrayBuffer());
+    parsed = await parseExtract(await file.arrayBuffer(), file.name);
   } catch (e) {
     return fail(422, `No se pudo leer el archivo: ${errorMessage(e)}`);
   }
@@ -38,20 +38,15 @@ export async function POST(req: NextRequest) {
     return Response.json({ ok: true, saved: false, rowsRead: parsed.rowsRead, found: 0, message: "El extracto no tiene proventos (dividendos, JCP o rendimientos)." });
   }
 
-  const payments = parsed.payments.map((p) => ({ ...p, owner: account.label }));
-  const dates = payments.map((p) => p.date).sort();
-  const period = { from: dates[0], to: dates.at(-1)! };
+  const rec = await buildUploadRecord(parsed, account.id, account.label);
+  const { path, content, payments, period, total } = rec;
 
   // Cuántos son nuevos respecto de lo ya publicado.
   const current = (await loadReceived().catch(() => null))?.payments ?? [];
-  const isNew = mergePayments(current, payments).length - mergePayments(current).length;
-
-  const body: Omit<UploadedExtract, "uploaded_at"> = { source: parsed.kind, period, rows_read: parsed.rowsRead, payments };
-  const hash = (await sha256Hex(JSON.stringify(body))).slice(0, 8);
-  const path = `data/b3/${account.id}/${period.from}_${period.to}-${hash}.json`;
-  const content = JSON.stringify({ ...body, uploaded_at: new Date().toISOString() } satisfies UploadedExtract, null, 2) + "\n";
-  const total = Math.round(payments.reduce((s, p) => s + p.amount, 0) * 100) / 100;
-  const summary = { rowsRead: parsed.rowsRead, found: payments.length, isNew, total, period, account: account.label };
+  const before = reconcileAnnual(mergePayments(current));
+  const after = reconcileAnnual(mergePayments(current, payments));
+  const isNew = after.length - before.length;
+  const summary = { kind: parsed.kind, rowsRead: parsed.rowsRead, found: payments.length, isNew, total, period, account: account.label };
 
   try {
     if (await githubFileExists(repo, path, branch)) return Response.json({ ok: true, saved: false, duplicate: true, ...summary });

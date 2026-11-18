@@ -106,3 +106,61 @@ describe("resumen de proventos recibidos", () => {
     expect(e.byMonth).toHaveLength(12);
   });
 });
+
+import { reconcileAnnual } from "@/lib/received";
+import { parseRelatorio, yearFromName } from "@/lib/b3-relatorio";
+
+describe("relatórios consolidados de B3", () => {
+  it("mensual: pagos con fecha, incluye Reembolso como 'otro' y descarta filas de total", () => {
+    const r = parseRelatorio(
+      [
+        {
+          name: "Proventos Recebidos",
+          rows: [
+            { Produto: "BTLG11 - BTG PACTUAL LOGISTICA", Pagamento: "23/10/2026", "Tipo de Evento": "Rendimento", "Instituição": "BANCO BTG PACTUAL S/A.", Quantidade: "12", "Preço unitário": 0.81, "Valor líquido": 9.72 },
+            { Produto: "VIVT3 - TELEFÔNICA BRASIL", Pagamento: "20/10/2026", "Tipo de Evento": "Reembolso", "Instituição": "BANCO BTG PACTUAL S/A.", Quantidade: "43", "Preço unitário": 0.5, "Valor líquido": 21.5 },
+            { Produto: "", Pagamento: "", "Tipo de Evento": "", "Valor líquido": "Total" },
+          ],
+        },
+      ],
+      "relatorio-consolidado-mensal-2026-outubro.xlsx",
+    );
+    expect(r.kind).toBe("relatorio-mensal");
+    expect(r.payments.map((p) => [p.date, p.ticker, p.type, p.quantity, p.amount])).toEqual([
+      ["2026-10-23", "BTLG11", "rendimento", 12, 9.72],
+      ["2026-10-20", "VIVT3", "outro", 43, 21.5],
+    ]);
+  });
+
+  it("anual: totales por activo con el año del nombre del archivo", () => {
+    expect(yearFromName("d14df0ff-relatorio-consolidado-anual-2025.xlsx")).toBe("2025");
+    const r = parseRelatorio([{ name: "Proventos Recebidos", rows: [{ Produto: "CMIG4", "Tipo de Evento": "Dividendo", "Valor líquido": 13.12 }, { Produto: "", "Tipo de Evento": "", "Valor líquido": 13.12 }] }], "relatorio-consolidado-anual-2025.xlsx");
+    expect(r.kind).toBe("relatorio-anual");
+    expect(r.payments).toEqual([{ date: "2025-01-01", ticker: "CMIG4", type: "dividendo", label: "Dividendo", quantity: null, unitValue: null, amount: 13.12, annual: true }]);
+  });
+
+  it("el total anual se descuenta de lo que ya está detallado (no cuenta dos veces)", () => {
+    const anual = { date: "2025-01-01", ticker: "MXRF11", type: "rendimento" as const, label: "Rendimento", quantity: null, unitValue: null, amount: 120, annual: true, owner: "Yo" };
+    const detalle = { date: "2025-12-15", ticker: "MXRF11", type: "rendimento" as const, label: "Rendimento", quantity: 1000, unitValue: 0.1, amount: 100, owner: "Yo" };
+    expect(reconcileAnnual([anual, detalle]).map((p) => [p.annual ?? false, p.amount])).toEqual([[true, 20], [false, 100]]);
+    expect(reconcileAnnual([{ ...anual, amount: 100 }, detalle])).toHaveLength(1); // todo detallado
+    expect(reconcileAnnual([anual, { ...detalle, owner: "Otra" }])).toHaveLength(2); // otra cuenta: no se descuenta
+  });
+
+  it("los totales anuales no entran en el mes ni en los últimos 12 meses", () => {
+    const s = summarizeReceived(
+      [
+        { date: "2025-01-01", ticker: "CMIG4", type: "dividendo", label: "Dividendo", quantity: null, unitValue: null, amount: 500, annual: true },
+        { date: "2026-10-10", ticker: "CMIG4", type: "dividendo", label: "Dividendo", quantity: 10, unitValue: 1, amount: 10 },
+      ],
+      "2026-11-14",
+    );
+    expect(s.total).toBe(510);
+    expect(s.last12m).toBe(10);
+    expect(s.byYear.map((y) => [y.year, y.total])).toEqual([["2026", 10], ["2025", 500]]);
+    expect(s.byMonth.reduce((t, m) => t + m.total, 0)).toBe(10);
+    expect(s.byTicker[0]).toMatchObject({ ticker: "CMIG4", total: 510, last12m: 10, count: 1, lastDate: "2026-10-10" });
+    expect(s.firstDate).toBe("2025-01-01");
+    expect(s.recent).toHaveLength(1);
+  });
+});

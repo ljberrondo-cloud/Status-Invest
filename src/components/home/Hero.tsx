@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { Area, ComposedChart, CartesianGrid, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import type { HistoryPoint, PortfolioResponse } from "@/lib/types";
 import type { ReceivedSummary } from "@/lib/received";
-import { fmtBRL, fmtBRLCompact, fmtPct, fmtSignedBRL, signClass } from "@/lib/format";
+import { fmtBRL, fmtBRLCompact, fmtPct, fmtSignedBRL, fmtSince, signClass } from "@/lib/format";
 import { addDays, isoDateSP, isoToBr } from "@/lib/dates";
 import { ChangePill, Segmented } from "../ui";
 
@@ -134,7 +134,7 @@ export function Hero({ data, history, received }: { data: PortfolioResponse; his
           {[
             { label: "Invertido", value: fmtBRL(data.invested), tone: null as number | null },
             { label: "Ganancia de capital", value: `${fmtSignedBRL(data.gain)}`, extra: fmtPct(data.gainPct, 1), tone: data.gain },
-            { label: received?.firstDate ? `Proventos desde ${isoToBr(received.firstDate).slice(0, 5)}` : "Proventos", value: received ? fmtBRL(prov) : "—", tone: null },
+            { label: received?.firstDate ? `Proventos desde ${fmtSince(received.firstDate)}` : "Proventos", value: received ? fmtBRL(prov) : "—", tone: null },
             { label: "Rentabilidad total", value: fmtPct(rent), tone: rent },
           ].map((m) => (
             <div key={m.label} className="px-4 sm:px-5">

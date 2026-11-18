@@ -6,7 +6,7 @@ import { Bar, BarChart, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis
 import type { ClassSummary, Position, Targets } from "@/lib/types";
 import type { Alert } from "@/lib/alerts";
 import { RECEIVED_LABELS, type ReceivedSummary } from "@/lib/received";
-import { fmtBRL, fmtBRLCompact, fmtDateLong, fmtPct, fmtSignedBRL, signClass } from "@/lib/format";
+import { fmtBRL, fmtBRLCompact, fmtDateLong, fmtPct, fmtSignedBRL, fmtSince, signClass } from "@/lib/format";
 import { Card, ChangePill, Segmented, TickerAvatar } from "../ui";
 import { Icon } from "../icons";
 
@@ -155,7 +155,7 @@ export function IncomeCard({ received, className }: { received: ReceivedSummary 
   }
   const months = received.byMonth.slice(-6);
   return (
-    <Card className={className} title="Proventos" subtitle={received.firstDate ? `Datos desde ${fmtDateLong(received.firstDate)} ${received.firstDate.slice(0, 4)}` : undefined} action={<MoreLink href="/proventos">Ver todo</MoreLink>}>
+    <Card className={className} title="Proventos" subtitle={received.firstDate ? `Datos desde ${fmtSince(received.firstDate)} · histórico ${fmtBRL(received.total)}` : undefined} action={<MoreLink href="/proventos">Ver todo</MoreLink>}>
       <div className="flex items-end justify-between gap-4">
         <div>
           <div className="text-xs text-ink-3">Últimos 12 meses</div>

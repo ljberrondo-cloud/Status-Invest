@@ -1,0 +1,231 @@
+{
+  "source": "relatorio-mensal",
+  "period": {
+    "from": "2026-09-02",
+    "to": "2026-09-25"
+  },
+  "rows_read": 20,
+  "payments": [
+    {
+      "date": "2026-09-25",
+      "ticker": "BTLG11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 12,
+      "unitValue": 0.81,
+      "amount": 9.72,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-09-25",
+      "ticker": "XPML11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 116,
+      "unitValue": 0.92,
+      "amount": 106.72,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-09-21",
+      "ticker": "PETR4",
+      "type": "jcp",
+      "label": "Juros Sobre Capital Próprio",
+      "quantity": 30,
+      "unitValue": 0.35,
+      "amount": 8.68,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-09-15",
+      "ticker": "HFOF11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 893,
+      "unitValue": 0.06,
+      "amount": 53.58,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-09-15",
+      "ticker": "HGLG11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 17,
+      "unitValue": 1.17,
+      "amount": 19.89,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-09-15",
+      "ticker": "MXRF11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 1.021,
+      "unitValue": 0.1,
+      "amount": 102.1,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-09-15",
+      "ticker": "TGAR11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 124,
+      "unitValue": 0.7,
+      "amount": 86.8,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-09-15",
+      "ticker": "VILG11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 98,
+      "unitValue": 0.82,
+      "amount": 80.36,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-09-14",
+      "ticker": "KNCR11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 101,
+      "unitValue": 1.15,
+      "amount": 116.15,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-09-14",
+      "ticker": "KNIP11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 25,
+      "unitValue": 0.65,
+      "amount": 16.25,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-09-11",
+      "ticker": "BBAS3",
+      "type": "jcp",
+      "label": "Juros Sobre Capital Próprio",
+      "quantity": 94,
+      "unitValue": 0.04,
+      "amount": 2.68,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-09-11",
+      "ticker": "BBAS3",
+      "type": "jcp",
+      "label": "Juros Sobre Capital Próprio",
+      "quantity": 94,
+      "unitValue": 0.1,
+      "amount": 7.95,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-09-11",
+      "ticker": "BBAS3",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 94,
+      "unitValue": 0,
+      "amount": 0.21,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-09-11",
+      "ticker": "HABT11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 102,
+      "unitValue": 0.95,
+      "amount": 96.9,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-09-09",
+      "ticker": "QQQI11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 68,
+      "unitValue": 1.16,
+      "amount": 66.96,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-09-09",
+      "ticker": "SPYI11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 65,
+      "unitValue": 1.11,
+      "amount": 61.47,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-09-08",
+      "ticker": "RZTR11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 20,
+      "unitValue": 0.85,
+      "amount": 17,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-09-03",
+      "ticker": "BBSE3",
+      "type": "dividendo",
+      "label": "Dividendo",
+      "quantity": 28,
+      "unitValue": 1.98,
+      "amount": 55.53,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-09-02",
+      "ticker": "VALE3",
+      "type": "jcp",
+      "label": "Juros Sobre Capital Próprio",
+      "quantity": 16,
+      "unitValue": 1.57,
+      "amount": 20.7,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2026-09-02",
+      "ticker": "VALE3",
+      "type": "dividendo",
+      "label": "Dividendo",
+      "quantity": 16,
+      "unitValue": 0.46,
+      "amount": 7.39,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Mi Cuenta"
+    }
+  ],
+  "uploaded_at": "2026-11-18T18:47:49.867Z"
+}

@@ -1,0 +1,99 @@
+{
+  "source": "relatorio-anual",
+  "period": {
+    "from": "2024-01-01",
+    "to": "2024-12-31"
+  },
+  "rows_read": 8,
+  "payments": [
+    {
+      "date": "2024-01-01",
+      "ticker": "BTLG11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 394.74,
+      "annual": true,
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2024-01-01",
+      "ticker": "HABT11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 130.05,
+      "annual": true,
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2024-01-01",
+      "ticker": "HGLG11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 431.2,
+      "annual": true,
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2024-01-01",
+      "ticker": "KNCR11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 66.25,
+      "annual": true,
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2024-01-01",
+      "ticker": "MXRF11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 529.89,
+      "annual": true,
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2024-01-01",
+      "ticker": "RZTR11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 462.7,
+      "annual": true,
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2024-01-01",
+      "ticker": "TGAR11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 605.16,
+      "annual": true,
+      "owner": "Mi Cuenta"
+    },
+    {
+      "date": "2024-01-01",
+      "ticker": "XPML11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 322,
+      "annual": true,
+      "owner": "Mi Cuenta"
+    }
+  ],
+  "uploaded_at": "2026-11-18T18:47:49.770Z"
+}

@@ -7,16 +7,16 @@
  */
 import { promises as fs } from "node:fs";
 import path from "node:path";
-import { readXlsxFile } from "../src/lib/b3-xlsx";
+import { parseExtract } from "../src/lib/b3-upload";
 import type { UploadedExtract } from "../src/lib/b3-upload";
-import { mergePayments, parseMovimentacaoRows, type ReceivedFile, type ReceivedPayment } from "../src/lib/received";
+import { mergePayments, reconcileAnnual, type ReceivedFile, type ReceivedPayment } from "../src/lib/received";
 
 const DATA = process.env.PORTFOLIO_DATA_DIR ?? path.join(process.cwd(), "data"); // override sólo para pruebas
 const DIR = path.join(DATA, "b3");
 const OUT = path.join(DATA, "proventos-recebidos.json");
 
-/** Compatibilidad: lectura de un .xlsx desde disco. */
-export const readXlsxRows = readXlsxFile;
+/** Compatibilidad (tests): filas de un extracto de Movimentação en .xlsx. */
+export { readXlsxFile as readXlsxRows } from "../src/lib/b3-xlsx";
 
 /** Nombre de carpeta → nombre visible: "esposa" → "Esposa", "maria-luz" → "Maria Luz". */
 export const ownerLabel = (dir: string) => dir.replace(/[-_]+/g, " ").replace(/\b\p{L}/gu, (c) => c.toUpperCase());
@@ -55,15 +55,18 @@ async function main() {
       found = up.payments ?? [];
       rows = new Array(up.rows_read ?? found.length);
     } else {
-      rows = await readXlsxFile(f.full);
-      found = parseMovimentacaoRows(rows);
+      // Extracto de Movimentação o relatório consolidado (mensual/anual).
+      const parsed = await parseExtract(f.full, path.basename(f.full));
+      rows = new Array(parsed.rowsRead);
+      found = parsed.payments;
     }
     const payments = found.map((p) => (f.owner ? { ...p, owner: f.owner } : p));
     console.log(`${f.rel}: ${rows.length} filas, ${payments.length} proventos${f.owner ? ` (titular: ${f.owner})` : ""}`);
     if (rows.length && !payments.length) console.warn(`  ⚠ No se reconocieron proventos en ${f.rel}: ¿es el extracto de Movimentação?`);
     lists.push(payments);
   }
-  const payments = mergePayments(...lists);
+  // Sin duplicados entre fuentes, y los totales anuales sin lo que ya está detallado.
+  const payments = reconcileAnnual(mergePayments(...lists));
   const out: ReceivedFile = { imported_at: new Date().toISOString(), source_files: files.map((f) => f.rel), payments };
   await fs.writeFile(OUT, JSON.stringify(out, null, 2) + "\n");
   const total = payments.reduce((s, p) => s + p.amount, 0);

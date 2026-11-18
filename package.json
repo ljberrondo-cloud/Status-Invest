@@ -11,7 +11,8 @@
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "snapshot": "tsx scripts/snapshot.ts",
-    "import:b3": "tsx scripts/import-b3.ts"
+    "import:b3": "tsx scripts/import-b3.ts",
+    "b3:add": "tsx scripts/b3-add.ts"
   },
   "dependencies": {
     "exceljs": "^4.4.0",

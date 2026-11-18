@@ -24,6 +24,11 @@ export interface ReceivedPayment {
   institution?: string;
   /** Titular de la cuenta (nombre de la subcarpeta de data/b3/). */
   owner?: string;
+  /**
+   * Total anual (relatório consolidado anual de B3): no tiene fecha de pago. `date` es el 1/1 del año.
+   * Cuenta en totales por año y por activo, no en el gráfico mensual ni en "últimos 12 meses".
+   */
+  annual?: boolean;
 }
 
 export interface ReceivedFile {
@@ -45,7 +50,8 @@ export function classifyMovement(mov: string): ReceivedType | null {
   if (m.includes("juros sobre capital")) return "jcp";
   if (m.startsWith("dividendo")) return "dividendo";
   if (m.startsWith("rendimento")) return "rendimento";
-  if (m.startsWith("amortizacao") || m.startsWith("restituicao de capital")) return "outro";
+  // Reembolso: lo que paga quien tomó prestadas tus acciones por los proventos del período.
+  if (m.startsWith("amortizacao") || m.startsWith("restituicao de capital") || m.startsWith("reembolso")) return "outro";
   return null;
 }
 
@@ -121,10 +127,33 @@ export function parseMovimentacaoRows(rows: Record<string, unknown>[]): Received
  * Clave: titular + fecha + ticker + tipo + monto + institución (dos titulares con el mismo pago cuentan ambos). "Dividendo" y "Dividendo - Transferido" del mismo
  * evento comparten clave y cuentan una sola vez.
  */
+/** "BANCO BTG PACTUAL S/A." y "BANCO BTG PACTUAL S/A" son la misma institución. */
+const normInst = (s?: string) => (s ?? "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+
+/**
+ * Evita contar dos veces: a cada total anual (titular, año, activo, tipo) se le resta lo que ya está
+ * detallado pago por pago para esa misma combinación. Si no queda nada, el total anual se descarta.
+ */
+export function reconcileAnnual(payments: ReceivedPayment[]): ReceivedPayment[] {
+  const k = (p: ReceivedPayment) => `${p.owner ?? ""}|${p.date.slice(0, 4)}|${p.ticker}|${p.type}`;
+  const detailed = new Map<string, number>();
+  for (const p of payments) if (!p.annual) detailed.set(k(p), (detailed.get(k(p)) ?? 0) + p.amount);
+  const out: ReceivedPayment[] = [];
+  for (const p of payments) {
+    if (!p.annual) {
+      out.push(p);
+      continue;
+    }
+    const rest = Math.round((p.amount - (detailed.get(k(p)) ?? 0)) * 100) / 100;
+    if (rest > 0.01) out.push({ ...p, amount: rest, quantity: null, unitValue: null });
+  }
+  return out;
+}
+
 export function mergePayments(...lists: ReceivedPayment[][]): ReceivedPayment[] {
   const map = new Map<string, ReceivedPayment>();
   for (const p of lists.flat()) {
-    const key = `${p.owner ?? ""}|${p.date}|${p.ticker}|${p.type}|${p.amount.toFixed(2)}|${p.institution ?? ""}`;
+    const key = `${p.annual ? "A" : ""}|${p.owner ?? ""}|${p.date}|${p.ticker}|${p.type}|${p.amount.toFixed(2)}|${normInst(p.institution)}`;
     if (!map.has(key)) map.set(key, p);
   }
   return [...map.values()].sort((a, b) => b.date.localeCompare(a.date) || a.ticker.localeCompare(b.ticker));
@@ -144,7 +173,7 @@ export interface ReceivedSummary {
   byYear: { year: string; total: number; byType: ByType }[];
   /** Últimos 12 meses calendario, incluido el actual, en orden cronológico. */
   byMonth: ({ month: string; total: number } & ByType)[];
-  byTicker: { ticker: string; total: number; last12m: number; count: number; lastDate: string }[];
+  byTicker: { ticker: string; total: number; last12m: number; count: number; lastDate: string | null }[];
   recent: ReceivedPayment[];
 }
 
@@ -168,28 +197,32 @@ export function summarizeReceived(payments: ReceivedPayment[], today: string): R
   const byType = emptyByType();
   const years = new Map<string, ByType>();
   const monthMap = new Map(months.map((m) => [m, emptyByType()]));
-  const tickers = new Map<string, { total: number; last12m: number; count: number; lastDate: string }>();
+  const tickers = new Map<string, { total: number; last12m: number; count: number; lastDate: string | null }>();
   let total = 0,
     last12m = 0,
     ytd = 0;
 
   for (const p of payments) {
+    const in12m = !p.annual && p.date >= from12m && p.date <= today;
     total += p.amount;
     byType[p.type] += p.amount;
-    if (p.date >= from12m && p.date <= today) last12m += p.amount;
+    if (in12m) last12m += p.amount;
     if (p.date.startsWith(year)) ytd += p.amount;
     const y = years.get(p.date.slice(0, 4)) ?? emptyByType();
     y[p.type] += p.amount;
     years.set(p.date.slice(0, 4), y);
-    const mm = monthMap.get(p.date.slice(0, 7));
+    const mm = p.annual ? undefined : monthMap.get(p.date.slice(0, 7));
     if (mm) mm[p.type] += p.amount;
-    const t = tickers.get(p.ticker) ?? { total: 0, last12m: 0, count: 0, lastDate: p.date };
+    const t = tickers.get(p.ticker) ?? { total: 0, last12m: 0, count: 0, lastDate: null };
     t.total += p.amount;
-    if (p.date >= from12m && p.date <= today) t.last12m += p.amount;
-    t.count += 1;
-    if (p.date > t.lastDate) t.lastDate = p.date;
+    if (in12m) t.last12m += p.amount;
+    if (!p.annual) {
+      t.count += 1;
+      if (!t.lastDate || p.date > t.lastDate) t.lastDate = p.date;
+    }
     tickers.set(p.ticker, t);
   }
+  const detailed = payments.filter((p) => !p.annual);
 
   const sumType = (b: ByType) => b.dividendo + b.jcp + b.rendimento + b.outro;
   const roundType = (b: ByType): ByType => ({ dividendo: round2(b.dividendo), jcp: round2(b.jcp), rendimento: round2(b.rendimento), outro: round2(b.outro) });
@@ -198,7 +231,7 @@ export function summarizeReceived(payments: ReceivedPayment[], today: string): R
     total: round2(total),
     last12m: round2(last12m),
     ytd: round2(ytd),
-    lastDate: payments.reduce<string | null>((m, p) => (m === null || p.date > m ? p.date : m), null),
+    lastDate: detailed.reduce<string | null>((m, p) => (m === null || p.date > m ? p.date : m), null),
     firstDate: payments.reduce<string | null>((m, p) => (m === null || p.date < m ? p.date : m), null),
     byType: roundType(byType),
     byYear: [...years]
@@ -211,7 +244,7 @@ export function summarizeReceived(payments: ReceivedPayment[], today: string): R
     byTicker: [...tickers]
       .map(([ticker, t]) => ({ ticker, total: round2(t.total), last12m: round2(t.last12m), count: t.count, lastDate: t.lastDate }))
       .sort((a, b) => b.total - a.total),
-    recent: [...payments].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 8),
+    recent: [...detailed].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 8),
   };
 }
 

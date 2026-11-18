@@ -45,3 +45,35 @@ export async function readXlsxFile(file: string): Promise<Record<string, unknown
   await wb.xlsx.readFile(file);
   return readXlsxWorkbook(wb);
 }
+
+export interface Sheet {
+  name: string;
+  /** Filas como objetos encabezado → valor (la primera fila es el encabezado). */
+  rows: Record<string, unknown>[];
+}
+
+/** Todas las hojas, con la primera fila como encabezado (formato de los relatórios consolidados). */
+export function readSheets(wb: ExcelJS.Workbook): Sheet[] {
+  return wb.worksheets.map((ws) => {
+    let headers: string[] | null = null;
+    const rows: Record<string, unknown>[] = [];
+    ws.eachRow((row) => {
+      const values = (row.values as ExcelJS.CellValue[]).slice(1).map(cellValue);
+      if (!headers) {
+        headers = values.map((v) => String(v ?? "").trim());
+        return;
+      }
+      const obj: Record<string, unknown> = {};
+      headers.forEach((h, i) => h && (obj[h] = values[i] ?? null));
+      rows.push(obj);
+    });
+    return { name: ws.name.trim(), rows };
+  });
+}
+
+export async function loadWorkbook(src: ArrayBuffer | string): Promise<ExcelJS.Workbook> {
+  const wb = new ExcelJS.Workbook();
+  if (typeof src === "string") await wb.xlsx.readFile(src);
+  else await wb.xlsx.load(src);
+  return wb;
+}

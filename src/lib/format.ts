@@ -40,3 +40,6 @@ export const fmtDateLong = (isoDate: string) => {
 
 export const signClass = (n: number | null | undefined) =>
   n === null || n === undefined || Math.abs(n) < 0.005 ? "text-ink-2" : n > 0 ? "text-pos" : "text-neg";
+
+/** "Desde cuándo" hay datos: un año entero (total anual) se muestra como "2024", si no "14/10/2026". */
+export const fmtSince = (isoDate: string) => (isoDate.endsWith("-01-01") ? isoDate.slice(0, 4) : `${isoDate.slice(8, 10)}/${isoDate.slice(5, 7)}/${isoDate.slice(0, 4)}`);
