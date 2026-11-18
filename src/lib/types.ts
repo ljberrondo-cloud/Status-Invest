@@ -9,7 +9,7 @@ export const CLASS_LABELS: Record<AssetClass, string> = {
   tesouro: "Tesouro Directo",
   renta_fija: "Renta fija",
   fondos: "Fondos",
-  otros: "Otros",
+  otros: "FGTS",
 };
 
 export type ProviderName = "brapi" | "coingecko" | "tesouro" | "cdi" | "manual";
