@@ -61,3 +61,12 @@ export async function githubPutFile(repo: string, path: string, content: string,
     throw new GithubError(res.status, j.message ?? `GitHub respondió ${res.status}`);
   }
 }
+
+/** Contenido (texto) y sha de un archivo, o null si no existe. */
+export async function githubGetFile(repo: string, path: string, branch?: string): Promise<{ sha: string; content: string } | null> {
+  const res = await gh(`/repos/${repo}/contents/${encodeURI(path)}${branch ? `?ref=${encodeURIComponent(branch)}` : ""}`);
+  if (res.status === 404) return null;
+  if (!res.ok) throw new GithubError(res.status, `GitHub respondió ${res.status}`);
+  const j = (await res.json()) as { sha: string; content?: string; encoding?: string };
+  return { sha: j.sha, content: j.encoding === "base64" && j.content ? Buffer.from(j.content, "base64").toString("utf8") : (j.content ?? "") };
+}

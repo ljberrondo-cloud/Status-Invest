@@ -2,6 +2,7 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import type { HistoryPoint, Portfolio, Snapshot, Targets } from "./types";
 import type { ReceivedFile } from "./received";
+import type { PlanFile } from "./plan";
 
 /**
  * Ruta a un archivo de data/. El path queda acotado a data/ para que el bundler
@@ -47,4 +48,8 @@ export async function writeJson(file: string, data: unknown) {
 
 export async function loadReceived(): Promise<ReceivedFile | null> {
   return readJson<ReceivedFile>("proventos-recebidos.json");
+}
+
+export async function loadPlanFile(): Promise<PlanFile | null> {
+  return readJson<PlanFile>("plan.json");
 }
