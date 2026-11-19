@@ -100,12 +100,22 @@ export function computeAlerts(v: Valuation, t: Targets): Alert[] {
  * % ideal por activo = objetivo de su clase ÷ cantidad de activos de la clase (criterio de Investidor10).
  * "Comprar" = el activo pesa menos que su ideal.
  */
+/** Parte del objetivo de la clase que le toca a un activo (0–1): `asset_weights` o partes iguales. */
+export function shareInClass(ticker: string, cls: AssetClass, tickersInClass: string[], t: Targets): number {
+  const w = t.asset_weights?.[cls];
+  if (w) {
+    const sum = tickersInClass.reduce((s, x) => s + Math.max(0, w[x] ?? 0), 0);
+    return sum > 0 ? Math.max(0, w[ticker] ?? 0) / sum : 0;
+  }
+  return tickersInClass.length ? 1 / tickersInClass.length : 0;
+}
+
 export function assetTargets(v: Valuation, t: Targets): Record<string, { idealPct: number; buy: boolean }> {
-  const counts = new Map<AssetClass, number>();
-  for (const p of v.positions) counts.set(p.asset.class, (counts.get(p.asset.class) ?? 0) + 1);
+  const byClass = new Map<AssetClass, string[]>();
+  for (const p of v.positions) byClass.set(p.asset.class, [...(byClass.get(p.asset.class) ?? []), p.asset.ticker]);
   const out: Record<string, { idealPct: number; buy: boolean }> = {};
   for (const p of v.positions) {
-    const idealPct = (t.allocation[p.asset.class] ?? 0) / (counts.get(p.asset.class) ?? 1);
+    const idealPct = (t.allocation[p.asset.class] ?? 0) * shareInClass(p.asset.ticker, p.asset.class, byClass.get(p.asset.class) ?? [], t);
     out[p.asset.ticker] = { idealPct, buy: p.weight !== null && p.weight < idealPct };
   }
   return out;

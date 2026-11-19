@@ -14,5 +14,16 @@
     "otros": 10
   },
   "tolerance_pct": 5,
-  "exclude_from_allocation": []
+  "exclude_from_allocation": [],
+  "asset_weights": {
+    "cripto": {
+      "BTC": 70,
+      "ETH": 30
+    },
+    "etfs": {
+      "IVVB11": 50,
+      "SPYI11": 25,
+      "QQQI11": 25
+    }
+  }
 }

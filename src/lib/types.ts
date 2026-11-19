@@ -137,6 +137,11 @@ export interface Targets {
   allocation: Partial<Record<AssetClass, number>>;
   tolerance_pct: number;
   exclude_from_allocation?: string[];
+  /**
+   * Peso de cada activo dentro de su clase (opcional). Los activos de la clase que no figuran
+   * tienen peso 0: se mantienen, pero no se les recomienda aporte. Sin esto, partes iguales.
+   */
+  asset_weights?: Partial<Record<AssetClass, Record<string, number>>>;
 }
 
 export interface HistoryPoint {

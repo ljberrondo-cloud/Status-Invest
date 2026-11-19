@@ -115,6 +115,10 @@ Cada activo de B3 guarda la cantidad de cada cuenta (`accounts` en `portfolio.js
 
 Cripto, previdencia (Zurich), FGTS y el CDB no están en B3: siguen siendo valores manuales.
 
+## Invertir (aporte del mes y estrategia)
+
+`/invertir` reparte el aporte + proventos de cada cuenta **sólo entre activos que ya están en la cartera** (`src/lib/contribution.ts`): primero entre las clases por debajo de su objetivo, en proporción a lo que les falta; dentro de cada clase, a los activos más atrasados; cuotas enteras en B3, fracciones en cripto/Tesouro y reales en el CDB; cada compra se asigna a la cuenta que ya tiene el activo. FGTS no se compra y las clases con objetivo 0% no reciben aportes. `asset_weights` en `targets.json` fija el peso de cada activo dentro de su clase (los que no figuran se mantienen sin aportes). Abajo, un diagnóstico en vivo (`src/lib/strategy.ts`) y recomendaciones de fondo (`src/components/invest/Strategy.tsx`, tasas del Tesouro fechadas).
+
 ## Limitaciones conocidas
 
 - La variación diaria de cripto es la de las últimas 24 h (CoinGecko). En B3, fuera del horario de mercado se muestra la del último pregão.
