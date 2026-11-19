@@ -164,3 +164,12 @@ describe("relatórios consolidados de B3", () => {
     expect(s.recent).toHaveLength(1);
   });
 });
+
+import { accountLabel } from "@/lib/accounts";
+describe("nombres de cuenta", () => {
+  it("las carpetas conocidas muestran el nombre elegido", () => {
+    expect(accountLabel("mi-cuenta")).toBe("Conta 1");
+    expect(accountLabel("esposa")).toBe("Conta 2");
+    expect(accountLabel("otra-cuenta")).toBe("Otra Cuenta");
+  });
+});

@@ -8,7 +8,7 @@ import { Badge, ChangePill, QuoteBadge, TickerAvatar } from "./ui";
 import { Icon } from "./icons";
 import { ACCOUNTS } from "@/lib/accounts";
 
-/** "Mi Cuenta 910 · Esposa 1.665" (sólo si hay más de una cuenta con cantidad). */
+/** "Conta 1 910 · Conta 2 1.665" (sólo si hay más de una cuenta con cantidad). */
 function splitText(p: Position): string | null {
   const acc = Object.entries(p.asset.accounts ?? {}).filter(([, v]) => v.quantity > 0);
   if (acc.length < 2) return null;

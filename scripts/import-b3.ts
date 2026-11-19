@@ -8,6 +8,7 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { parseExtract } from "../src/lib/b3-upload";
+import { accountLabel } from "../src/lib/accounts";
 import type { UploadedExtract } from "../src/lib/b3-upload";
 import { mergePayments, reconcileAnnual, type ReceivedFile, type ReceivedPayment } from "../src/lib/received";
 import { applyPositionFiles, type PositionFile } from "../src/lib/b3-positions";
@@ -34,7 +35,7 @@ async function listFiles(): Promise<{ rel: string; full: string; owner?: string 
     if (e.isFile() && /\.(xlsx|json)$/i.test(e.name) && !e.name.startsWith("posicion-")) out.push({ rel: e.name, full: path.join(DIR, e.name) });
     if (e.isDirectory()) {
       for (const f of await fs.readdir(path.join(DIR, e.name))) {
-        if (/\.(xlsx|json)$/i.test(f) && !f.startsWith("posicion-")) out.push({ rel: `${e.name}/${f}`, full: path.join(DIR, e.name, f), owner: ownerLabel(e.name) });
+        if (/\.(xlsx|json)$/i.test(f) && !f.startsWith("posicion-")) out.push({ rel: `${e.name}/${f}`, full: path.join(DIR, e.name, f), owner: accountLabel(e.name) });
       }
     }
   }
