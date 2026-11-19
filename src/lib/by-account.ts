@@ -52,7 +52,7 @@ export function summarizeByAccount(positions: Position[], accounts: readonly { i
     }
   }
 
-  const label = (id: string) => (id === UNASSIGNED ? "Sin asignar" : (accounts.find((x) => x.id === id)?.label ?? id));
+  const label = (id: string) => (id === UNASSIGNED ? "Sem atribuição" : (accounts.find((x) => x.id === id)?.label ?? id));
   const order = [...accounts.map((a) => a.id), ...[...groups.keys()].filter((k) => k !== UNASSIGNED && !accounts.some((a) => a.id === k)), UNASSIGNED];
   return order
     .filter((id) => groups.has(id))

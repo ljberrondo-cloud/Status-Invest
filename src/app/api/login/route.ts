@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
   const [a, b] = await Promise.all([authToken(given), authToken(password)]);
   if (!safeEqual(a, b)) {
     await new Promise((r) => setTimeout(r, 600)); // frena intentos repetidos
-    return NextResponse.json({ ok: false, error: "Contraseña incorrecta" }, { status: 401 });
+    return NextResponse.json({ ok: false, error: "Senha incorreta" }, { status: 401 });
   }
   const res = NextResponse.json({ ok: true, next: safeNext(body.next) });
   res.cookies.set(AUTH_COOKIE, b, {

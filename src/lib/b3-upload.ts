@@ -54,7 +54,7 @@ export interface ParsedExtract {
 export async function parseExtract(buf: ArrayBuffer | string, fileName = ""): Promise<ParsedExtract> {
   if (typeof buf !== "string") {
     const kind = detectKind(buf);
-    if (!kind) throw new Error("El archivo no es un PDF ni un Excel");
+    if (!kind) throw new Error("O arquivo não é PDF nem Excel");
     if (kind === "pdf") {
       const rows = parseB3PdfPages(await readPdfItems(buf));
       return { kind, rowsRead: rows.length, payments: mergePayments(parseMovimentacaoRows(rows)) };

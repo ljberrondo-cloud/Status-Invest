@@ -373,7 +373,7 @@
       "name": "Tesouro IPCA+ 2029",
       "provider": "tesouro",
       "provider_id": "Tesouro IPCA+;15/05/2029",
-      "note": "Precio medio derivado de la variación informada por Investidor10",
+      "note": "Preço médio derivado da variação informada pelo Investidor10",
       "accounts": {
         "esposa": {
           "quantity": 20.32
@@ -405,14 +405,14 @@
       "cdi_percent": 100,
       "manual_value": 16180.08,
       "manual_date": "2026-11-15",
-      "note": "Valor invertido derivado de la variación informada por Investidor10"
+      "note": "Valor investido derivado da variação informada pelo Investidor10"
     },
     {
       "ticker": "PREVIDENCIA",
       "class": "fondos",
       "quantity": 28615.4262697,
       "avg_price": 3.14,
-      "name": "Previdencia Zurich",
+      "name": "Previdência Zurich",
       "provider": "manual",
       "manual_value": 96605.41,
       "manual_date": "2026-11-15",
@@ -427,7 +427,7 @@
       "provider": "manual",
       "manual_value": 31198.78,
       "manual_date": "2026-11-15",
-      "note": "No es activo de mercado. Suma de las dos cuentas de FGTS."
+      "note": "Não é ativo de mercado. Soma das duas contas de FGTS."
     }
   ]
 }

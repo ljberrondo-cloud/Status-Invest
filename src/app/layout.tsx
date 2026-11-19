@@ -6,9 +6,9 @@ import { AppShell } from "@/components/AppShell";
 import { PRIVACY_SCRIPT, THEME_SCRIPT } from "@/lib/boot-scripts";
 
 export const metadata: Metadata = {
-  title: "Cartera de inversiones 2026",
-  description: "Seguimiento personal de inversiones en BRL",
-  appleWebApp: { capable: true, title: "Cartera de inversiones 2026", statusBarStyle: "default" },
+  title: "Carteira de investimentos 2026",
+  description: "Acompanhamento pessoal de investimentos em BRL",
+  appleWebApp: { capable: true, title: "Carteira de investimentos 2026", statusBarStyle: "default" },
 };
 
 export const viewport: Viewport = {
@@ -20,7 +20,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className={`${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
+    <html lang="pt-BR" className={`${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT + PRIVACY_SCRIPT }} />
       </head>

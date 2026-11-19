@@ -79,7 +79,7 @@ function MonthlyChart({ s }: { s: ReceivedSummary }) {
 export function EmptyReceived() {
   return (
     <div className="space-y-4">
-      <p className="text-sm text-ink-2">Todavía no hay proventos cargados. Subí el extracto de Movimentação de B3 de cada cuenta.</p>
+      <p className="text-sm text-ink-2">Ainda não há proventos carregados. Envie o extrato de Movimentação da B3 de cada conta.</p>
       <UploadExtract defaultOpen />
     </div>
   );
@@ -106,18 +106,18 @@ export function ReceivedView() {
         <UploadExtract />
       </div>
       <section className="card hero p-5 sm:p-7">
-        <div className="eyebrow">Recibido en los últimos 12 meses{owners.length > 1 ? " · ambas cuentas" : ""}</div>
+        <div className="eyebrow">Recebido nos últimos 12 meses{owners.length > 1 ? " · as duas contas" : ""}</div>
         <div className="num mt-2 text-[2.4rem] leading-none font-semibold tracking-[-0.03em] sm:text-5xl">{fmtBRL(s.last12m)}</div>
         {s.firstDate && (
           <div className="mt-3 inline-flex rounded-lg bg-warn-bg px-2.5 py-1 text-xs text-warn">
-            Incluye sólo lo importado: datos desde {fmtSince(s.firstDate)}{owners.length < 2 ? ", de una sola cuenta" : ""}. Subí los relatórios que falten para completar el historial.
+            Inclui só o que foi importado: dados desde {fmtSince(s.firstDate)}{owners.length < 2 ? ", de uma só conta" : ""}. Envie os relatórios que faltam para completar o histórico.
           </div>
         )}
         <dl className="mt-5 grid grid-cols-3 gap-4 sm:max-w-xl">
           <div>
-            <dt className="text-xs text-ink-3">Por mes</dt>
+            <dt className="text-xs text-ink-3">Por mês</dt>
             <dd className="num mt-1 font-semibold">{fmtBRL(s.last12m / months)}</dd>
-            {months < 12 && <dd className="text-[11px] text-ink-3">promedio de {months} {months === 1 ? "mes" : "meses"}</dd>}
+            {months < 12 && <dd className="text-[11px] text-ink-3">média de {months} {months === 1 ? "mês" : "meses"}</dd>}
           </div>
           <div>
             <dt className="text-xs text-ink-3">En {thisYear}</dt>
@@ -140,21 +140,21 @@ export function ReceivedView() {
               {RECEIVED_LABELS[t]}
             </div>
             <div className="num mt-0.5 font-medium">{fmtBRL(s.byType[t])}</div>
-            <div className="num text-[11px] text-ink-3">{fmtPct(s.total ? (s.byType[t] / s.total) * 100 : 0, 1, false)} del total</div>
+            <div className="num text-[11px] text-ink-3">{fmtPct(s.total ? (s.byType[t] / s.total) * 100 : 0, 1, false)} do total</div>
           </div>
         ))}
       </div>
 
-      <Card title="Por mes · últimos 12 meses" subtitle="Pagos con fecha. Los años que sólo tienen total anual no se reparten por mes.">
+      <Card title="Por mês · últimos 12 meses" subtitle="Pagamentos com data. Os anos que só têm total anual não são divididos por mês.">
         <MonthlyChart s={s} />
       </Card>
 
       <div className="grid gap-4 lg:grid-cols-2">
-        <Card title="Por activo">
+        <Card title="Por ativo">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-line text-xs text-ink-3">
-                <th className="py-2 text-left font-normal">Activo</th>
+                <th className="py-2 text-left font-normal">Ativo</th>
                 <th className="py-2 text-right font-normal">12 meses</th>
                 <th className="py-2 text-right font-normal">Histórico</th>
               </tr>
@@ -165,7 +165,7 @@ export function ReceivedView() {
                   <td className="py-2">
                     <div className="font-medium">{t.ticker}</div>
                     <div className="text-[11px] text-ink-3">
-                      {t.lastDate ? `${t.count} ${t.count === 1 ? "pago" : "pagos"} · último ${fmtDateLong(t.lastDate)}` : "sólo totales anuales"}
+                      {t.lastDate ? `${t.count} ${t.count === 1 ? "pagamento" : "pagamentos"} · último ${fmtDateLong(t.lastDate)}` : "só totais anuais"}
                     </div>
                   </td>
                   <td className="num py-2 text-right">{fmtBRL(t.last12m)}</td>
@@ -177,7 +177,7 @@ export function ReceivedView() {
         </Card>
 
         <div className="space-y-4">
-          <Card title="Por año">
+          <Card title="Por ano">
             <ul className="divide-y divide-line text-sm">
               {s.byYear.map((y) => (
                 <li key={y.year} className="flex items-center justify-between py-2">
@@ -187,7 +187,7 @@ export function ReceivedView() {
               ))}
             </ul>
           </Card>
-          <Card title="Últimos pagos">
+          <Card title="Últimos pagamentos">
             <ul className="divide-y divide-line text-sm">
               {s.recent.map((p, i) => (
                 <li key={i} className="flex items-center justify-between gap-3 py-2">
@@ -212,8 +212,8 @@ export function ReceivedView() {
       </div>
 
       <p className="text-xs text-ink-3">
-        Fuente: B3 (extractos de Movimentação y relatórios consolidados, {data.sourceFiles?.length ?? 0} archivos importados). Datos hasta{" "}
-        {s.lastDate ? fmtDateLong(s.lastDate) : "—"}. Montos líquidos tal como los informa B3.
+        Fonte: B3 (extratos de Movimentação e relatórios consolidados, {data.sourceFiles?.length ?? 0} arquivos importados). Dados até{" "}
+        {s.lastDate ? fmtDateLong(s.lastDate) : "—"}. Valores líquidos conforme informados pela B3.
       </p>
     </div>
   );

@@ -69,11 +69,11 @@ describe("señales", () => {
   });
   it("alerta: empresa con pérdidas o concentración", () => {
     expect(buildSignal({ ...base, pe: -3 }).signal).toBe("alerta");
-    expect(buildSignal({ ...base, weight: 20 }).headline).toMatch(/Concentración/);
+    expect(buildSignal({ ...base, weight: 20 }).headline).toMatch(/Concentração/);
   });
   it("renta fija y excluidos: hodl", () => {
     expect(buildSignal({ ...base, cls: "tesouro" }).signal).toBe("hodl");
-    expect(buildSignal({ ...base, excluded: true, cls: "fondos" }).headline).toMatch(/No se puede mover/);
+    expect(buildSignal({ ...base, excluded: true, cls: "fondos" }).headline).toMatch(/Não pode ser movido/);
   });
   it("FII con caída fuerte del rendimiento: alerta", () => {
     const r = buildSignal({ ...base, cls: "fiis", dy: 11, incomeTrend: -30 });

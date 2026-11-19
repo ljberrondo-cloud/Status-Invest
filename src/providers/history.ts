@@ -34,7 +34,7 @@ export async function b3History(ticker: string): Promise<PriceHistory> {
     headers: brapiHeaders(),
   });
   const r = j.results?.[0];
-  if (!r) throw new Error("Sin datos");
+  if (!r) throw new Error("Sem dados");
   const closes = (r.historicalDataPrice ?? [])
     .filter((p) => typeof p.close === "number" && p.close > 0)
     .map((p) => ({ date: day(p.date * 1000), close: p.close as number }))

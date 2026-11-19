@@ -55,7 +55,7 @@ export function Heatmap({ positions }: { positions: Position[] }) {
     .filter((p) => p.value !== null && p.value > 0 && p.status !== "manual" && p.dayChangePct !== null)
     .map((p) => ({ name: p.asset.ticker, size: p.value as number, pct: p.dayChangePct }))
     .sort((a, b) => b.size - a.size);
-  if (!data.length) return <p className="text-sm text-ink-3">Sin variaciones disponibles.</p>;
+  if (!data.length) return <p className="text-sm text-ink-3">Sem variações disponíveis.</p>;
   return (
     <div>
       <div className="h-72 sm:h-96">
@@ -84,7 +84,7 @@ export function Heatmap({ positions }: { positions: Position[] }) {
           ))}
         </div>
         <span className="num">+{HEAT_CAP}%</span>
-        <span className="ml-2">Tamaño = valor de la posición</span>
+        <span className="ml-2">Tamanho = valor da posição</span>
       </div>
     </div>
   );

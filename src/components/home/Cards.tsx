@@ -41,14 +41,14 @@ export function AllocationCard({
   const focus = classes.find((c) => c.class === hover) ?? null;
   const cur = (c: ClassSummary) => (managedPct ? (managedPct[c.class] ?? null) : c.weight);
   const out = classes.filter((c) => managedPct && managedPct[c.class] === null).map((c) => c.label);
-  const outLabel = out.length > 1 ? `${out.slice(0, -1).join(", ")} ni ${out.at(-1)}` : (out[0] ?? "");
+  const outLabel = out.length > 1 ? `${out.slice(0, -1).join(", ")} e ${out.at(-1)}` : (out[0] ?? "");
   const max = Math.max(...classes.map((c) => Math.max(cur(c) ?? 0, targets?.allocation[c.class] ?? 0)), 1);
   return (
     <Card
       className={className}
-      title="Asignación"
-      subtitle={targets ? `Actual vs objetivo, sobre lo que manejan${outLabel ? ` (sin ${outLabel})` : ""}` : "Por clase"}
-      action={<MoreLink href="/activos">Ver activos</MoreLink>}
+      title="Alocação"
+      subtitle={targets ? `Atual x meta, sobre o que vocês administram${outLabel ? ` (sem ${outLabel})` : ""}` : "Por classe"}
+      action={<MoreLink href="/ativos">Ver ativos</MoreLink>}
     >
       <div className="grid items-center gap-6 sm:grid-cols-[180px_minmax(0,1fr)]">
         <div className="relative mx-auto h-[180px] w-[180px]">
@@ -77,7 +77,7 @@ export function AllocationCard({
             </PieChart>
           </ResponsiveContainer>
           <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
-            <div className="text-[11px] leading-tight text-ink-3">{focus ? focus.label : `${classes.length} clases`}</div>
+            <div className="text-[11px] leading-tight text-ink-3">{focus ? focus.label : `${classes.length} classes`}</div>
             <div className="num mt-0.5 text-lg font-semibold tracking-tight">{fmtBRLCompact(focus ? focus.value : total)}</div>
             {focus && <div className="num text-xs text-ink-2">{fmtPct(focus.weight, 1, false)}</div>}
           </div>
@@ -95,12 +95,12 @@ export function AllocationCard({
                 onMouseLeave={() => setHover(null)}
                 className={`rounded-lg transition ${hover && hover !== c.class ? "opacity-50" : ""}`}
               >
-                <Link href={`/activos#${c.class}`} className="block">
+                <Link href={`/ativos#${c.class}`} className="block">
                   <div className="flex items-baseline gap-2 text-[13px]">
                     <span className="h-2 w-2 shrink-0 translate-y-[-1px] rounded-full" style={{ background: classColor(c.class) }} />
                     <span className="min-w-0 flex-1 truncate">{c.label}</span>
                     {excluded ? (
-                      <span className="text-[11px] text-ink-3">fuera de objetivos · {fmtPct(c.weight, 1, false)} del total</span>
+                      <span className="text-[11px] text-ink-3">fora das metas · {fmtPct(c.weight, 1, false)} do total</span>
                     ) : (
                       <>
                         <span className="num font-semibold">{fmtPct(pct, 1, false)}</span>
@@ -112,7 +112,7 @@ export function AllocationCard({
                     <div className="relative mt-1.5 ml-4 h-1.5 rounded-full bg-surface-2">
                       <div className="absolute inset-y-0 left-0 rounded-full" style={{ width: `${((pct ?? 0) / max) * 100}%`, background: classColor(c.class) }} />
                       {target !== null && (
-                        <div className="absolute -top-1 -bottom-1 w-[2px] rounded bg-ink/70" style={{ left: `calc(${(target / max) * 100}% - 1px)` }} title={`Objetivo ${target}%`} />
+                        <div className="absolute -top-1 -bottom-1 w-[2px] rounded bg-ink/70" style={{ left: `calc(${(target / max) * 100}% - 1px)` }} title={`Meta ${target}%`} />
                       )}
                     </div>
                   )}
@@ -122,7 +122,7 @@ export function AllocationCard({
           })}
         </ul>
       </div>
-      {targets && <p className="mt-4 text-[11px] text-ink-3">La marca oscura indica el objetivo; en ámbar, las clases fuera de la tolerancia de ±{targets.tolerance_pct} p.p.</p>}
+      {targets && <p className="mt-4 text-[11px] text-ink-3">A marca escura indica a meta; em âmbar, as classes fora da tolerância de ±{targets.tolerance_pct} p.p.</p>}
     </Card>
   );
 }
@@ -136,14 +136,14 @@ export function MoversCard({ positions, className }: { positions: Position[]; cl
   return (
     <Card
       className={className}
-      title="Movimientos de hoy"
-      subtitle="Mayores variaciones de tus activos"
+      title="Movimentos de hoje"
+      subtitle="Maiores variações dos seus ativos"
       action={
         <Segmented
-          label="Dirección"
+          label="Direção"
           options={[
-            { id: "up", label: "Suben" },
-            { id: "down", label: "Bajan" },
+            { id: "up", label: "Altas" },
+            { id: "down", label: "Baixas" },
           ]}
           value={tab}
           onChange={setTab}
@@ -164,7 +164,7 @@ export function MoversCard({ positions, className }: { positions: Position[]; cl
           ))}
         </ul>
       ) : (
-        <p className="py-6 text-center text-sm text-ink-3">{tab === "up" ? "Ningún activo sube hoy." : "Ningún activo baja hoy."}</p>
+        <p className="py-6 text-center text-sm text-ink-3">{tab === "up" ? "Nenhum ativo sobe hoje." : "Nenhum ativo cai hoje."}</p>
       )}
     </Card>
   );
@@ -172,21 +172,21 @@ export function MoversCard({ positions, className }: { positions: Position[]; cl
 
 /* ---------------- Proventos ---------------- */
 
-const MONTHS = ["e", "f", "m", "a", "m", "j", "j", "a", "s", "o", "n", "d"];
+const MONTHS = ["j", "f", "m", "a", "m", "j", "j", "a", "s", "o", "n", "d"];
 
 export function IncomeCard({ received, className }: { received: ReceivedSummary | null; className?: string }) {
   if (!received) {
     return (
-      <Card className={className} title="Proventos" subtitle="Dividendos, JCP y rendimientos" action={<MoreLink href="/proventos">Importar</MoreLink>}>
+      <Card className={className} title="Proventos" subtitle="Dividendos, JCP e rendimentos" action={<MoreLink href="/proventos">Importar</MoreLink>}>
         <div className="flex h-full flex-col items-start justify-center gap-2 py-4 text-sm text-ink-2">
-          <p>Importá el extracto de Movimentação de B3 para ver lo que cobraste.</p>
+          <p>Importe o extrato de Movimentação da B3 para ver o que vocês receberam.</p>
         </div>
       </Card>
     );
   }
   const months = received.byMonth.slice(-6);
   return (
-    <Card className={className} title="Proventos" subtitle={received.firstDate ? `Datos desde ${fmtSince(received.firstDate)} · histórico ${fmtBRL(received.total)}` : undefined} action={<MoreLink href="/proventos">Ver todo</MoreLink>}>
+    <Card className={className} title="Proventos" subtitle={received.firstDate ? `Dados desde ${fmtSince(received.firstDate)} · histórico ${fmtBRL(received.total)}` : undefined} action={<MoreLink href="/proventos">Ver tudo</MoreLink>}>
       <div className="flex items-end justify-between gap-4">
         <div>
           <div className="text-xs text-ink-3">Últimos 12 meses</div>
@@ -236,7 +236,7 @@ export function IncomeCard({ received, className }: { received: ReceivedSummary 
 export function AlertsCard({ alerts, className }: { alerts: Alert[] | null; className?: string }) {
   const warnings = alerts?.filter((a) => a.level === "warning") ?? [];
   return (
-    <Card className={className} title="Alertas" subtitle="Concentración y desvío del objetivo" action={<MoreLink href="/alertas">Ver</MoreLink>}>
+    <Card className={className} title="Alertas" subtitle="Concentração e desvio da meta" action={<MoreLink href="/alertas">Ver</MoreLink>}>
       {!alerts ? (
         <div className="skeleton h-24" />
       ) : alerts.length === 0 ? (
@@ -244,15 +244,15 @@ export function AlertsCard({ alerts, className }: { alerts: Alert[] | null; clas
           <span className="flex h-7 w-7 items-center justify-center rounded-full bg-pos-bg text-pos">
             <Icon name="check" className="h-4 w-4" strokeWidth={2.4} />
           </span>
-          Todo dentro de los límites.
+          Tudo dentro dos limites.
         </div>
       ) : (
         <>
           <div className="flex items-baseline gap-2">
             <span className="num text-2xl font-semibold tracking-tight">{alerts.length}</span>
             <span className="text-sm text-ink-2">
-              activa{alerts.length > 1 ? "s" : ""}
-              {warnings.length ? ` · ${warnings.length} de concentración` : ""}
+              ativo{alerts.length > 1 ? "s" : ""}
+              {warnings.length ? ` · ${warnings.length} de concentração` : ""}
             </span>
           </div>
           <ul className="mt-3 space-y-2">

@@ -61,7 +61,7 @@ async function requestQuotes(tickers: string[], extra = ""): Promise<BrapiQuote[
     tags: extra ? [SLOW_TAG, "brapi-dividends"] : [QUOTES_TAG, "brapi"],
     headers: brapiHeaders(),
   });
-  if (json.error || !json.results) throw new Error(json.message ?? "Respuesta inválida de brapi");
+  if (json.error || !json.results) throw new Error(json.message ?? "Resposta inválida da brapi");
   return json.results;
 }
 
@@ -128,7 +128,7 @@ export const brapiProvider: PriceProvider = {
     const got = new Set(quotes.map((q) => q.ticker));
     const noPrice = tickers.filter((t) => !got.has(t) && !failed.some((f) => f.ticker === t));
     const errors = groupErrors("brapi", failed);
-    if (noPrice.length) errors.push({ provider: "brapi", message: "Sin cotización en la respuesta", tickers: noPrice });
+    if (noPrice.length) errors.push({ provider: "brapi", message: "Sem cotação na resposta", tickers: noPrice });
     return { quotes, errors };
   },
 };

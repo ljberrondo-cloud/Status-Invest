@@ -8,8 +8,8 @@ export type ReceivedType = "dividendo" | "jcp" | "rendimento" | "outro";
 export const RECEIVED_LABELS: Record<ReceivedType, string> = {
   dividendo: "Dividendos",
   jcp: "JCP",
-  rendimento: "Rendimientos (FII y ETF)",
-  outro: "Otros",
+  rendimento: "Rendimentos (FII e ETF)",
+  outro: "Outros",
 };
 
 export interface ReceivedPayment {

@@ -12,11 +12,11 @@ import type { HistoryPoint, Targets } from "@/lib/types";
 import type { ReceivedSummary } from "@/lib/received";
 
 const today = () => {
-  const s = new Intl.DateTimeFormat("es-AR", { timeZone: "America/Sao_Paulo", weekday: "long", day: "numeric", month: "long" }).format(new Date());
+  const s = new Intl.DateTimeFormat("pt-BR", { timeZone: "America/Sao_Paulo", weekday: "long", day: "numeric", month: "long" }).format(new Date());
   return s.charAt(0).toUpperCase() + s.slice(1);
 };
 
-export default function Resumen() {
+export default function Resumo() {
   const { data, error } = usePortfolio();
   const history = useJson<{ history: HistoryPoint[] }>("/api/history");
   const received = useJson<{ imported: boolean; summary?: ReceivedSummary }>("/api/received");
@@ -30,9 +30,9 @@ export default function Resumen() {
     <div className="space-y-5 lg:space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight sm:text-[28px]">Resumen</h1>
+          <h1 className="text-2xl font-semibold tracking-tight sm:text-[28px]">Resumo</h1>
           <p className="mt-1 text-sm text-ink-3">
-            {today()} · {data.positions.length} activos
+            {today()} · {data.positions.length} ativos
           </p>
         </div>
         <MarketClock className="w-full sm:w-auto sm:min-w-[540px]" />
@@ -40,7 +40,7 @@ export default function Resumen() {
 
       {data.missing.length > 0 && (
         <p className="rounded-xl bg-neg-bg px-4 py-2.5 text-sm text-neg">
-          {data.missing.length} activo{data.missing.length > 1 ? "s" : ""} sin cotización quedan fuera del total ({data.missing.slice(0, 4).join(", ")}
+          {data.missing.length} ativo{data.missing.length > 1 ? "s" : ""} sem cotação {data.missing.length > 1 ? "ficam" : "fica"} fora do total ({data.missing.slice(0, 4).join(", ")}
           {data.missing.length > 4 ? "…" : ""}).
         </p>
       )}
@@ -60,12 +60,12 @@ export default function Resumen() {
         <MoversCard positions={data.positions} className="lg:col-span-5" />
         <IncomeCard received={rec} className="lg:col-span-7" />
         <AlertsCard alerts={alerts.data?.alerts ?? null} className="lg:col-span-5" />
-        <Card title="Mapa de calor" subtitle="Variación del día · el tamaño es el valor de cada posición" className="lg:col-span-12">
+        <Card title="Mapa de calor" subtitle="Variação do dia · o tamanho é o valor de cada posição" className="lg:col-span-12">
           <Heatmap positions={data.positions} />
         </Card>
       </div>
       <p className="pb-2 text-center text-[11px] text-ink-3">
-        Precios: brapi (B3), CoinGecko, Tesouro Transparente y Banco Central. Valores manuales: Zurich y FGTS.
+        Preços: brapi (B3), CoinGecko, Tesouro Transparente e Banco Central. Valores manuais: Zurich e FGTS.
       </p>
     </div>
   );

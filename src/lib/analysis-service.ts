@@ -119,7 +119,7 @@ export async function getAnalysis(): Promise<AnalysisResponse> {
       pe: h?.pe ?? null,
       dy: income.dy,
       spark: downsample(closes),
-      period: h ? (h.source === "coingecko" ? "1 año" : "3 meses") : null,
+      period: h ? (h.source === "coingecko" ? "1 ano" : "3 meses") : null,
       asOf: h?.closes.at(-1)?.date ?? null,
     };
   });

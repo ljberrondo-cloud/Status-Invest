@@ -2,13 +2,13 @@ export const ASSET_CLASSES = ["acciones", "fiis", "etfs", "cripto", "tesouro", "
 export type AssetClass = (typeof ASSET_CLASSES)[number];
 
 export const CLASS_LABELS: Record<AssetClass, string> = {
-  acciones: "Acciones Brasil",
-  fiis: "Fondos Inmobiliarios",
+  acciones: "Ações Brasil",
+  fiis: "Fundos Imobiliários",
   etfs: "ETFs",
-  cripto: "Criptomonedas",
-  tesouro: "Tesouro Directo",
-  renta_fija: "Renta fija",
-  fondos: "Previdencia",
+  cripto: "Criptomoedas",
+  tesouro: "Tesouro Direto",
+  renta_fija: "Renda fixa",
+  fondos: "Previdência",
   otros: "FGTS",
 };
 

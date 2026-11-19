@@ -25,7 +25,7 @@ const pts = new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 0 });
 
 function Tile({ m, q }: { m: MarketState; q?: IndexQuote }) {
   const open = m.status === "open";
-  const status = open ? "Abierta" : m.closedReason?.startsWith("Feriado") ? "Feriado" : "Cerrada";
+  const status = open ? "Aberta" : m.closedReason?.startsWith("Feriado") ? "Feriado" : "Fechada";
   return (
     <div className="min-w-0 rounded-xl border border-line bg-surface px-3 py-2.5 shadow-[var(--shadow)]" title={`${m.exchange} · ${m.city} · hora local ${m.localTime}${m.closedReason ? ` · ${m.closedReason}` : ""}`}>
       <div className="flex items-center justify-between gap-2">
@@ -45,7 +45,7 @@ function Tile({ m, q }: { m: MarketState; q?: IndexQuote }) {
         {m.next}
       </div>
       <div className="text-[11px] leading-4 text-ink-3">
-        {m.hoursHome} <span className="hidden sm:inline">hora BR</span>
+        {m.hoursHome} <span className="hidden sm:inline">horário BR</span>
       </div>
     </div>
   );

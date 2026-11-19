@@ -39,7 +39,7 @@ export function parseRelatorio(sheets: Sheet[], fileName: string): { kind: "rela
   }
 
   const year = yearFromName(fileName);
-  if (!year) throw new Error("No se pudo saber de qué año es el relatório anual (el nombre del archivo debe incluir el año)");
+  if (!year) throw new Error("Não foi possível saber de que ano é o relatório anual (o nome do arquivo deve incluir o ano)");
   const payments: ReceivedPayment[] = [];
   for (const r of rows) {
     const label = String(r["Tipo de Evento"] ?? "").trim();

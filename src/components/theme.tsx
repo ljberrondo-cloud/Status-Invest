@@ -38,9 +38,9 @@ export function useTheme() {
 }
 
 const OPTIONS: { id: ThemeChoice; label: string; icon: string }[] = [
-  { id: "auto", label: "Automático (según el dispositivo)", icon: "M12 3a9 9 0 1 0 0 18zM12 3a9 9 0 0 1 0 18" },
+  { id: "auto", label: "Automático (conforme o aparelho)", icon: "M12 3a9 9 0 1 0 0 18zM12 3a9 9 0 0 1 0 18" },
   { id: "light", label: "Claro", icon: "M12 4V2m0 20v-2m8-8h2M2 12h2m13.7-5.7 1.4-1.4M4.9 19.1l1.4-1.4m0-11.4L4.9 4.9m14.2 14.2-1.4-1.4M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10z" },
-  { id: "dark", label: "Oscuro", icon: "M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z" },
+  { id: "dark", label: "Escuro", icon: "M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z" },
 ];
 
 /** Selector Auto / Claro / Oscuro. */
@@ -54,7 +54,7 @@ export function ThemeToggle({ compact = false }: { compact?: boolean }) {
     return (
       <button
         onClick={() => setTheme(next.id)}
-        aria-label={`Tema: ${cur.label}. Cambiar a ${next.label}`}
+        aria-label={`Tema: ${cur.label}. Mudar para ${next.label}`}
         className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-line bg-surface text-ink shadow-[var(--shadow)]"
       >
         <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>

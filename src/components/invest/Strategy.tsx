@@ -29,37 +29,37 @@ export function Strategy({ data, targets, monthly }: { data: PortfolioResponse; 
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="text-xl font-semibold tracking-tight">Estrategia y balance</h2>
-        <p className="mt-1 text-sm text-ink-3">Diagnóstico con tus números de hoy y qué haría para equilibrar la cartera, incluidos activos que todavía no tienen.</p>
+        <h2 className="text-xl font-semibold tracking-tight">Estratégia e equilíbrio</h2>
+        <p className="mt-1 text-sm text-ink-3">Diagnóstico com os números de hoje e o que eu faria para equilibrar a carteira, incluindo ativos que vocês ainda não têm.</p>
       </div>
 
       {/* Diagnóstico en vivo */}
       <Card title="Diagnóstico">
         <dl className="grid grid-cols-2 gap-x-6 gap-y-4 text-sm sm:grid-cols-4">
           <div>
-            <dt className="text-xs text-ink-3">No se puede mover libremente</dt>
+            <dt className="text-xs text-ink-3">Não pode ser movido livremente</dt>
             <dd className="num mt-1 text-lg font-semibold">{fmtPct(d.lockedPct, 0, false)}</dd>
-            <dd className="text-[11px] text-ink-3">previdencia {fmtPct(d.previdenciaPct, 0, false)} · FGTS {fmtPct(d.fgtsPct, 0, false)}</dd>
+            <dd className="text-[11px] text-ink-3">previdência {fmtPct(d.previdenciaPct, 0, false)} · FGTS {fmtPct(d.fgtsPct, 0, false)}</dd>
           </div>
           <div>
-            <dt className="text-xs text-ink-3">Mayor posición</dt>
+            <dt className="text-xs text-ink-3">Maior posição</dt>
             <dd className="num mt-1 text-lg font-semibold">{d.topAsset ? fmtPct(d.topAsset.pct, 0, false) : "—"}</dd>
             <dd className="truncate text-[11px] text-ink-3">{d.topAsset?.name ?? d.topAsset?.ticker}</dd>
           </div>
           <div>
-            <dt className="text-xs text-ink-3">Exposición a dólar</dt>
+            <dt className="text-xs text-ink-3">Exposição ao dólar</dt>
             <dd className="num mt-1 text-lg font-semibold">{fmtPct(d.foreignPct, 0, false)}</dd>
-            <dd className="text-[11px] text-ink-3">ETFs internacionales + cripto</dd>
+            <dd className="text-[11px] text-ink-3">ETFs internacionais + cripto</dd>
           </div>
           <div>
-            <dt className="text-xs text-ink-3">Cripto en altcoins</dt>
+            <dt className="text-xs text-ink-3">Cripto em altcoins</dt>
             <dd className="num mt-1 text-lg font-semibold">{fmtPct(d.altcoinShareOfCrypto, 0, false)}</dd>
-            <dd className="text-[11px] text-ink-3">del cripto (fuera de BTC/ETH)</dd>
+            <dd className="text-[11px] text-ink-3">do cripto (fora BTC/ETH)</dd>
           </div>
         </dl>
         {d.under.length > 0 && (
           <div className="mt-5 border-t border-line pt-4 text-sm">
-            <div className="text-xs font-medium text-ink-2">Para llegar a los objetivos sin vender</div>
+            <div className="text-xs font-medium text-ink-2">Para chegar às metas sem vender</div>
             <ul className="mt-2 space-y-1.5">
               {d.under.map((u) => (
                 <li key={u.label} className="flex items-baseline justify-between gap-3">
@@ -75,61 +75,61 @@ export function Strategy({ data, targets, monthly }: { data: PortfolioResponse; 
             </ul>
             {monthly > 0 && Number.isFinite(months) && (
               <p className="mt-3 text-xs text-ink-3">
-                Con {fmtBRL(monthly)} por mes entre los dos, completar todo lleva unos <b className="text-ink-2">{months} meses</b> (sin contar lo que se mueven los precios).
+                Com {fmtBRL(monthly)} por mês entre os dois, completar tudo leva cerca de <b className="text-ink-2">{months} meses</b> (sem contar a oscilação dos preços).
               </p>
             )}
           </div>
         )}
         {d.over.length > 0 && (
           <p className="mt-3 text-xs text-ink-3">
-            Por encima del objetivo: {d.over.map((o) => `${o.label} (${fmtPct(o.currentPct, 1, false)} vs ${fmtPct(o.targetPct, 0, false)})`).join(", ")}. No hace falta vender: alcanza con dejar de aportarles.
+            Acima da meta: {d.over.map((o) => `${o.label} (${fmtPct(o.currentPct, 1, false)} x ${fmtPct(o.targetPct, 0, false)})`).join(", ")}. Não precisa vender: basta parar de aportar nelas.
           </p>
         )}
       </Card>
 
       {/* Recomendaciones */}
       <ol className="space-y-4">
-        <Rec n={1} title="Aprovechar los juros reales altos, por más tiempo" tag="Renta fija · prioridad alta" tone="warn">
+        <Rec n={1} title="Aproveitar os juros reais altos, por mais tempo" tag="Renda fixa · prioridade alta" tone="warn">
           <p>
-            Al {AS_OF} el Tesouro IPCA+ paga <b>IPCA + 7,89% en 2035</b> y <b>IPCA + 7,61% en 2045</b>, con la Selic en 13,75% y el IPCA en 4,63%. Tasas reales cercanas a 8% son
-            excepcionales en la historia de Brasil: fijarlas por muchos años es de las mejores decisiones de largo plazo disponibles hoy.
+            Em {AS_OF} o Tesouro IPCA+ paga <b>IPCA + 7,89% em 2035</b> e <b>IPCA + 7,61% em 2045</b>, com a Selic em 13,75% e o IPCA em 4,63%. Juros reais perto de 8% são
+            excepcionais na história do Brasil: travá-los por muitos anos é uma das melhores decisões de longo prazo disponíveis hoje.
           </p>
           <p>
-            El IPCA+ 2029 es la mayor posición de renta fija, pero vence en 2029: después vas a reinvertir a la tasa que haya entonces. Para los aportes nuevos al Tesouro
-            conviene <b>alargar el plazo con IPCA+ 2035</b> (y una parte en 2045 si es plata para la jubilación), formando una escalera de vencimientos. Llevalos hasta el
-            vencimiento: en el camino el precio sube y baja (marcação a mercado), pero al final se cobra la tasa contratada.
+            O IPCA+ 2029 é a maior posição de renda fixa, mas vence em 2029: depois vocês vão reinvestir à taxa que houver na época. Para os novos aportes no Tesouro
+            vale <b>alongar o prazo com IPCA+ 2035</b> (e uma parte em 2045 se for dinheiro para a aposentadoria), formando uma escada de vencimentos. Levem até o
+            vencimento: no caminho o preço sobe e desce (marcação a mercado), mas no final recebe-se a taxa contratada.
           </p>
           <p>
-            Si creés que la Selic va a bajar, el <b>Tesouro Prefixado 2031/2032 (~15,3% al año)</b> gana más que el CDI en ese escenario; si la inflación sorprende, pierde. Una
-            parte chica, como complemento.
-          </p>
-        </Rec>
-
-        <Rec n={2} title="Primero, la reserva de emergencia" tag="Liquidez">
-          <p>
-            Antes de sumar riesgo, tengan <b>6 meses de gastos de la familia</b> en algo que se pueda rescatar en el día: Tesouro Selic o un CDB con liquidez diaria de 100% del
-            CDI o más. Hoy tienen {fmtBRL(data.positions.find((p) => p.asset.class === "tesouro" && p.asset.ticker.startsWith("SELIC"))?.value ?? 0)} en Tesouro Selic y{" "}
-            {fmtBRL(data.byClass.find((c) => c.class === "renta_fija")?.value ?? 0)} en CDB. Si eso no cubre 6 meses, completar la reserva va antes que cualquier otra compra.
+            Se vocês acham que a Selic vai cair, o <b>Tesouro Prefixado 2031/2032 (~15,3% ao ano)</b> ganha do CDI nesse cenário; se a inflação surpreender, perde. Uma
+            parte pequena, como complemento.
           </p>
         </Rec>
 
-        <Rec n={3} title="Objetivos sobre lo que manejan" tag="Planificación" tone="accent">
+        <Rec n={2} title="Primeiro, a reserva de emergência" tag="Liquidez">
           <p>
-            La previdencia de empresa (<b>{fmtPct(d.previdenciaPct, 0, false)}</b>) y el FGTS (<b>{fmtPct(d.fgtsPct, 0, false)}</b>) cuentan como patrimonio, pero no los pueden
-            mover: por eso los objetivos se miden sólo sobre lo que realmente deciden (~{fmtBRL(investable)}). Hoy esos objetivos son los de Investidor10 repartidos sobre esa
-            parte. Una distribución más equilibrada, con los juros de hoy:
+            Antes de somar risco, tenham <b>6 meses de gastos da família</b> em algo que dê para resgatar no mesmo dia: Tesouro Selic ou um CDB com liquidez diária de 100% do
+            CDI ou mais. Hoje vocês têm {fmtBRL(data.positions.find((p) => p.asset.class === "tesouro" && p.asset.ticker.startsWith("SELIC"))?.value ?? 0)} no Tesouro Selic e{" "}
+            {fmtBRL(data.byClass.find((c) => c.class === "renta_fija")?.value ?? 0)} em CDB. Se isso não cobre 6 meses, completar a reserva vem antes de qualquer outra compra.
+          </p>
+        </Rec>
+
+        <Rec n={3} title="Metas sobre o que vocês administram" tag="Planejamento" tone="accent">
+          <p>
+            A previdência da empresa (<b>{fmtPct(d.previdenciaPct, 0, false)}</b>) e o FGTS (<b>{fmtPct(d.fgtsPct, 0, false)}</b>) contam como patrimônio, mas vocês não podem
+            movê-los: por isso as metas são medidas só sobre o que vocês realmente decidem (~{fmtBRL(investable)}). Hoje essas metas são as do Investidor10 distribuídas sobre essa
+            parte. Uma distribuição mais equilibrada, com os juros de hoje:
           </p>
           <div className="overflow-x-auto">
             <table className="mt-1 w-full max-w-md text-sm">
               <tbody className="divide-y divide-line">
                 {[
                   ["Tesouro IPCA+ largo (2035/2045)", "25%"],
-                  ["Reserva y renta fija (Selic, CDB, LCI/LCA)", "20%"],
-                  ["Acciones Brasil", "15%"],
-                  ["Internacional (ETFs en dólar)", "15%"],
+                  ["Reserva e renda fixa (Selic, CDB, LCI/LCA)", "20%"],
+                  ["Ações Brasil", "15%"],
+                  ["Internacional (ETFs em dólar)", "15%"],
                   ["FIIs", "15%"],
-                  ["Cripto (BTC y ETH)", "5%"],
-                  ["Oro", "5%"],
+                  ["Cripto (BTC e ETH)", "5%"],
+                  ["Ouro", "5%"],
                 ].map(([k, v]) => (
                   <tr key={k}>
                     <td className="py-1.5 pr-4">{k}</td>
@@ -139,84 +139,84 @@ export function Strategy({ data, targets, monthly }: { data: PortfolioResponse; 
               </tbody>
             </table>
           </div>
-          <p className="text-xs text-ink-3">Si les sirve, la cargo como objetivo de la app y las alertas y recomendaciones se recalculan solas.</p>
+          <p className="text-xs text-ink-3">Se fizer sentido, eu configuro como meta do app e os alertas e recomendações são recalculados sozinhos.</p>
         </Rec>
 
-        <Rec n={4} title="Previdencia de empresa: aprovechar la contrapartida" tag="Previdencia">
+        <Rec n={4} title="Previdência da empresa: aproveitar a contrapartida" tag="Previdência">
           <p>
-            Es la inversión con mejor retorno garantizado que tienen: en la mayoría de los planes corporativos la empresa <b>aporta un monto igual o proporcional</b> al del
-            empleado (contrapartida). Por eso conviene <b>aportar como mínimo lo necesario para recibir el máximo de la empresa</b> antes que cualquier otra inversión.
+            É o investimento com melhor retorno garantido que vocês têm: na maioria dos planos corporativos a empresa <b>aporta um valor igual ou proporcional</b> ao do
+            funcionário (contrapartida). Por isso vale <b>aportar no mínimo o necessário para receber o máximo da empresa</b> antes de qualquer outro investimento.
           </p>
           <p>
-            Revisen en el reglamento del plan: el porcentaje de contrapartida, el <b>vesting</b> (qué parte de lo que puso la empresa es suya si cambia de trabajo), si el
-            régimen de IR es <b>regresivo</b> (baja hasta 10% después de 10 años) y, si es <b>PGBL</b>, que los aportes descuentan hasta 12% de la renta bruta en la declaración
-            completa. Al dejar la empresa, el saldo se puede llevar a otro plan por <b>portabilidad</b>, sin pagar impuesto.
-          </p>
-        </Rec>
-
-        <Rec n={5} title="Cripto: núcleo en BTC y ETH, sin promediar altcoins" tag="Cripto" tone="warn">
-          <p>
-            {fmtPct(d.altcoinShareOfCrypto, 0, false)} de lo que tienen en cripto está en altcoins (SOL, DOGE, DOT, AVAX), con caídas de 70% a 94% sobre el precio de compra.
-            Las altcoins pueden no recuperarse nunca; BTC y, en menor medida, ETH son las que tienen más historia y liquidez. Por eso en la recomendación mensual{" "}
-            <b>los aportes de cripto van sólo a BTC (70%) y ETH (30%)</b>.
-          </p>
-          <p>
-            Para el total: <b>5% a 10% del patrimonio como máximo</b>. Consolidar de a poco las altcoins en BTC es razonable; antes de vender, verifiquen las reglas de impuesto
-            sobre cripto vigentes en Brasil, que cambiaron en los últimos años.
+            Confiram no regulamento do plano: o percentual de contrapartida, o <b>vesting</b> (que parte do que a empresa aportou fica com vocês ao trocar de emprego), se o
+            regime de IR é <b>regressivo</b> (cai até 10% depois de 10 anos) e, se for <b>PGBL</b>, que os aportes deduzem até 12% da renda bruta na declaração
+            completa. Ao sair da empresa, o saldo pode ir para outro plano por <b>portabilidade</b>, sem pagar imposto.
           </p>
         </Rec>
 
-        <Rec n={6} title="Más diversificación en dólar" tag="Internacional">
+        <Rec n={5} title="Cripto: núcleo em BTC e ETH, sem fazer preço médio em altcoins" tag="Cripto" tone="warn">
           <p>
-            Sólo <b>{fmtPct(d.foreignPct, 0, false)}</b> del patrimonio está en dólar (ETFs + cripto). Para una familia que vive en reales, entre 15% y 25% afuera protege contra
-            devaluaciones y crisis locales. El núcleo más eficiente es <b>IVVB11</b> (S&amp;P 500, de los más baratos). <b>SPYI11 y QQQI11</b> venden opciones para pagar
-            rendimientos mensuales: dan más renta pero menos suba en mercados alcistas; para crecimiento de largo plazo, priorizar IVVB11. Para ampliar más allá de EE. UU.:
-            ETFs de Nasdaq (NASD11), de Europa o emergentes, o BDRs de ETFs globales.
+            {fmtPct(d.altcoinShareOfCrypto, 0, false)} do que vocês têm em cripto está em altcoins (SOL, DOGE, DOT, AVAX), com quedas de 70% a 94% sobre o preço de compra.
+            As altcoins podem nunca se recuperar; BTC e, em menor grau, ETH são as que têm mais histórico e liquidez. Por isso, na recomendação mensal{" "}
+            <b>os aportes em cripto vão só para BTC (70%) e ETH (30%)</b>.
+          </p>
+          <p>
+            No total: <b>5% a 10% do patrimônio no máximo</b>. Consolidar aos poucos as altcoins em BTC é razoável; antes de vender, confiram as regras de imposto
+            sobre cripto vigentes no Brasil, que mudaram nos últimos anos.
           </p>
         </Rec>
 
-        <Rec n={7} title="Acciones Brasil: completar con calidad, no con cantidad" tag="Renda variável">
+        <Rec n={6} title="Mais diversificação em dólar" tag="Internacional">
           <p>
-            Están en {fmtPct(data.byClass.find((c) => c.class === "acciones")?.weight ?? 0, 1, false)} contra 10% de objetivo, repartidas en{" "}
-            {data.byClass.find((c) => c.class === "acciones")?.count ?? 0} posiciones chicas. Con la Selic alta la bolsa suele cotizar barata, lo que favorece comprar de a poco.
-            Mejor reforzar las de mayor calidad y buenos dividendos que sumar nombres nuevos; o simplificar con un ETF amplio como <b>BOVA11</b> (Ibovespa) o <b>SMAL11</b>{" "}
-            (small caps, más riesgo y más potencial).
+            Só <b>{fmtPct(d.foreignPct, 0, false)}</b> do patrimônio está em dólar (ETFs + cripto). Para uma família que vive em reais, entre 15% e 25% fora protege contra
+            desvalorizações e crises locais. O núcleo mais eficiente é o <b>IVVB11</b> (S&amp;P 500, um dos mais baratos). <b>SPYI11 e QQQI11</b> vendem opções para pagar
+            rendimentos mensais: dão mais renda, mas sobem menos em mercados de alta; para crescimento de longo prazo, priorizar IVVB11. Para ir além dos EUA:
+            ETFs de Nasdaq (NASD11), da Europa ou de emergentes, ou BDRs de ETFs globais.
           </p>
         </Rec>
 
-        <Rec n={8} title="FIIs: pausar aportes y reinvertir afuera" tag="FIIs">
+        <Rec n={7} title="Ações Brasil: completar com qualidade, não com quantidade" tag="Renda variável">
           <p>
-            Están por encima del objetivo. Los rendimientos de FIIs son mensuales y exentos de IR: úsenlos para completar las clases atrasadas en vez de recomprar FIIs.
-            Revisen la tesis de los que más cayeron
+            Estão em {fmtPct(data.byClass.find((c) => c.class === "acciones")?.weight ?? 0, 1, false)} contra 10% de meta, divididas em{" "}
+            {data.byClass.find((c) => c.class === "acciones")?.count ?? 0} posições pequenas. Com a Selic alta a bolsa costuma estar barata, o que favorece comprar aos poucos.
+            Melhor reforçar as de maior qualidade e bons dividendos do que somar nomes novos; ou simplificar com um ETF amplo como <b>BOVA11</b> (Ibovespa) ou <b>SMAL11</b>{" "}
+            (small caps, mais risco e mais potencial).
+          </p>
+        </Rec>
+
+        <Rec n={8} title="FIIs: pausar aportes e reinvestir em outras classes" tag="FIIs">
+          <p>
+            Estão acima da meta. Os rendimentos de FIIs são mensais e isentos de IR: usem-nos para completar as classes atrasadas em vez de recomprar FIIs.
+            Revisem a tese dos que mais caíram
             {d.worst.filter((w) => w.ticker.endsWith("11") && !["IVVB11", "SPYI11", "QQQI11"].includes(w.ticker)).length
               ? ` (${d.worst
                   .filter((w) => w.ticker.endsWith("11") && !["IVVB11", "SPYI11", "QQQI11"].includes(w.ticker))
                   .map((w) => `${w.ticker} ${fmtPct(w.gainPct, 0)}`)
                   .join(", ")})`
               : ""}
-            : un FII de desarrollo o de recebíveis con problemas no se recupera sólo con el tiempo. Los fondos de fondos (como HFOF11) suman una capa de costos.
+            : um FII de desenvolvimento ou de recebíveis com problemas não se recupera só com o tempo. Os fundos de fundos (como HFOF11) somam uma camada de custos.
           </p>
         </Rec>
 
-        <Rec n={9} title="Oro como seguro de cartera" tag="Activo nuevo">
+        <Rec n={9} title="Ouro como seguro da carteira" tag="Ativo novo">
           <p>
-            Un <b>3% a 5% en oro</b> (por ejemplo, el ETF <b>GOLD11</b>) suele subir cuando todo lo demás cae y protege en crisis y devaluaciones. No paga renta: es un seguro,
-            no una fuente de ingresos.
+            Uns <b>3% a 5% em ouro</b> (por exemplo, o ETF <b>GOLD11</b>) costuma subir quando todo o resto cai e protege em crises e desvalorizações. Não paga renda: é um seguro,
+            não uma fonte de renda.
           </p>
         </Rec>
 
-        <Rec n={10} title="Renta fija privada exenta de IR" tag="Renta fija">
+        <Rec n={10} title="Renda fixa privada isenta de IR" tag="Renda fixa">
           <p>
-            Para completar la renta fija: <b>LCI y LCA</b> son exentas de IR para personas físicas, y <b>CDBs</b> de bancos sólidos pagan más que el CDI en plazos largos. Todos
-            tienen garantía del <b>FGC hasta R$ 250 mil por CPF por institución</b>: si los dos invierten, cada uno tiene su propio límite.
+            Para completar a renda fixa: <b>LCI e LCA</b> são isentas de IR para pessoa física, e <b>CDBs</b> de bancos sólidos pagam mais que o CDI em prazos longos. Todos
+            têm garantia do <b>FGC de até R$ 250 mil por CPF por instituição</b>: se os dois investirem, cada um tem seu próprio limite.
           </p>
         </Rec>
       </ol>
 
       <p className="rounded-xl bg-surface-2 px-4 py-3 text-xs leading-relaxed text-ink-3">
-        Análisis educativo hecho con los datos de su cartera y principios de inversión de largo plazo; no reemplaza una recomendación personalizada de un asesor certificado (CEA,
-        CFP®) ni considera su situación fiscal completa. Tasas del Tesouro al {AS_OF}; el resto de los números se actualiza solo. Rentabilidades pasadas no garantizan las
-        futuras.
+        Análise educativa feita com os dados da carteira e princípios de investimento de longo prazo; não substitui a recomendação personalizada de um consultor certificado (CEA,
+        CFP®) nem considera a situação fiscal completa. Taxas do Tesouro em {AS_OF}; o resto dos números se atualiza sozinho. Rentabilidade passada não garante
+        rentabilidade futura.
       </p>
     </div>
   );

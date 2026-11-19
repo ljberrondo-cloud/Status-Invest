@@ -27,9 +27,9 @@ export default function Activos() {
   );
   const [query, setQuery] = useState("");
   const [view, setView] = useState<"clase" | "cuenta">("clase");
-  // /activos#cuentas abre directo la vista por cuenta
+  // /ativos#contas abre directo la vista por cuenta
   useEffect(() => {
-    const sync = () => window.location.hash === "#cuentas" && setView("cuenta");
+    const sync = () => window.location.hash === "#contas" && setView("cuenta");
     sync();
     window.addEventListener("hashchange", sync);
     return () => window.removeEventListener("hashchange", sync);
@@ -60,30 +60,30 @@ export default function Activos() {
 
   const metrics = [
     {
-      label: "Valor actual",
+      label: "Valor atual",
       value: fmtBRL(data.total),
       tone: null as number | null,
     },
-    { label: "Invertido", value: fmtBRL(data.invested), tone: null },
+    { label: "Investido", value: fmtBRL(data.invested), tone: null },
     {
-      label: "Ganancia de capital",
+      label: "Ganho de capital",
       value: fmtSignedBRL(data.gain),
       tone: data.gain,
     },
-    { label: "Variación", value: fmtPct(data.gainPct), tone: data.gainPct },
+    { label: "Variação", value: fmtPct(data.gainPct), tone: data.gainPct },
   ];
 
   return (
     <div className="space-y-5">
       <PageHeader
-        title="Activos"
+        title="Ativos"
         action={
           <Segmented
-            label="Vista"
+            label="Visão"
             size="md"
             options={[
-              { id: "clase", label: "Por clase" },
-              { id: "cuenta", label: "Por cuenta" },
+              { id: "clase", label: "Por classe" },
+              { id: "cuenta", label: "Por conta" },
             ]}
             value={view}
             onChange={setView}
@@ -91,18 +91,18 @@ export default function Activos() {
         }
         subtitle={
           <>
-            {data.positions.length} activos en {data.byClass.length} clases, de
-            mayor a menor valor
+            {data.positions.length} ativos em {data.byClass.length} classes, do
+            maior para o menor valor
             {data.positionsAsOf && (
               <span className="block text-xs">
-                Posiciones de B3 al{" "}
+                Posições da B3 em{" "}
                 {Object.entries(data.positionsAsOf)
                   .map(
                     ([id, d]) =>
                       `${isoToBr(d)} (${ACCOUNTS.find((a) => a.id === id)?.label ?? id})`,
                   )
                   .join(" · ")}
-                . Se actualizan al subir el relatório mensual de cada cuenta.
+                . São atualizadas ao enviar o relatório mensal de cada conta.
               </span>
             )}
           </>
@@ -130,7 +130,7 @@ export default function Activos() {
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Buscar activo"
+              placeholder="Buscar ativo"
               className="w-full bg-transparent outline-none placeholder:text-ink-3"
             />
           </label>
@@ -146,11 +146,11 @@ export default function Activos() {
       )}
       {view === "clase" && (
         <p className="text-[11px] leading-relaxed text-ink-3">
-          <b>Variación</b>: precio actual vs precio medio. <b>Rentab.</b>:
-          ganancia de capital + proventos recibidos (importados de B3), sobre lo
-          invertido. <b>Ideal</b>: objetivo de la clase ÷ cantidad de activos;{" "}
-          <b>Comprar</b> marca los que pesan menos que su ideal. * Precio medio
-          estimado a partir de la variación informada por Investidor10.
+          <b>Variação</b>: preço atual x preço médio. <b>Rentab.</b>:
+          ganho de capital + proventos recebidos (importados da B3), sobre o
+          investido. <b>Ideal</b>: meta da classe ÷ quantidade de ativos;{" "}
+          <b>Comprar</b> marca os que pesam menos que o ideal. * Preço médio
+          estimado a partir da variação informada pelo Investidor10.
         </p>
       )}
     </div>

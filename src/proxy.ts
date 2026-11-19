@@ -10,7 +10,7 @@ export async function proxy(req: NextRequest) {
   if (cookie && safeEqual(cookie, await authToken(password))) return NextResponse.next();
 
   if (req.nextUrl.pathname.startsWith("/api/")) {
-    return NextResponse.json({ error: "Necesitás ingresar la contraseña" }, { status: 401 });
+    return NextResponse.json({ error: "É preciso digitar a senha" }, { status: 401 });
   }
   const url = req.nextUrl.clone();
   url.pathname = "/login";

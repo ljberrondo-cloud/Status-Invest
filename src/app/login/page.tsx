@@ -18,7 +18,7 @@ export default function Login() {
       window.location.assign(j.next ?? "/");
       return;
     }
-    setError(j.error ?? "No se pudo ingresar");
+    setError(j.error ?? "Não foi possível entrar");
     setBusy(false);
   }
 
@@ -32,12 +32,12 @@ export default function Login() {
             </svg>
           </span>
           <div className="leading-tight">
-            <div className="font-semibold tracking-tight">Cartera de inversiones</div>
+            <div className="font-semibold tracking-tight">Carteira de investimentos</div>
             <div className="text-sm text-ink-3">2026</div>
           </div>
         </div>
         <label htmlFor="pw" className="mt-7 block text-sm font-medium">
-          Contraseña
+          Senha
         </label>
         <input
           id="pw"
@@ -58,9 +58,9 @@ export default function Login() {
           disabled={busy || !password}
           className="mt-5 w-full rounded-xl bg-ink py-2.5 text-sm font-semibold text-bg transition hover:opacity-90 disabled:opacity-50"
         >
-          {busy ? "Ingresando…" : "Entrar"}
+          {busy ? "Entrando…" : "Entrar"}
         </button>
-        <p className="mt-4 text-center text-xs text-ink-3">Queda recordada en este dispositivo.</p>
+        <p className="mt-4 text-center text-xs text-ink-3">Fica lembrada neste aparelho.</p>
       </form>
     </div>
   );

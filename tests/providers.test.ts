@@ -159,7 +159,7 @@ describe("inflación EE.UU. y Argentina", () => {
     const r = mapArgentina([{ fecha: "2026-10-31", valor: 2.2 }], [{ fecha: "2026-09-30", valor: 33.4 }, { fecha: "2026-10-31", valor: 33.1 }]);
     expect(r).toEqual([
       { id: "ipcAr12m", label: "Argentina", value: 33.1, unit: "% 12m", date: "2026-10-01" },
-      { id: "ipcArMes", label: "Argentina mes", value: 2.2, unit: "% mes", date: "2026-10-01" },
+      { id: "ipcArMes", label: "Argentina mês", value: 2.2, unit: "% mes", date: "2026-10-01" },
     ]);
   });
 });

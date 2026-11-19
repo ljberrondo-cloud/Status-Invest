@@ -31,7 +31,7 @@ export function DividendCalendar() {
     <div className="space-y-4">
       <div className="flex flex-wrap items-end justify-between gap-3 pt-1">
         <div>
-          <div className="text-sm text-ink-3">Próximos proventos {range === "week" ? "esta semana" : "en 30 días"} (estimado)</div>
+          <div className="text-sm text-ink-3">Próximos proventos {range === "week" ? "nesta semana" : "em 30 dias"} (estimado)</div>
           {data ? <div className="num text-3xl font-semibold tracking-tight">{planError || allFailed ? "—" : fmtBRL(data.total)}</div> : <Skeleton className="mt-1 h-9 w-48" />}
           {data && (
             <div className="mt-1 text-xs text-ink-3">
@@ -46,7 +46,7 @@ export function DividendCalendar() {
               onClick={() => setRange(r)}
               className={`rounded-full px-3 py-1 text-xs ${range === r ? "bg-surface font-medium text-ink shadow-sm" : "text-ink-3"}`}
             >
-              {r === "week" ? "Semana" : "30 días"}
+              {r === "week" ? "Semana" : "30 dias"}
             </button>
           ))}
         </div>
@@ -55,21 +55,21 @@ export function DividendCalendar() {
       {error && !data && <ErrorState message={error.message} />}
       {planError && (
         <div className="rounded-xl bg-warn-bg px-4 py-3 text-sm text-warn">
-          <p className="font-medium">Tu plan de brapi no incluye proventos</p>
+          <p className="font-medium">Seu plano da brapi não inclui proventos</p>
           <p className="mt-1 text-xs">
-            El calendario de dividendos y JCP requiere el plan Startup de brapi. Si lo contratás, esta pantalla se completa sola con el mismo
-            token; no hace falta cambiar nada en la app.
+            O calendário de dividendos e JCP exige o plano Startup da brapi. Se você contratar, esta tela se completa sozinha com o mesmo
+            token; não precisa mudar nada no app.
           </p>
         </div>
       )}
-      {data && !planError && <ProviderErrors errors={data.errors} summary={`No se pudieron consultar los proventos de ${data.errors.reduce((s, e) => s + e.tickers.length, 0)} activos.`} />}
+      {data && !planError && <ProviderErrors errors={data.errors} summary={`Não foi possível consultar os proventos de ${data.errors.reduce((s, e) => s + e.tickers.length, 0)} ativos.`} />}
 
       {isLoading && !data ? (
         <Skeleton className="h-64" />
       ) : data && byDay.size === 0 ? (
         <Card>
           <p className="py-8 text-center text-sm text-ink-3">
-            {planError ? "Sin datos de proventos con el plan actual." : allFailed ? "No se pudo consultar el calendario de proventos (ver detalle arriba)." : "No hay data com ni pagos en este período."}
+            {planError ? "Sem dados de proventos no plano atual." : allFailed ? "Não foi possível consultar o calendário de proventos (veja o detalhe acima)." : "Não há data com nem pagamentos neste período."}
           </p>
         </Card>
       ) : (
@@ -84,12 +84,12 @@ export function DividendCalendar() {
                       <div className="flex items-center gap-2">
                         <span className="font-medium">{r.ticker}</span>
                         <span className="rounded bg-surface-2 px-1.5 py-0.5 text-[11px] text-ink-3">{LABELS[r.label] ?? r.label}</span>
-                        <span className={`text-[11px] ${isPay ? "text-pos" : "text-ink-3"}`}>{isPay ? "Pago" : "Data com"}</span>
+                        <span className={`text-[11px] ${isPay ? "text-pos" : "text-ink-3"}`}>{isPay ? "Pagamento" : "Data com"}</span>
                       </div>
                       <div className="num mt-0.5 text-xs text-ink-3">
                         {fmtQty(r.quantity)} × {fmtPrice(r.rate)}
                         {r.exDate && ` · data com ${fmtDateLong(r.exDate)}`}
-                        {r.paymentDate && ` · pago ${fmtDateLong(r.paymentDate)}`}
+                        {r.paymentDate && ` · pagamento ${fmtDateLong(r.paymentDate)}`}
                       </div>
                     </div>
                     <div className="num shrink-0 font-medium">{fmtBRL(r.estimated)}</div>
@@ -100,7 +100,7 @@ export function DividendCalendar() {
           </Card>
         ))
       )}
-      <p className="text-xs text-ink-3">Fuente: brapi. Montos brutos (los JCP tienen 15% de IR retenido). La estimación usa tu cantidad actual, no la que tenías en la data com.</p>
+      <p className="text-xs text-ink-3">Fonte: brapi. Valores brutos (o JCP tem 15% de IR retido). A estimativa usa a quantidade atual, não a que vocês tinham na data com.</p>
     </div>
   );
 }

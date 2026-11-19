@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
-/** Ruta anterior: las clases ahora son grupos dentro de /activos. */
+/** Ruta anterior: las clases ahora son grupos dentro de /ativos. */
 export default async function ClaseRedirect({ params }: { params: Promise<{ clase: string }> }) {
   const { clase } = await params;
-  redirect(`/activos#${encodeURIComponent(clase)}`);
+  redirect(`/ativos#${encodeURIComponent(clase)}`);
 }

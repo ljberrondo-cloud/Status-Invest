@@ -51,7 +51,7 @@ const DEFS: { id: Indicator["id"]; code: number; label: string; unit: Indicator[
   { id: "cdi", code: SGS.cdiYear, label: "CDI", unit: "% a.a." },
   { id: "selic", code: SGS.selicMeta, label: "Selic", unit: "% a.a." },
   { id: "ipca12m", code: SGS.ipca12m, label: "IPCA 12m", unit: "% 12m" },
-  { id: "ipcaMes", code: SGS.ipcaMonth, label: "IPCA mes", unit: "% mes" },
+  { id: "ipcaMes", code: SGS.ipcaMonth, label: "IPCA mês", unit: "% mes" },
   { id: "usd", code: SGS.usdPtax, label: "Dólar PTAX", unit: "R$" },
 ];
 

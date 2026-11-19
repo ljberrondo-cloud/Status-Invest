@@ -48,7 +48,7 @@ export const coingeckoProvider: PriceProvider = {
       const missing = assets.filter((a) => !got.has(a.ticker)).map((a) => a.ticker);
       return {
         quotes,
-        errors: missing.length ? [{ provider: "coingecko", message: "Id no encontrado en CoinGecko", tickers: missing }] : [],
+        errors: missing.length ? [{ provider: "coingecko", message: "Id não encontrado na CoinGecko", tickers: missing }] : [],
       };
     } catch (e) {
       return { quotes: [], errors: [{ provider: "coingecko", message: errorMessage(e), tickers: assets.map((a) => a.ticker) }] };

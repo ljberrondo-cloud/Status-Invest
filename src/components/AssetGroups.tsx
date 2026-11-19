@@ -29,15 +29,15 @@ export function rentability(p: Position, received: number): number | null {
 }
 
 const COLS: { key: SortKey | null; label: string; title?: string; align?: "left" }[] = [
-  { key: "ticker", label: "Activo", align: "left" },
-  { key: "quantity", label: "Cantidad" },
+  { key: "ticker", label: "Ativo", align: "left" },
+  { key: "quantity", label: "Quantidade" },
   { key: "avg", label: "P. medio" },
-  { key: "price", label: "Precio" },
-  { key: "change", label: "Hoy", title: "Variación del día" },
-  { key: "gain", label: "Variación", title: "Precio actual vs precio medio" },
-  { key: "rent", label: "Rentab.", title: "Ganancia de capital + proventos recibidos, sobre el costo" },
+  { key: "price", label: "Preço" },
+  { key: "change", label: "Hoje", title: "Variação do dia" },
+  { key: "gain", label: "Variação", title: "Preço atual x preço médio" },
+  { key: "rent", label: "Rentab.", title: "Ganho de capital + proventos recebidos, sobre o custo" },
   { key: "value", label: "Saldo" },
-  { key: "weight", label: "Cartera", title: "% de la cartera / % ideal" },
+  { key: "weight", label: "Carteira", title: "% da carteira / % ideal" },
   { key: null, label: "" },
 ];
 
@@ -104,7 +104,7 @@ function Group({
             </div>
             <span className="num text-xs whitespace-nowrap text-ink-2">
               {excluded ? (
-                <span className="text-ink-3">fuera de objetivos · {fmtPct(summary.weight, 1, false)} del total</span>
+                <span className="text-ink-3">fora das metas · {fmtPct(summary.weight, 1, false)} do total</span>
               ) : (
                 <>
                   {fmtPct(curPct, 1, false)}
@@ -115,7 +115,7 @@ function Group({
           </div>
         </div>
         <div className="hidden text-right sm:block">
-          <div className="text-[11px] text-ink-3">Variación</div>
+          <div className="text-[11px] text-ink-3">Variação</div>
           <div className={`num text-sm font-semibold ${signClass(summary.gainPct)}`}>{fmtPct(summary.gainPct)}</div>
         </div>
         <div className="hidden w-24 text-right md:block">
@@ -227,7 +227,7 @@ function Group({
                         <ChangePill pct={p.dayChangePct} />
                       </td>
                       <td className={`num px-3 text-right font-medium ${signClass(p.gainPct)}`}>{fmtPct(p.gainPct)}</td>
-                      <td className={`num px-3 text-right ${signClass(r)}`} title={x?.received ? `Incluye ${fmtBRL(x.received)} en proventos` : "Sin proventos importados"}>
+                      <td className={`num px-3 text-right ${signClass(r)}`} title={x?.received ? `Inclui ${fmtBRL(x.received)} em proventos` : "Sem proventos importados"}>
                         {fmtPct(r)}
                       </td>
                       <td className="num px-3 text-right font-semibold">{fmtBRL(p.value)}</td>
@@ -266,7 +266,7 @@ export function AssetGroups({
   const [open, setOpen] = useState<Set<string>>(new Set());
   const [sort, setSort] = useState<{ key: SortKey; dir: 1 | -1 }>({ key: "value", dir: -1 });
 
-  // Abrir la clase indicada en el hash (/activos#fiis), p.ej. desde el Resumen.
+  // Abrir la clase indicada en el hash (/ativos#fiis), p.ej. desde el Resumen.
   useEffect(() => {
     const sync = () => {
       const h = decodeURIComponent(window.location.hash.slice(1));
@@ -289,7 +289,7 @@ export function AssetGroups({
     <div className="space-y-3">
       <div className="flex justify-end">
         <button onClick={() => setOpen(allOpen ? new Set() : new Set(classes.map((c) => c.class)))} className="text-xs font-medium text-accent hover:underline">
-          {allOpen ? "Contraer todo" : "Expandir todo"}
+          {allOpen ? "Recolher tudo" : "Expandir tudo"}
         </button>
       </div>
       {visible.map((c) => (

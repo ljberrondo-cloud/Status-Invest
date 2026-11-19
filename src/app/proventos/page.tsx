@@ -6,7 +6,7 @@ import { ReceivedView } from "@/components/proventos/Received";
 import { PageHeader, Segmented } from "@/components/ui";
 
 const TABS = [
-  { id: "recibidos", label: "Recibidos" },
+  { id: "recibidos", label: "Recebidos" },
   { id: "calendario", label: "Próximos" },
 ] as const;
 
@@ -16,7 +16,7 @@ export default function Proventos() {
     <div>
       <PageHeader
         title="Proventos"
-        subtitle="Dividendos, JCP y rendimientos de tus dos cuentas"
+        subtitle="Dividendos, JCP e rendimentos das duas contas"
         action={<Segmented label="Proventos" options={TABS} value={tab} onChange={setTab} size="md" />}
       />
       {tab === "recibidos" ? <ReceivedView /> : <DividendCalendar />}

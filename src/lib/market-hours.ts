@@ -16,58 +16,58 @@ interface Holiday {
 }
 
 const B3_HOLIDAYS: Holiday[] = [
-  { date: "2026-01-01", name: "Año Nuevo" },
+  { date: "2026-01-01", name: "Ano-Novo" },
   { date: "2026-02-16", name: "Carnaval" },
   { date: "2026-02-17", name: "Carnaval" },
-  { date: "2026-04-03", name: "Viernes Santo" },
+  { date: "2026-04-03", name: "Sexta-feira Santa" },
   { date: "2026-04-21", name: "Tiradentes" },
-  { date: "2026-05-01", name: "Día del Trabajador" },
+  { date: "2026-05-01", name: "Dia do Trabalho" },
   { date: "2026-06-04", name: "Corpus Christi" },
-  { date: "2026-09-07", name: "Independencia" },
+  { date: "2026-09-07", name: "Independência" },
   { date: "2026-10-12", name: "Nossa Senhora Aparecida" },
   { date: "2026-11-02", name: "Finados" },
   { date: "2026-11-20", name: "Consciência Negra" },
-  { date: "2026-12-24", name: "Nochebuena" },
-  { date: "2026-12-25", name: "Navidad" },
-  { date: "2026-12-31", name: "Fin de año" },
-  { date: "2027-01-01", name: "Año Nuevo" },
+  { date: "2026-12-24", name: "Véspera de Natal" },
+  { date: "2026-12-25", name: "Natal" },
+  { date: "2026-12-31", name: "Último dia do ano" },
+  { date: "2027-01-01", name: "Ano-Novo" },
   { date: "2027-02-08", name: "Carnaval" },
   { date: "2027-02-09", name: "Carnaval" },
-  { date: "2027-03-26", name: "Viernes Santo" },
+  { date: "2027-03-26", name: "Sexta-feira Santa" },
   { date: "2027-04-21", name: "Tiradentes" },
   { date: "2027-05-27", name: "Corpus Christi" },
-  { date: "2027-09-07", name: "Independencia" },
+  { date: "2027-09-07", name: "Independência" },
   { date: "2027-10-12", name: "Nossa Senhora Aparecida" },
   { date: "2027-11-02", name: "Finados" },
-  { date: "2027-11-15", name: "Proclamación de la República" },
-  { date: "2027-12-24", name: "Nochebuena" },
-  { date: "2027-12-31", name: "Fin de año" },
+  { date: "2027-11-15", name: "Proclamação da República" },
+  { date: "2027-12-24", name: "Véspera de Natal" },
+  { date: "2027-12-31", name: "Último dia do ano" },
 ];
 
 /** Miércoles de Ceniza: B3 abre a las 13:00. */
 const B3_LATE_OPEN: Record<string, number> = { "2026-02-18": 13 * 60, "2027-02-10": 13 * 60 };
 
 const US_HOLIDAYS: Holiday[] = [
-  { date: "2026-01-01", name: "Año Nuevo" },
+  { date: "2026-01-01", name: "Ano-Novo" },
   { date: "2026-01-19", name: "Martin Luther King" },
   { date: "2026-02-16", name: "Presidents' Day" },
-  { date: "2026-04-03", name: "Viernes Santo" },
+  { date: "2026-04-03", name: "Sexta-feira Santa" },
   { date: "2026-05-25", name: "Memorial Day" },
   { date: "2026-06-19", name: "Juneteenth" },
-  { date: "2026-07-03", name: "Independencia (EE.UU.)" },
+  { date: "2026-07-03", name: "Independência (EUA)" },
   { date: "2026-09-07", name: "Labor Day" },
-  { date: "2026-11-26", name: "Acción de Gracias" },
-  { date: "2026-12-25", name: "Navidad" },
-  { date: "2027-01-01", name: "Año Nuevo" },
+  { date: "2026-11-26", name: "Ação de Graças" },
+  { date: "2026-12-25", name: "Natal" },
+  { date: "2027-01-01", name: "Ano-Novo" },
   { date: "2027-01-18", name: "Martin Luther King" },
   { date: "2027-02-15", name: "Presidents' Day" },
-  { date: "2027-03-26", name: "Viernes Santo" },
+  { date: "2027-03-26", name: "Sexta-feira Santa" },
   { date: "2027-05-31", name: "Memorial Day" },
   { date: "2027-06-18", name: "Juneteenth" },
-  { date: "2027-07-05", name: "Independencia (EE.UU.)" },
+  { date: "2027-07-05", name: "Independência (EUA)" },
   { date: "2027-09-06", name: "Labor Day" },
-  { date: "2027-11-25", name: "Acción de Gracias" },
-  { date: "2027-12-24", name: "Navidad" },
+  { date: "2027-11-25", name: "Ação de Graças" },
+  { date: "2027-12-24", name: "Natal" },
 ];
 
 /** Días con cierre a las 13:00 en Nueva York. */
@@ -75,8 +75,8 @@ const US_EARLY_CLOSE = new Set(["2026-11-27", "2026-12-24", "2027-11-26"]);
 
 export const MARKETS: { id: MarketId; index: string; symbol: string; exchange: string; city: string; tz: string }[] = [
   { id: "b3", index: "Ibovespa", symbol: "^BVSP", exchange: "B3", city: "São Paulo", tz: "America/Sao_Paulo" },
-  { id: "nyse", index: "S&P 500", symbol: "^GSPC", exchange: "NYSE", city: "Nueva York", tz: "America/New_York" },
-  { id: "nasdaq", index: "Nasdaq", symbol: "^IXIC", exchange: "Nasdaq", city: "Nueva York", tz: "America/New_York" },
+  { id: "nyse", index: "S&P 500", symbol: "^GSPC", exchange: "NYSE", city: "Nova York", tz: "America/New_York" },
+  { id: "nasdaq", index: "Nasdaq", symbol: "^IXIC", exchange: "Nasdaq", city: "Nova York", tz: "America/New_York" },
 ];
 
 const HOME_TZ = "America/Sao_Paulo";
@@ -140,7 +140,7 @@ interface Session {
 /** Sesión del día (minutos locales) o el motivo por el que no hay rueda. */
 function sessionFor(id: MarketId, date: string): Session | { closedReason: string } {
   const wd = weekdayOf(date);
-  if (wd === 0 || wd === 6) return { closedReason: "Fin de semana" };
+  if (wd === 0 || wd === 6) return { closedReason: "Fim de semana" };
   const hol = (id === "b3" ? B3_HOLIDAYS : US_HOLIDAYS).find((h) => h.date === date);
   if (hol) return { closedReason: `Feriado: ${hol.name}` };
   if (id === "b3") {
@@ -172,7 +172,7 @@ export interface MarketState {
 const hhmm = (min: number) => `${String(Math.floor(min / 60)).padStart(2, "0")}:${String(min % 60).padStart(2, "0")}`;
 
 function fmtIn(d: Date, tz: string) {
-  return new Intl.DateTimeFormat("es-AR", { timeZone: tz, hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(d);
+  return new Intl.DateTimeFormat("pt-BR", { timeZone: tz, hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(d);
 }
 
 export function fmtCountdown(ms: number): string {
@@ -183,7 +183,7 @@ export function fmtCountdown(ms: number): string {
   return m ? `${h}h ${m}m` : `${h}h`;
 }
 
-const DOW = ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"];
+const DOW = ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"];
 
 export function marketState(id: MarketId, now: Date): MarketState {
   const m = MARKETS.find((x) => x.id === id)!;
@@ -195,7 +195,7 @@ export function marketState(id: MarketId, now: Date): MarketState {
 
   if ("open" in today && local.minutes >= today.open && local.minutes < today.close) {
     const closeAt = zonedInstant(local.date, today.close, m.tz);
-    return { ...base, status: "open", hoursHome: range(local.date, today), next: `cierra en ${fmtCountdown(closeAt.getTime() - now.getTime())}`, closedReason: null };
+    return { ...base, status: "open", hoursHome: range(local.date, today), next: `fecha em ${fmtCountdown(closeAt.getTime() - now.getTime())}`, closedReason: null };
   }
 
   // Próxima apertura: hoy más tarde o el próximo día hábil.
@@ -214,10 +214,10 @@ export function marketState(id: MarketId, now: Date): MarketState {
   const homeToday = localParts(now, HOME_TZ).date;
   const next =
     ms < 12 * 3600_000 && homeDate.date === homeToday
-      ? `abre en ${fmtCountdown(ms)}`
+      ? `abre em ${fmtCountdown(ms)}`
       : homeDate.date === addDays(homeToday, 1)
-        ? `abre mañana ${fmtIn(openAt, HOME_TZ)}`
-        : `abre el ${DOW[homeDate.weekday]} ${fmtIn(openAt, HOME_TZ)}`;
+        ? `abre amanhã ${fmtIn(openAt, HOME_TZ)}`
+        : `abre ${DOW[homeDate.weekday]} ${fmtIn(openAt, HOME_TZ)}`;
   return { ...base, status: "closed", hoursHome: range(date, s), next, closedReason };
 }
 

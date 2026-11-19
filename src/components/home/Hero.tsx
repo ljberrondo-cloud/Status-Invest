@@ -7,16 +7,17 @@ import type { ReceivedSummary } from "@/lib/received";
 import { fmtBRL, fmtBRLCompact, fmtPct, fmtSignedBRL, fmtSince, signClass } from "@/lib/format";
 import { addDays, isoDateSP, isoToBr } from "@/lib/dates";
 import { ChangePill, Segmented } from "../ui";
+import { PrivacyToggle } from "../privacy";
 
 const RANGES = [
   { id: "1m", label: "1M", days: 31 },
   { id: "3m", label: "3M", days: 92 },
   { id: "1a", label: "1A", days: 366 },
-  { id: "all", label: "Todo", days: 0 },
+  { id: "all", label: "Tudo", days: 0 },
 ] as const;
 type RangeId = (typeof RANGES)[number]["id"];
 
-const MONTHS = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
+const MONTHS = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
 const fmtDay = (iso: string) => `${Number(iso.slice(8, 10))} ${MONTHS[Number(iso.slice(5, 7)) - 1]}`;
 
 /**
@@ -36,8 +37,8 @@ function PortfolioChart({ series }: { series: ReturnType<typeof dailySeries> }) 
   if (series.length < 2) {
     return (
       <div className="flex h-full flex-col items-center justify-center rounded-xl border border-dashed border-line text-center text-sm text-ink-3">
-        <p className="font-medium text-ink-2">La curva se arma con el snapshot diario</p>
-        <p className="mt-1 text-xs">Aparece a partir del segundo día de datos.</p>
+        <p className="font-medium text-ink-2">A curva é montada com o snapshot diário</p>
+        <p className="mt-1 text-xs">Aparece a partir do segundo dia de dados.</p>
       </div>
     );
   }
@@ -78,14 +79,14 @@ function PortfolioChart({ series }: { series: ReturnType<typeof dailySeries> }) 
                 <div className="num flex items-center justify-between gap-6">
                   <span className="flex items-center gap-1.5 text-ink-2">
                     <span className="h-0.5 w-3 rounded bg-accent" />
-                    Patrimonio
+                    Patrimônio
                   </span>
                   <span className="font-semibold">{fmtBRL(p.total)}</span>
                 </div>
                 <div className="num mt-1 flex items-center justify-between gap-6">
                   <span className="flex items-center gap-1.5 text-ink-2">
                     <span className="h-0 w-3 border-t border-dashed border-ink-3" />
-                    Invertido
+                    Investido
                   </span>
                   {fmtBRL(p.invested)}
                 </div>
@@ -114,28 +115,31 @@ export function Hero({ data, history, received }: { data: PortfolioResponse; his
   return (
     <section className="card hero overflow-hidden">
       <div className="p-5 sm:p-7">
-        <div className="eyebrow">Patrimonio total</div>
+        <div className="flex items-center gap-2">
+          <div className="eyebrow">Patrimônio total</div>
+          <PrivacyToggle className="h-7 w-7" />
+        </div>
         <div className="num mt-2 text-[2.6rem] leading-none font-semibold tracking-[-0.035em] sm:text-[3.5rem]">{fmtBRL(data.total)}</div>
         <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-sm">
           <span className="flex items-center gap-2 whitespace-nowrap">
             <ChangePill pct={data.dayChangePct} size="md" />
             <span className={`num font-medium ${signClass(data.dayChange)}`}>{fmtSignedBRL(data.dayChange)}</span>
-            <span className="text-ink-3">hoy</span>
+            <span className="text-ink-3">hoje</span>
           </span>
           {periodDelta !== null && (
             <span className="flex items-center gap-2 whitespace-nowrap">
               <span className="hidden h-3.5 w-px bg-line-strong sm:block" aria-hidden />
               <span className={`num font-medium ${signClass(periodDelta)}`}>{fmtSignedBRL(periodDelta)}</span>
-              <span className="text-ink-3">en el período</span>
+              <span className="text-ink-3">no período</span>
             </span>
           )}
         </div>
         <dl className="mt-6 grid grid-cols-2 gap-y-4 rounded-2xl border border-line/80 bg-surface/60 py-4 sm:grid-cols-4 sm:divide-x sm:divide-line">
           {[
-            { label: "Invertido", value: fmtBRL(data.invested), tone: null as number | null },
-            { label: "Ganancia de capital", value: `${fmtSignedBRL(data.gain)}`, extra: fmtPct(data.gainPct, 1), tone: data.gain },
+            { label: "Investido", value: fmtBRL(data.invested), tone: null as number | null },
+            { label: "Ganho de capital", value: `${fmtSignedBRL(data.gain)}`, extra: fmtPct(data.gainPct, 1), tone: data.gain },
             { label: received?.firstDate ? `Proventos desde ${fmtSince(received.firstDate)}` : "Proventos", value: received ? fmtBRL(prov) : "—", tone: null },
-            { label: "Rentabilidad total", value: fmtPct(rent), tone: rent },
+            { label: "Rentabilidade total", value: fmtPct(rent), tone: rent },
           ].map((m) => (
             <div key={m.label} className="px-4 sm:px-5">
               <dt className="text-xs text-ink-3">{m.label}</dt>
@@ -151,10 +155,10 @@ export function Hero({ data, history, received }: { data: PortfolioResponse; his
         <div className="mb-2 flex flex-wrap items-center justify-between gap-3 px-3">
           <div className="flex items-center gap-4 text-xs text-ink-2">
             <span className="flex items-center gap-1.5">
-              <span className="h-0.5 w-4 rounded bg-accent" /> Patrimonio
+              <span className="h-0.5 w-4 rounded bg-accent" /> Patrimônio
             </span>
             <span className="flex items-center gap-1.5">
-              <span className="w-4 border-t-[1.5px] border-dashed border-ink-3" /> Invertido
+              <span className="w-4 border-t-[1.5px] border-dashed border-ink-3" /> Investido
             </span>
           </div>
           <Segmented label="Período" options={RANGES} value={range} onChange={setRange} />

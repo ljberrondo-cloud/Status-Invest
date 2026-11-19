@@ -41,7 +41,7 @@ export async function cachedFetch(url: string, opts: CachedFetchOptions): Promis
     }
     return res;
   } catch (e) {
-    if (e instanceof Error && e.name === "AbortError") throw new Error("Tiempo de espera agotado");
+    if (e instanceof Error && e.name === "AbortError") throw new Error("Tempo de espera esgotado");
     throw e;
   } finally {
     clearTimeout(timer);

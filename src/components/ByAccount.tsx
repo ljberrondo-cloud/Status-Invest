@@ -20,7 +20,7 @@ export function ByAccount({ positions }: { positions: Position[] }) {
   return (
     <div className="space-y-5">
       {/* Reparto del patrimonio */}
-      <Card title="Reparto del patrimonio" subtitle="Valor de hoy de cada cuenta">
+      <Card title="Divisão do patrimônio" subtitle="Valor de hoje de cada conta">
         <div className="flex h-3 overflow-hidden rounded-full bg-surface-2">
           {groups.map((g) => (
             <div key={g.id} style={{ width: `${g.weight}%`, background: ACCOUNT_COLOR[g.id] ?? "var(--c-etfs)" }} title={`${g.label} ${fmtPct(g.weight, 1, false)}`} />
@@ -49,20 +49,20 @@ export function ByAccount({ positions }: { positions: Position[] }) {
                 <span className="absolute inset-y-5 left-0 w-1 rounded-r-full" style={{ background: ACCOUNT_COLOR[g.id] ?? "var(--c-etfs)" }} aria-hidden />
                 <div className="flex items-baseline justify-between gap-3">
                   <h2 className="text-[15px] font-semibold tracking-tight">{g.label}</h2>
-                  <span className="num text-xs text-ink-3">{fmtPct(g.weight, 1, false)} del total</span>
+                  <span className="num text-xs text-ink-3">{fmtPct(g.weight, 1, false)} do total</span>
                 </div>
                 <div className="num mt-2 text-3xl font-semibold tracking-tight">{fmtBRL(g.value)}</div>
                 <dl className="mt-4 grid grid-cols-3 gap-3 text-sm">
                   <div>
-                    <dt className="text-xs text-ink-3">Activos</dt>
+                    <dt className="text-xs text-ink-3">Ativos</dt>
                     <dd className="num mt-0.5 font-semibold">{g.count}</dd>
                   </div>
                   <div>
-                    <dt className="text-xs text-ink-3">Invertido</dt>
+                    <dt className="text-xs text-ink-3">Investido</dt>
                     <dd className="num mt-0.5 font-semibold">{g.invested > 0 ? fmtBRL(g.invested) : "—"}</dd>
                   </div>
                   <div>
-                    <dt className="text-xs text-ink-3">Ganancia</dt>
+                    <dt className="text-xs text-ink-3">Ganho</dt>
                     <dd className={`num mt-0.5 font-semibold ${signClass(g.gain)}`}>
                       {g.invested > 0 ? (
                         <>
@@ -85,7 +85,7 @@ export function ByAccount({ positions }: { positions: Position[] }) {
                   ))}
                 </div>
                 {g.id === UNASSIGNED && (
-                  <p className="mt-3 text-xs text-ink-3">Activos fuera de B3 sin titular definido (cripto, previdencia, FGTS, CDB). Indicá de quién es cada uno para repartirlos.</p>
+                  <p className="mt-3 text-xs text-ink-3">Ativos fora da B3 sem titular definido (cripto, previdência, FGTS, CDB). Indique de quem é cada um para dividi-los.</p>
                 )}
               </div>
               <button
@@ -93,7 +93,7 @@ export function ByAccount({ positions }: { positions: Position[] }) {
                 aria-expanded={isOpen}
                 className="flex w-full items-center justify-between border-t border-line px-5 py-3 text-sm font-medium text-accent hover:bg-surface-2/50 sm:px-6"
               >
-                {isOpen ? "Ocultar activos" : `Ver sus ${g.count} activos`}
+                {isOpen ? "Ocultar ativos" : `Ver os ${g.count} ativos`}
                 <span aria-hidden>{isOpen ? "−" : "+"}</span>
               </button>
               {isOpen && (
@@ -122,8 +122,8 @@ export function ByAccount({ positions }: { positions: Position[] }) {
         })}
       </div>
       <p className="text-[11px] leading-relaxed text-ink-3">
-        Invertido por cuenta = cantidad de la cuenta × precio medio (el precio medio es el mismo para ambas cuentas); en Tesouro se usa el valor aplicado que informa
-        B3. Las cantidades de cada cuenta se actualizan al subir su relatório mensual.
+        Investido por conta = quantidade da conta × preço médio (o preço médio é o mesmo nas duas contas); no Tesouro usa-se o valor aplicado informado pela
+        B3. As quantidades de cada conta são atualizadas ao enviar o relatório mensal.
       </p>
     </div>
   );

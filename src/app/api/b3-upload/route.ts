@@ -17,21 +17,21 @@ const fail = (status: number, error: string) => Response.json({ ok: false, error
  */
 export async function POST(req: NextRequest) {
   const { token, repo, branch } = githubTarget();
-  if (!token) return fail(503, "Falta configurar GITHUB_UPLOAD_TOKEN en Vercel para guardar los extractos.");
-  if (!repo) return fail(503, "Falta configurar GITHUB_REPO en Vercel (por ejemplo usuario/Status-Invest).");
+  if (!token) return fail(503, "Falta configurar GITHUB_UPLOAD_TOKEN na Vercel para salvar os extratos.");
+  if (!repo) return fail(503, "Falta configurar GITHUB_REPO na Vercel (por exemplo usuario/Status-Invest).");
 
   const form = await req.formData().catch(() => null);
   const file = form?.get("file");
   const account = ACCOUNTS.find((a) => a.id === form?.get("account"));
-  if (!account) return fail(400, "Elegí de qué cuenta es el extracto.");
-  if (!(file instanceof File)) return fail(400, "Elegí un archivo.");
+  if (!account) return fail(400, "Escolha de qual conta é o extrato.");
+  if (!(file instanceof File)) return fail(400, "Escolha um arquivo.");
   if (file.size > MAX_BYTES) return fail(413, "El archivo es demasiado grande (máx. 4 MB).");
 
   let parsed;
   try {
     parsed = await parseExtract(await file.arrayBuffer(), file.name);
   } catch (e) {
-    return fail(422, `No se pudo leer el archivo: ${errorMessage(e)}`);
+    return fail(422, `Não foi possível ler o arquivo: ${errorMessage(e)}`);
   }
   if (!parsed.rowsRead && !parsed.positions) return fail(422, "No parece un archivo de B3 (extracto de Movimentação o relatório consolidado).");
 
@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
       await githubPutFile(repo, pr.path, pr.content, `posiciones: ${account.label} al ${parsed.positions.asOf}`, branch, sha ?? undefined);
       positionsSaved = { asOf: parsed.positions.asOf, count: parsed.positions.positions.length };
     } catch (e) {
-      return fail(502, `No se pudo guardar en GitHub: ${errorMessage(e)}.`);
+      return fail(502, `Não foi possível salvar no GitHub: ${errorMessage(e)}.`);
     }
   }
   if (!parsed.payments.length) {
@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
       positions: positionsSaved,
       rowsRead: parsed.rowsRead,
       found: 0,
-      message: positionsSaved ? undefined : "El archivo no tiene proventos (dividendos, JCP o rendimientos).",
+      message: positionsSaved ? undefined : "O arquivo não tem proventos (dividendos, JCP ou rendimentos).",
       account: account.label,
     });
   }
@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
     await githubPutFile(repo, path, content, `proventos: extracto de ${account.label} (${period.from} a ${period.to})`, branch);
   } catch (e) {
     const perm = e instanceof GithubError && [401, 403, 404].includes(e.status);
-    return fail(502, `No se pudo guardar en GitHub: ${errorMessage(e)}.${perm ? " Revisá que el token tenga permiso Contents: read & write sobre el repositorio." : ""}`);
+    return fail(502, `Não foi possível salvar no GitHub: ${errorMessage(e)}.${perm ? " Confira se o token tem permissão Contents: read & write no repositório." : ""}`);
   }
   return Response.json({ ok: true, saved: true, ...summary });
 }

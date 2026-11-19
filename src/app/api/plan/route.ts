@@ -33,7 +33,7 @@ export async function GET() {
  */
 export async function PUT(req: NextRequest) {
   const { token, repo, branch } = githubTarget();
-  if (!token || !repo) return Response.json({ error: "Falta configurar GITHUB_UPLOAD_TOKEN en Vercel para guardar el plan." }, { status: 503 });
+  if (!token || !repo) return Response.json({ error: "Falta configurar GITHUB_UPLOAD_TOKEN na Vercel para salvar o plano." }, { status: 503 });
   const body = (await req.json().catch(() => ({}))) as Record<string, unknown>;
 
   try {
@@ -42,22 +42,22 @@ export async function PUT(req: NextRequest) {
     let message: string;
     if (body.action === "plan") {
       const plan = sanitizePlan(body.plan);
-      if (!plan) return Response.json({ error: "Datos del plan inválidos." }, { status: 400 });
+      if (!plan) return Response.json({ error: "Dados do plano inválidos." }, { status: 400 });
       next = { ...file, plan };
       message = `plan: meta ${plan.goal} para ${plan.targetMonth}`;
     } else if (body.action === "contribution") {
       const amount = typeof body.amount === "number" && Number.isFinite(body.amount) && body.amount >= 0 ? body.amount : null;
-      if (!isMonth(body.month) || amount === null) return Response.json({ error: "Mes o monto inválido." }, { status: 400 });
+      if (!isMonth(body.month) || amount === null) return Response.json({ error: "Mês ou valor inválido." }, { status: 400 });
       const note = typeof body.note === "string" ? body.note.slice(0, 120) : undefined;
       next = { ...file, contributions: upsertContribution(file.contributions ?? [], body.month, amount, note) };
       message = amount > 0 ? `aporte: ${body.month} R$ ${amount}` : `aporte: borrar ${body.month}`;
     } else {
-      return Response.json({ error: "Acción desconocida." }, { status: 400 });
+      return Response.json({ error: "Ação desconhecida." }, { status: 400 });
     }
     next.updated_at = new Date().toISOString();
     await githubPutFile(repo, PATH, JSON.stringify(next, null, 2) + "\n", message, branch, sha);
     return Response.json({ ...next, source: "github" }, noStore);
   } catch (e) {
-    return Response.json({ error: `No se pudo guardar: ${errorMessage(e)}` }, { status: 502 });
+    return Response.json({ error: `Não foi possível salvar: ${errorMessage(e)}` }, { status: 502 });
   }
 }

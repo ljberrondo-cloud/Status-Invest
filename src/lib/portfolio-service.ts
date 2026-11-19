@@ -25,7 +25,7 @@ export async function fetchQuotes(assets: Asset[]): Promise<{ quotes: Map<string
   const { groups, unsupported } = routeAssets(assets, priceProviders);
   const errors: ProviderError[] = [];
   if (unsupported.length) {
-    errors.push({ provider: "config", message: "Ningún proveedor soporta estos activos", tickers: unsupported.map((a) => a.ticker) });
+    errors.push({ provider: "config", message: "Nenhum provedor atende estes ativos", tickers: unsupported.map((a) => a.ticker) });
   }
   const results = await Promise.allSettled([...groups].map(([p, list]) => p.getQuotes(list)));
   const quotes = new Map<string, Quote>();

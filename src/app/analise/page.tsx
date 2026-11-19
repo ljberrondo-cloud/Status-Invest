@@ -18,10 +18,10 @@ const TONE: Record<SignalKind, string> = {
 };
 
 const HELP: Record<SignalKind, string> = {
-  compra: "Señales a favor y lugar en la cartera",
-  hodl: "Mantener, sin sumar ni vender",
-  alerta: "Algo para mirar de cerca",
-  venta: "Técnico y fundamentos en contra",
+  compra: "Sinais a favor e espaço na carteira",
+  hodl: "Manter, sem aportar nem vender",
+  alerta: "Algo para acompanhar de perto",
+  venta: "Técnico e fundamentos contra",
 };
 
 function SignalPill({ s }: { s: SignalKind }) {
@@ -53,7 +53,7 @@ function Notes({ title, notes }: { title: string; notes: Note[] }) {
           <li key={i} className="flex gap-2 text-[13px] leading-snug text-ink-2">
             <span className={`mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full ${n.tone === "pos" ? "bg-pos" : n.tone === "neg" ? "bg-neg" : "bg-ink-3/60"}`} aria-hidden />
             <span>
-              <span className="sr-only">{n.tone === "pos" ? "A favor: " : n.tone === "neg" ? "En contra: " : ""}</span>
+              <span className="sr-only">{n.tone === "pos" ? "A favor: " : n.tone === "neg" ? "Contra: " : ""}</span>
               {n.text}
             </span>
           </li>
@@ -82,7 +82,7 @@ function Third({ r }: { r: AnalysisRow }) {
   if (r.cls === "acciones") return <Metric label="P/L" value={r.pe != null ? r.pe.toLocaleString("pt-BR", { maximumFractionDigits: 1 }) : "—"} />;
   if (r.cls === "fiis") return <Metric label="DY 12m" value={r.dy != null ? fmtPct(r.dy, 1, false) : "—"} />;
   const fh = r.indicators?.fromHigh;
-  return <Metric label="Desde máx." value={fh != null ? fmtPct(fh, 1) : "—"} tone={fh != null && fh <= -25 ? "text-neg" : ""} />;
+  return <Metric label="Da máxima" value={fh != null ? fmtPct(fh, 1) : "—"} tone={fh != null && fh <= -25 ? "text-neg" : ""} />;
 }
 
 function Row({ r }: { r: AnalysisRow }) {
@@ -106,7 +106,7 @@ function Row({ r }: { r: AnalysisRow }) {
             <div className="col-span-3 text-xs text-ink-3">{r.classLabel}</div>
           ) : (
             <>
-              <Metric label={r.period ? `Var. ${r.period}` : "Variación"} value={fmtPct(ind?.retPeriod, 1)} tone={signClass(ind?.retPeriod)} />
+              <Metric label={r.period ? `Var. ${r.period}` : "Variação"} value={fmtPct(ind?.retPeriod, 1)} tone={signClass(ind?.retPeriod)} />
               <Metric label="RSI" value={ind?.rsi != null ? ind.rsi.toFixed(0) : "—"} tone={rsiTone(ind?.rsi)} />
               <Third r={r} />
             </>
@@ -120,7 +120,7 @@ function Row({ r }: { r: AnalysisRow }) {
           <div className="mb-4 grid grid-cols-3 gap-3 lg:hidden">
             {!fixed && (
               <>
-                <Metric label={r.period ? `Var. ${r.period}` : "Variación"} value={fmtPct(ind?.retPeriod, 1)} tone={signClass(ind?.retPeriod)} />
+                <Metric label={r.period ? `Var. ${r.period}` : "Variação"} value={fmtPct(ind?.retPeriod, 1)} tone={signClass(ind?.retPeriod)} />
                 <Metric label="RSI" value={ind?.rsi != null ? ind.rsi.toFixed(0) : "—"} tone={rsiTone(ind?.rsi)} />
                 <Third r={r} />
               </>
@@ -128,14 +128,14 @@ function Row({ r }: { r: AnalysisRow }) {
           </div>
           <div className="grid gap-5 md:grid-cols-3">
             <Notes title="Técnico" notes={r.tech} />
-            <Notes title="Fundamental" notes={r.fund} />
-            <Notes title="En tu cartera" notes={r.portfolio} />
+            <Notes title="Fundamentalista" notes={r.fund} />
+            <Notes title="Na carteira" notes={r.portfolio} />
           </div>
           <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-ink-3">
-            <span>Posición: {fmtBRL(r.value)}</span>
-            {r.score !== 0 && <span>Puntaje {r.score > 0 ? "+" : ""}{r.score.toLocaleString("pt-BR")}</span>}
-            {r.asOf && <span>Último cierre usado: {r.asOf.split("-").reverse().join("/")}</span>}
-            {ind && <span>{ind.points} ruedas analizadas</span>}
+            <span>Posição: {fmtBRL(r.value)}</span>
+            {r.score !== 0 && <span>Pontuação {r.score > 0 ? "+" : ""}{r.score.toLocaleString("pt-BR")}</span>}
+            {r.asOf && <span>Último fechamento usado: {r.asOf.split("-").reverse().join("/")}</span>}
+            {ind && <span>{ind.points} pregões analisados</span>}
           </div>
         </div>
       )}
@@ -157,8 +157,8 @@ export default function Analisis() {
   return (
     <div className="space-y-5">
       <PageHeader
-        title="Análisis"
-        subtitle={data ? `Técnico y fundamental de tus ${rows.length} activos, de mayor a menor valor` : "Calculando indicadores de cada activo…"}
+        title="Análise"
+        subtitle={data ? `Técnica e fundamentalista dos seus ${rows.length} ativos, do maior para o menor valor` : "Calculando os indicadores de cada ativo…"}
       />
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -181,30 +181,30 @@ export default function Analisis() {
         })}
       </div>
 
-      {data && <ProviderErrors errors={data.errors} summary="Algunos activos quedaron sin historial" />}
+      {data && <ProviderErrors errors={data.errors} summary="Alguns ativos ficaram sem histórico" />}
 
       {isLoading && !data ? (
         <div className="space-y-2">
           <Skeleton className="h-16" />
           <Skeleton className="h-16" />
           <Skeleton className="h-16" />
-          <p className="text-center text-xs text-ink-3">La primera vez tarda unos segundos: se descarga el historial de cada activo.</p>
+          <p className="text-center text-xs text-ink-3">Da primeira vez demora alguns segundos: o histórico de cada ativo é baixado.</p>
         </div>
       ) : (
         <ul className="card divide-y divide-line overflow-hidden">
           {shown.map((r) => (
             <Row key={r.ticker} r={r} />
           ))}
-          {!shown.length && <li className="px-5 py-8 text-center text-sm text-ink-3">Ningún activo con esta señal.</li>}
+          {!shown.length && <li className="px-5 py-8 text-center text-sm text-ink-3">Nenhum ativo com este sinal.</li>}
         </ul>
       )}
 
       <div className="rounded-xl bg-surface-2 px-4 py-3 text-xs leading-relaxed text-ink-3">
-        <strong className="font-medium text-ink-2">Cómo se calcula.</strong> Técnico: medias de 20 y 50 ruedas (y 200 en cripto), RSI de 14 ruedas, cruce
-        del MACD y caída desde el máximo, sobre 3 meses de cierres diarios de B3 (brapi) y 1 año de cripto (CoinGecko). Fundamental: P/L de brapi, rango de 52
-        semanas y el rendimiento que efectivamente cobraste por cuota en los últimos 12 meses (sin amortizaciones). También pesa si la clase está arriba o abajo de
-        tu objetivo. Renta fija, Previdencia y FGTS quedan en Hodl. Es una regla automática para ordenar la mirada, no una recomendación de inversión: confirmá
-        con tu propio análisis antes de operar. Se actualiza cada 6 horas.
+        <strong className="font-medium text-ink-2">Como é calculado.</strong> Técnico: médias de 20 e 50 pregões (e 200 em cripto), RSI de 14 pregões, cruzamento
+        do MACD e queda desde a máxima, sobre 3 meses de fechamentos diários da B3 (brapi) e 1 ano de cripto (CoinGecko). Fundamentalista: P/L da brapi, faixa de 52
+        semanas e o rendimento efetivamente recebido por cota nos últimos 12 meses (sem amortizações). Também pesa se a classe está acima ou abaixo da
+        meta. Renda fixa, Previdência e FGTS ficam em Hodl. É uma regra automática para organizar o olhar, não uma recomendação de investimento: confirme
+        com sua própria análise antes de operar. Atualiza a cada 6 horas.
       </div>
     </div>
   );

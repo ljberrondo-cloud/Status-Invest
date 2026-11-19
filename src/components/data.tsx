@@ -9,7 +9,7 @@ const LS_KEY = "patrimonio:last";
 async function fetcher<T>(url: string): Promise<T> {
   const res = await fetch(url, { cache: "no-store" });
   const json = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error((json as { error?: string }).error ?? `Error ${res.status}`);
+  if (!res.ok) throw new Error((json as { error?: string }).error ?? `Erro ${res.status}`);
   return json as T;
 }
 
@@ -77,7 +77,7 @@ export function useRefresh() {
       const r = await fetch("/api/refresh", { method: "POST" });
       if (r.status === 429) {
         const j = await r.json().catch(() => ({}));
-        setRefreshNote(`Ya se actualizó hace instantes. Reintentá en ${j.retryInSeconds ?? 60} s.`);
+        setRefreshNote(`Atualizado há instantes. Tente de novo em ${j.retryInSeconds ?? 60} s.`);
       }
       await mutate(() => true);
     } finally {

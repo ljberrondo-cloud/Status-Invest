@@ -24,7 +24,7 @@ async function readJson<T>(file: string): Promise<T | null> {
 
 export async function loadPortfolio(): Promise<Portfolio> {
   const p = await readJson<Portfolio>("portfolio.json");
-  if (!p?.assets?.length) throw new Error("data/portfolio.json no existe o no tiene activos");
+  if (!p?.assets?.length) throw new Error("data/portfolio.json não existe ou não tem ativos");
   return p;
 }
 

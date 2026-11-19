@@ -9,9 +9,9 @@ import { fmtBRL, fmtBRLCompact } from "@/lib/format";
 
 type Mode = "aporte" | "tiempo" | "final";
 const MODES = [
-  { id: "aporte", label: "¿Cuánto aportar?" },
-  { id: "tiempo", label: "¿Cuánto tiempo?" },
-  { id: "final", label: "¿Cuánto voy a tener?" },
+  { id: "aporte", label: "Quanto aportar?" },
+  { id: "tiempo", label: "Quanto tempo?" },
+  { id: "final", label: "Quanto vou ter?" },
 ] as const;
 
 const parseMoney = (s: string) => Number(s.replace(/\D/g, "")) || 0;
@@ -62,11 +62,11 @@ export function MoneyInput({ value, onChange }: { value: number; onChange: (n: n
 }
 
 export function fmtDuration(months: number) {
-  if (!Number.isFinite(months)) return "No se alcanza";
+  if (!Number.isFinite(months)) return "Não é alcançada";
   const y = Math.floor(months / 12);
   const m = months % 12;
-  if (!y) return `${m} ${m === 1 ? "mes" : "meses"}`;
-  return `${y} ${y === 1 ? "año" : "años"}${m ? ` y ${m} ${m === 1 ? "mes" : "meses"}` : ""}`;
+  if (!y) return `${m} ${m === 1 ? "mês" : "meses"}`;
+  return `${y} ${y === 1 ? "ano" : "anos"}${m ? ` e ${m} ${m === 1 ? "mês" : "meses"}` : ""}`;
 }
 
 export function Simulator() {
@@ -98,10 +98,10 @@ export function Simulator() {
   const annual = real ? realAnnualPct(nominal, ipca) : nominal;
   const r = monthlyRate(annual);
   const presets = [
-    { id: "cdi", label: `CDI hoy ${fmtRate(cdi)}%`, value: null as number | null },
+    { id: "cdi", label: `CDI hoje ${fmtRate(cdi)}%`, value: null as number | null },
     { id: "10", label: "Conservadora 10%", value: 10 },
     { id: "12", label: "Moderada 12%", value: 12 },
-    { id: "15", label: "Agresiva 15%", value: 15 },
+    { id: "15", label: "Agressiva 15%", value: 15 },
   ];
 
   const result = useMemo(() => {
@@ -130,24 +130,24 @@ export function Simulator() {
   let headline: React.ReactNode;
   let headlineLabel = "";
   if (mode === "aporte") {
-    headlineLabel = `Aporte mensual para llegar a ${fmtBRL(goal)} en ${years} ${years === 1 ? "año" : "años"}`;
-    headline = result.A === 0 ? "No hace falta aportar" : fmtBRL(result.A);
+    headlineLabel = `Aporte mensal para chegar a ${fmtBRL(goal)} em ${years} ${years === 1 ? "ano" : "anos"}`;
+    headline = result.A === 0 ? "Não precisa aportar" : fmtBRL(result.A);
   } else if (mode === "tiempo") {
-    headlineLabel = `Tiempo para llegar a ${fmtBRL(goal)} aportando ${fmtBRL(monthly)} por mes`;
+    headlineLabel = `Tempo para chegar a ${fmtBRL(goal)} aportando ${fmtBRL(monthly)} por mês`;
     headline = fmtDuration(result.months);
   } else {
-    headlineLabel = `Vas a tener en ${years} ${years === 1 ? "año" : "años"}`;
+    headlineLabel = `Você vai ter em ${years} ${years === 1 ? "ano" : "anos"}`;
     headline = fmtBRL(result.final);
   }
 
   return (
     <div className="space-y-5">
       <div className="no-scrollbar -mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">
-        <Segmented label="Pregunta" options={MODES} value={mode} onChange={setMode} size="md" />
+        <Segmented label="Pergunta" options={MODES} value={mode} onChange={setMode} size="md" />
       </div>
 
       <div className="grid gap-5 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)]">
-        <Card title="Datos">
+        <Card title="Dados">
           <div className="space-y-4">
             {mode !== "final" && (
               <Field label="Meta">
@@ -159,32 +159,32 @@ export function Simulator() {
               group
               hint={
                 initial === null ? (
-                  "Tu patrimonio de hoy (podés cambiarlo)"
+                  "Seu patrimônio de hoje (pode alterar)"
                 ) : (
                   <button className="text-accent hover:underline" onClick={() => setInitial(null)}>
-                    Usar mi patrimonio de hoy ({fmtBRL(current)})
+                    Usar meu patrimônio de hoje ({fmtBRL(current)})
                   </button>
                 )
               }
             >
               <MoneyInput value={P} onChange={(n) => setInitial(n)} />
             </Field>
-            <Field label="Aporte mensual" hint={mode === "aporte" ? "Lo que invertís hoy por mes: se compara con el aporte necesario" : "Lo que invertís por mes"}>
+            <Field label="Aporte mensal" hint={mode === "aporte" ? "O que você investe hoje por mês: comparado com o aporte necessário" : "O que você investe por mês"}>
               <MoneyInput value={monthly} onChange={setMonthly} />
             </Field>
             {mode !== "tiempo" && (
-              <Field label={`Plazo: ${years} ${years === 1 ? "año" : "años"}`}>
-                <input type="range" min={1} max={40} value={years} onChange={(e) => setYears(Number(e.target.value))} className="w-full accent-[var(--accent)]" aria-label="Plazo en años" />
+              <Field label={`Prazo: ${years} ${years === 1 ? "ano" : "anos"}`}>
+                <input type="range" min={1} max={40} value={years} onChange={(e) => setYears(Number(e.target.value))} className="w-full accent-[var(--accent)]" aria-label="Prazo em anos" />
                 <div className="flex justify-between text-[10px] text-ink-3">
                   <span>1</span>
                   <span>10</span>
                   <span>20</span>
                   <span>30</span>
-                  <span>40 años</span>
+                  <span>40 anos</span>
                 </div>
               </Field>
             )}
-            <Field label="Rentabilidad anual esperada" group>
+            <Field label="Rentabilidade anual esperada" group>
               <div className="flex flex-wrap gap-1.5">
                 {presets.map((p) => (
                   <button
@@ -211,17 +211,17 @@ export function Simulator() {
                   }}
                   onBlur={() => setRateText(null)}
                   className={`${inputCls} pr-16`}
-                  aria-label="Rentabilidad anual en porcentaje"
+                  aria-label="Rentabilidade anual em porcentagem"
                 />
-                <span className="pointer-events-none absolute top-1/2 right-3.5 -translate-y-1/2 text-sm text-ink-3">% al año</span>
+                <span className="pointer-events-none absolute top-1/2 right-3.5 -translate-y-1/2 text-sm text-ink-3">% ao ano</span>
               </div>
             </Field>
             <label className="flex cursor-pointer items-start gap-3 rounded-xl bg-surface-2 px-3.5 py-3">
               <input type="checkbox" checked={real} onChange={(e) => setReal(e.target.checked)} className="mt-0.5 h-4 w-4 accent-[var(--accent)]" />
               <span className="text-sm">
-                Descontar la inflación
+                Descontar a inflação
                 <span className="block text-xs text-ink-3">
-                  Con IPCA {fmtRate(ipca)}%: rentabilidad real {fmtRate(realAnnualPct(nominal, ipca))}% al año. Los montos quedan en reales de hoy.
+                  Com IPCA de {fmtRate(ipca)}%: rentabilidade real de {fmtRate(realAnnualPct(nominal, ipca))}% ao ano. Os valores ficam em reais de hoje.
                 </span>
               </span>
             </label>
@@ -233,42 +233,42 @@ export function Simulator() {
           <section className="card hero p-5 sm:p-7">
             <div className="eyebrow">{headlineLabel}</div>
             <div className="num mt-2 text-[2.4rem] leading-none font-semibold tracking-[-0.03em] sm:text-5xl">{headline}</div>
-            {mode === "aporte" && result.A > 0 && <div className="num mt-2 text-sm text-ink-2">{fmtBRL(result.A * 12)} por año</div>}
+            {mode === "aporte" && result.A > 0 && <div className="num mt-2 text-sm text-ink-2">{fmtBRL(result.A * 12)} por ano</div>}
             {mode === "aporte" && result.A > 0 && withMine && (
               <div className={`mt-3 rounded-xl px-3.5 py-2.5 text-sm ${monthly >= result.A ? "bg-pos-bg text-pos" : "bg-warn-bg text-warn"}`}>
                 {monthly >= result.A ? (
                   <>
-                    Con tu aporte de <b className="num">{fmtBRL(monthly)}</b> llegás antes: en <b>{fmtDuration(withMine.months)}</b>.
+                    Com seu aporte de <b className="num">{fmtBRL(monthly)}</b> você chega antes: em <b>{fmtDuration(withMine.months)}</b>.
                   </>
                 ) : (
                   <>
-                    Con tu aporte de <b className="num">{fmtBRL(monthly)}</b> llegarías a <b className="num">{fmtBRL(withMine.atTerm)}</b> en {years}{" "}
-                    {years === 1 ? "año" : "años"}: te faltan <b className="num">{fmtBRL(result.A - monthly)}</b> por mes
-                    {Number.isFinite(withMine.months) ? <>, o llegás en {fmtDuration(withMine.months)}</> : null}.
+                    Com seu aporte de <b className="num">{fmtBRL(monthly)}</b> você chegaria a <b className="num">{fmtBRL(withMine.atTerm)}</b> em {years}{" "}
+                    {years === 1 ? "ano" : "anos"}: faltam <b className="num">{fmtBRL(result.A - monthly)}</b> por mês
+                    {Number.isFinite(withMine.months) ? <>, ou chega em {fmtDuration(withMine.months)}</> : null}.
                   </>
                 )}
               </div>
             )}
             {mode === "aporte" && result.A === 0 && (
               <div className="mt-2 text-sm text-ink-2">
-                Con tu capital y {fmtRate(annual)}% al año llegás a la meta en <b>{fmtDuration(monthsToGoal(P, 0, goal, r))}</b>, sin aportar nada.
+                Com seu capital e {fmtRate(annual)}% ao ano você chega à meta em <b>{fmtDuration(monthsToGoal(P, 0, goal, r))}</b>, sem aportar nada.
               </div>
             )}
             <dl className="mt-6 grid grid-cols-2 gap-3 rounded-2xl border border-line/80 bg-surface/60 p-4 sm:grid-cols-4 sm:gap-4">
               <div>
-                <dt className="text-xs text-ink-3">Aporte mensual</dt>
+                <dt className="text-xs text-ink-3">Aporte mensal</dt>
                 <dd className="num mt-1 font-semibold">{Number.isFinite(result.A) ? fmtBRL(result.A) : "—"}</dd>
-                <dd className="text-[11px] text-ink-3">{mode === "aporte" ? "necesario" : "el tuyo"}</dd>
+                <dd className="text-[11px] text-ink-3">{mode === "aporte" ? "necessário" : "o seu"}</dd>
               </div>
               <div>
-                <dt className="text-xs text-ink-3">Vas a aportar</dt>
+                <dt className="text-xs text-ink-3">Total aportado</dt>
                 <dd className="num mt-1 font-semibold">{Number.isFinite(contributed) ? fmtBRL(contributed) : "—"}</dd>
-                <dd className="text-[11px] text-ink-3">incluye el capital inicial</dd>
+                <dd className="text-[11px] text-ink-3">inclui o capital inicial</dd>
               </div>
               <div>
-                <dt className="text-xs text-ink-3">Rinde</dt>
+                <dt className="text-xs text-ink-3">Rendimento</dt>
                 <dd className="num mt-1 font-semibold text-pos">{Number.isFinite(earnings) ? fmtBRL(earnings) : "—"}</dd>
-                <dd className="text-[11px] text-ink-3">{Number.isFinite(earnings) && result.final > 0 ? `${Math.round((earnings / result.final) * 100)}% del final` : ""}</dd>
+                <dd className="text-[11px] text-ink-3">{Number.isFinite(earnings) && result.final > 0 ? `${Math.round((earnings / result.final) * 100)}% do final` : ""}</dd>
               </div>
               <div>
                 <dt className="text-xs text-ink-3">Valor final</dt>
@@ -277,12 +277,12 @@ export function Simulator() {
               </div>
             </dl>
             <p className="mt-3 text-[11px] text-ink-3">
-              Rentabilidad {real ? "real" : "nominal"} de {fmtRate(annual)}% al año ({fmtRate(r * 100)}% al mes), con aportes a fin de cada mes. Antes de impuestos. Es una
-              proyección: la rentabilidad real puede ser distinta.
+              Rentabilidade {real ? "real" : "nominal"} de {fmtRate(annual)}% ao ano ({fmtRate(r * 100)}% ao mês), com aportes no fim de cada mês. Antes de impostos. É uma
+              projeção: a rentabilidade real pode ser diferente.
             </p>
           </section>
 
-          <Card title="Proyección" subtitle="Lo que aportás vs. lo que rinde, año por año">
+          <Card title="Projeção" subtitle="O que você aporta x o que rende, ano a ano">
             {chartMonths > 0 ? (
               <>
                 <div className="h-64 sm:h-72">
@@ -296,9 +296,9 @@ export function Simulator() {
                           const d = payload?.[0]?.payload as (typeof series)[number] | undefined;
                           return active && d ? (
                             <div className="rounded-xl border border-line bg-surface px-3 py-2 text-xs shadow-[var(--shadow-lg)]">
-                              <div className="mb-1 font-medium">Año {d.year}</div>
+                              <div className="mb-1 font-medium">Ano {d.year}</div>
                               <div className="num">Aportado {fmtBRL(d.contributed)}</div>
-                              <div className="num text-pos">Rendimiento {fmtBRL(d.earnings)}</div>
+                              <div className="num text-pos">Rendimento {fmtBRL(d.earnings)}</div>
                               <div className="num mt-1 border-t border-line pt-1 font-semibold">{fmtBRL(d.value)}</div>
                             </div>
                           ) : null;
@@ -315,13 +315,13 @@ export function Simulator() {
                     <span className="h-2.5 w-2.5 rounded-sm" style={{ background: "var(--accent)" }} /> Aportado
                   </span>
                   <span className="flex items-center gap-1.5">
-                    <span className="h-2.5 w-2.5 rounded-sm" style={{ background: "var(--c-fiis)" }} /> Rendimiento
+                    <span className="h-2.5 w-2.5 rounded-sm" style={{ background: "var(--c-fiis)" }} /> Rendimento
                   </span>
                 </div>
               </>
             ) : (
               <p className="py-8 text-center text-sm text-ink-3">
-                {Number.isFinite(result.months) ? "Ya alcanzaste la meta con tu capital actual." : "Con esos datos la meta no se alcanza: subí el aporte o la rentabilidad."}
+                {Number.isFinite(result.months) ? "Você já alcançou a meta com o capital atual." : "Com esses dados a meta não é alcançada: aumente o aporte ou a rentabilidade."}
               </p>
             )}
           </Card>

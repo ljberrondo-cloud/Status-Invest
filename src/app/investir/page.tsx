@@ -19,7 +19,7 @@ export default function Invertir() {
 
   if (!data && error) return <ErrorState message={error.message} />;
   if (!data || !alerts.data) return <Skeleton className="h-96" />;
-  if (!alerts.data.targets) return <ErrorState message="Falta data/targets.json con los objetivos." />;
+  if (!alerts.data.targets) return <ErrorState message="Falta data/targets.json com as metas." />;
 
   // Proventos del mes pasado de cada uno, como sugerencia para reinvertir.
   const lastMonth = addMonths(isoDateSP().slice(0, 7), -1);
@@ -32,7 +32,7 @@ export default function Invertir() {
 
   return (
     <div className="space-y-8">
-      <PageHeader title="Invertir" subtitle="Qué comprar este mes con el aporte y los proventos, sólo entre los activos que ya tienen" />
+      <PageHeader title="Investir" subtitle="O que comprar este mês com o aporte e os proventos, só entre os ativos que vocês já têm" />
       <MonthlyPlan data={data} targets={alerts.data.targets} defaults={defaults} />
       <Strategy data={data} targets={alerts.data.targets} monthly={planned} />
     </div>

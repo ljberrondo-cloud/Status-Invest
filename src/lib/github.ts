@@ -41,7 +41,7 @@ async function gh(path: string, init: RequestInit = {}) {
 export async function githubFileSha(repo: string, path: string, branch?: string): Promise<string | null> {
   const res = await gh(`/repos/${repo}/contents/${encodeURI(path)}${branch ? `?ref=${encodeURIComponent(branch)}` : ""}`);
   if (res.status === 404) return null;
-  if (!res.ok) throw new GithubError(res.status, `GitHub respondió ${res.status}`);
+  if (!res.ok) throw new GithubError(res.status, `GitHub respondeu ${res.status}`);
   const j = (await res.json().catch(() => ({}))) as { sha?: string };
   return j.sha ?? "";
 }
@@ -58,7 +58,7 @@ export async function githubPutFile(repo: string, path: string, content: string,
   });
   if (!res.ok) {
     const j = (await res.json().catch(() => ({}))) as { message?: string };
-    throw new GithubError(res.status, j.message ?? `GitHub respondió ${res.status}`);
+    throw new GithubError(res.status, j.message ?? `GitHub respondeu ${res.status}`);
   }
 }
 
@@ -66,7 +66,7 @@ export async function githubPutFile(repo: string, path: string, content: string,
 export async function githubGetFile(repo: string, path: string, branch?: string): Promise<{ sha: string; content: string } | null> {
   const res = await gh(`/repos/${repo}/contents/${encodeURI(path)}${branch ? `?ref=${encodeURIComponent(branch)}` : ""}`);
   if (res.status === 404) return null;
-  if (!res.ok) throw new GithubError(res.status, `GitHub respondió ${res.status}`);
+  if (!res.ok) throw new GithubError(res.status, `GitHub respondeu ${res.status}`);
   const j = (await res.json()) as { sha: string; content?: string; encoding?: string };
   return { sha: j.sha, content: j.encoding === "base64" && j.content ? Buffer.from(j.content, "base64").toString("utf8") : (j.content ?? "") };
 }

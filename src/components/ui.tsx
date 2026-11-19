@@ -109,7 +109,7 @@ export function ChangePill({ pct, className = "", size = "sm" }: { pct: number |
   return (
     <span className={`num inline-flex items-center gap-0.5 rounded-md font-medium ${size === "md" ? "px-2 py-0.5 text-sm" : "px-1.5 py-0.5 text-xs"} ${tone} ${className}`}>
       {!flat && <Icon name={pct > 0 ? "up" : "down"} className={size === "md" ? "h-3.5 w-3.5" : "h-3 w-3"} strokeWidth={2.4} />}
-      {!flat && <span className="sr-only">{pct > 0 ? "sube " : "baja "}</span>}
+      {!flat && <span className="sr-only">{pct > 0 ? "alta " : "queda "}</span>}
       {fmtPct(pct).replace(/^[+−]/, "")}
     </span>
   );
@@ -121,11 +121,11 @@ export function ChangeText({ value, children }: { value: number | null; children
 
 /** Estado del dato: manual, última cotización disponible, sin cotización. */
 export function QuoteBadge({ p }: { p: Position }) {
-  if (p.status === "missing") return <Badge tone="neg">Sin cotización</Badge>;
+  if (p.status === "missing") return <Badge tone="neg">Sem cotação</Badge>;
   if (p.status === "manual") return <Badge tone="muted">Manual{p.quote ? ` · ${fmtDDMM(p.quote.asOf)}` : ""}</Badge>;
-  if (p.status === "stale" && p.quote) return <Badge tone="warn">Última cotización del {fmtDDMM(p.quote.asOf)}</Badge>;
+  if (p.status === "stale" && p.quote) return <Badge tone="warn">Última cotação de {fmtDDMM(p.quote.asOf)}</Badge>;
   // Fines de semana y feriados la última cotización es de días atrás: sólo se marca si tiene más de 4 días.
-  if (p.quote && addDays(isoDateSP(), -4) > isoDateSP(p.quote.asOf)) return <Badge tone="muted">Al {fmtDDMM(p.quote.asOf)}</Badge>;
+  if (p.quote && addDays(isoDateSP(), -4) > isoDateSP(p.quote.asOf)) return <Badge tone="muted">Em {fmtDDMM(p.quote.asOf)}</Badge>;
   return null;
 }
 
@@ -142,7 +142,7 @@ export function ProviderErrors({ errors, summary }: { errors: ProviderError[]; s
       <summary className="flex cursor-pointer list-none items-center gap-2 font-medium">
         <Icon name="alert" className="h-4 w-4 shrink-0" />
         <span className="flex-1">
-          {summary ?? `Algunas fuentes no respondieron (${errors.reduce((s, e) => s + Math.max(1, e.tickers.length), 0)}). Se muestra la última cotización disponible.`}
+          {summary ?? `Algumas fontes não responderam (${errors.reduce((s, e) => s + Math.max(1, e.tickers.length), 0)}). Mostrando a última cotação disponível.`}
         </span>
         <Icon name="chevron" className="h-4 w-4 shrink-0 transition group-open:rotate-180" />
       </summary>
@@ -164,7 +164,7 @@ export function ErrorState({ message }: { message: string }) {
       <span className="flex h-10 w-10 items-center justify-center rounded-full bg-neg-bg text-neg">
         <Icon name="alert" className="h-5 w-5" />
       </span>
-      <p className="mt-3 font-medium">No se pudieron cargar los datos</p>
+      <p className="mt-3 font-medium">Não foi possível carregar os dados</p>
       <p className="mt-1 max-w-md text-sm text-ink-3">{message}</p>
     </div>
   );

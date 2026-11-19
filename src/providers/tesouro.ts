@@ -123,7 +123,7 @@ export const tesouroProvider: PriceProvider = {
       return {
         quotes,
         errors: missing.length
-          ? [{ provider: "tesouro", message: "Título no encontrado (revisá provider_id 'Tipo Titulo;DD/MM/AAAA')", tickers: missing }]
+          ? [{ provider: "tesouro", message: "Título não encontrado (confira provider_id 'Tipo Titulo;DD/MM/AAAA')", tickers: missing }]
           : [],
       };
     } catch (e) {

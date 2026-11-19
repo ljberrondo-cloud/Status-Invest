@@ -98,8 +98,8 @@ export function computeAlerts(v: Valuation, t: Targets): Alert[] {
         id: `asset-${p.asset.ticker}`,
         level: "warning",
         kind: "concentracion_activo",
-        title: `${p.asset.name ?? p.asset.ticker} concentra ${fmt(w)}% de lo invertible`,
-        detail: `Límite por activo: ${fmt(t.concentration.max_asset_pct)}%.`,
+        title: `${p.asset.name ?? p.asset.ticker} concentra ${fmt(w)}% do investível`,
+        detail: `Limite por ativo: ${fmt(t.concentration.max_asset_pct)}%.`,
         current: w,
         limit: t.concentration.max_asset_pct,
       });
@@ -113,8 +113,8 @@ export function computeAlerts(v: Valuation, t: Targets): Alert[] {
         id: `class-${c.class}`,
         level: "warning",
         kind: "concentracion_clase",
-        title: `${c.label} concentra ${fmt(w)}% de lo invertible`,
-        detail: `Límite por clase: ${fmt(t.concentration.max_class_pct)}%.`,
+        title: `${c.label} concentra ${fmt(w)}% do investível`,
+        detail: `Limite por classe: ${fmt(t.concentration.max_class_pct)}%.`,
         current: w,
         limit: t.concentration.max_class_pct,
       });
@@ -126,8 +126,8 @@ export function computeAlerts(v: Valuation, t: Targets): Alert[] {
       id: `target-${r.class}`,
       level: "info",
       kind: "desvio_objetivo",
-      title: `${r.label}: ${fmt(r.currentPct)}% vs objetivo ${fmt(r.targetPct)}%`,
-      detail: `Desvío de ${r.deviation > 0 ? "+" : ""}${fmt(r.deviation)} p.p. (tolerancia ±${fmt(t.tolerance_pct)} p.p.).`,
+      title: `${r.label}: ${fmt(r.currentPct)}% x meta ${fmt(r.targetPct)}%`,
+      detail: `Desvio de ${r.deviation > 0 ? "+" : ""}${fmt(r.deviation)} p.p. (tolerância ±${fmt(t.tolerance_pct)} p.p.).`,
       current: r.currentPct,
       limit: r.targetPct,
     });

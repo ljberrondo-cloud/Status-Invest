@@ -11,7 +11,7 @@ import type { TechSummary } from "./technical";
 
 export type SignalKind = "compra" | "hodl" | "alerta" | "venta";
 
-export const SIGNAL_LABELS: Record<SignalKind, string> = { compra: "Compra", hodl: "Hodl", alerta: "Alerta", venta: "Venta" };
+export const SIGNAL_LABELS: Record<SignalKind, string> = { compra: "Compra", hodl: "Hodl", alerta: "Alerta", venta: "Venda" };
 
 export interface Note {
   text: string;
@@ -59,41 +59,41 @@ const num = (n: number, d = 1) => n.toLocaleString("pt-BR", { maximumFractionDig
 const FIXED: AssetClass[] = ["tesouro", "renta_fija", "fondos", "otros"];
 
 function techPart(t: TechSummary | null, alerts: string[]): { score: number | null; notes: Note[] } {
-  if (!t) return { score: null, notes: [{ text: "Sin historial de precios suficiente para el análisis técnico", tone: "neutral" }] };
+  if (!t) return { score: null, notes: [{ text: "Sem histórico de preços suficiente para a análise técnica", tone: "neutral" }] };
   const notes: Note[] = [];
   let s = 0;
   if (t.trend === "alcista") {
     s += 1;
-    notes.push({ text: "Tendencia alcista: precio sobre las medias de 20 y 50 ruedas", tone: "pos" });
+    notes.push({ text: "Tendência de alta: preço acima das médias de 20 e 50 pregões", tone: "pos" });
   } else if (t.trend === "bajista") {
     s -= 1;
-    notes.push({ text: "Tendencia bajista: precio bajo las medias de 20 y 50 ruedas", tone: "neg" });
-  } else if (t.trend === "lateral") notes.push({ text: "Tendencia lateral (medias de 20 y 50 ruedas cruzadas)", tone: "neutral" });
+    notes.push({ text: "Tendência de baixa: preço abaixo das médias de 20 e 50 pregões", tone: "neg" });
+  } else if (t.trend === "lateral") notes.push({ text: "Tendência lateral (médias de 20 e 50 pregões cruzadas)", tone: "neutral" });
 
   if (t.sma200 !== null) {
     const above = t.last > t.sma200;
     s += above ? 0.5 : -0.5;
-    notes.push({ text: `${above ? "Sobre" : "Bajo"} la media de 200 ruedas`, tone: above ? "pos" : "neg" });
+    notes.push({ text: `${above ? "Acima" : "Abaixo"} da média de 200 pregões`, tone: above ? "pos" : "neg" });
   }
   if (t.rsi !== null) {
     if (t.rsi < 30) {
       s += 1;
-      notes.push({ text: `RSI ${num(t.rsi, 0)}: sobrevendido, suele anticipar rebote`, tone: "pos" });
+      notes.push({ text: `RSI ${num(t.rsi, 0)}: sobrevendido, costuma antecipar repique`, tone: "pos" });
     } else if (t.rsi > 70) {
       s -= 1;
-      notes.push({ text: `RSI ${num(t.rsi, 0)}: sobrecomprado, conviene esperar`, tone: "neg" });
-    } else notes.push({ text: `RSI ${num(t.rsi, 0)}: neutral`, tone: "neutral" });
+      notes.push({ text: `RSI ${num(t.rsi, 0)}: sobrecomprado, melhor esperar`, tone: "neg" });
+    } else notes.push({ text: `RSI ${num(t.rsi, 0)}: neutro`, tone: "neutral" });
   }
   if (t.macdCross === "up") {
     s += 0.5;
-    notes.push({ text: "MACD cruzó hacia arriba en los últimos días", tone: "pos" });
+    notes.push({ text: "MACD cruzou para cima nos últimos dias", tone: "pos" });
   } else if (t.macdCross === "down") {
     s -= 0.5;
-    notes.push({ text: "MACD cruzó hacia abajo en los últimos días", tone: "neg" });
+    notes.push({ text: "MACD cruzou para baixo nos últimos dias", tone: "neg" });
   }
   if (t.fromHigh <= -25 && t.trend === "bajista") {
-    alerts.push(`Cayó ${pct(t.fromHigh)} desde el máximo del período y sigue en baja`);
-  } else if (t.fromHigh <= -10) notes.push({ text: `${pct(t.fromHigh)} desde el máximo del período`, tone: "neutral" });
+    alerts.push(`Caiu ${pct(t.fromHigh)} desde a máxima do período e segue em queda`);
+  } else if (t.fromHigh <= -10) notes.push({ text: `${pct(t.fromHigh)} desde a máxima do período`, tone: "neutral" });
   return { score: s, notes };
 }
 
@@ -106,58 +106,58 @@ function fundPart(i: SignalInput, alerts: string[]): { score: number | null; not
       any = true;
       if (i.pe < 0) {
         s -= 1;
-        alerts.push("La empresa da pérdidas (P/L negativo)");
+        alerts.push("A empresa dá prejuízo (P/L negativo)");
       } else if (i.pe <= 10) {
         s += 1;
-        notes.push({ text: `P/L ${num(i.pe)}: barata frente a sus ganancias`, tone: "pos" });
+        notes.push({ text: `P/L ${num(i.pe)}: barata em relação ao lucro`, tone: "pos" });
       } else if (i.pe > 25) {
         s -= 1;
-        notes.push({ text: `P/L ${num(i.pe)}: cara frente a sus ganancias`, tone: "neg" });
-      } else notes.push({ text: `P/L ${num(i.pe)}: precio razonable`, tone: "neutral" });
+        notes.push({ text: `P/L ${num(i.pe)}: cara em relação ao lucro`, tone: "neg" });
+      } else notes.push({ text: `P/L ${num(i.pe)}: preço razoável`, tone: "neutral" });
     }
     if (i.dy !== null) {
       any = true;
       if (i.dy >= 8) {
         s += 1;
-        notes.push({ text: `Dividend yield ${num(i.dy)}% en 12 meses: alto`, tone: "pos" });
-      } else if (i.dy >= 4) notes.push({ text: `Dividend yield ${num(i.dy)}% en 12 meses`, tone: "neutral" });
-      else notes.push({ text: `Dividend yield ${num(i.dy)}% en 12 meses: bajo`, tone: "neutral" });
+        notes.push({ text: `Dividend yield de ${num(i.dy)}% em 12 meses: alto`, tone: "pos" });
+      } else if (i.dy >= 4) notes.push({ text: `Dividend yield de ${num(i.dy)}% em 12 meses`, tone: "neutral" });
+      else notes.push({ text: `Dividend yield de ${num(i.dy)}% em 12 meses: baixo`, tone: "neutral" });
     }
   } else if (i.cls === "fiis") {
     if (i.dy !== null) {
       any = true;
       if (i.dy >= 10) {
         s += 1;
-        notes.push({ text: `Rinde ${num(i.dy)}% al año en rendimientos: atractivo`, tone: "pos" });
+        notes.push({ text: `Rende ${num(i.dy)}% ao ano em rendimentos: atrativo`, tone: "pos" });
       } else if (i.dy < 7) {
         s -= 1;
-        notes.push({ text: `Rinde ${num(i.dy)}% al año: por debajo de la renta fija`, tone: "neg" });
-      } else notes.push({ text: `Rinde ${num(i.dy)}% al año en rendimientos`, tone: "neutral" });
+        notes.push({ text: `Rende ${num(i.dy)}% ao ano: abaixo da renda fixa`, tone: "neg" });
+      } else notes.push({ text: `Rende ${num(i.dy)}% ao ano em rendimentos`, tone: "neutral" });
     }
     if (i.incomeTrend !== null) {
       any = true;
       if (i.incomeTrend <= -15) {
         s -= 1;
-        alerts.push(`Bajó el rendimiento mensual: ${pct(i.incomeTrend)} en los últimos 3 pagos`);
+        alerts.push(`Rendimento mensal caiu: ${pct(i.incomeTrend)} nos últimos 3 pagamentos`);
       } else if (i.incomeTrend >= 5) {
         s += 0.5;
-        notes.push({ text: `Rendimiento mensual en alza (${pct(i.incomeTrend)})`, tone: "pos" });
-      } else notes.push({ text: "Rendimiento mensual estable", tone: "pos" });
+        notes.push({ text: `Rendimento mensal em alta (${pct(i.incomeTrend)})`, tone: "pos" });
+      } else notes.push({ text: "Rendimento mensal estável", tone: "pos" });
     }
-  } else if (i.cls === "etfs") notes.push({ text: "ETF: replica un índice, sin balance propio que analizar", tone: "neutral" });
-  else if (i.cls === "cripto") notes.push({ text: "Cripto: no tiene ganancias ni dividendos, sólo análisis técnico", tone: "neutral" });
+  } else if (i.cls === "etfs") notes.push({ text: "ETF: replica um índice, sem balanço próprio para analisar", tone: "neutral" });
+  else if (i.cls === "cripto") notes.push({ text: "Cripto: não tem lucro nem dividendos, só análise técnica", tone: "neutral" });
 
   if (i.price !== null && i.low52 !== null && i.high52 !== null && i.high52 > i.low52) {
     const pos = ((i.price - i.low52) / (i.high52 - i.low52)) * 100;
     any = true;
     notes.push({
-      text: `En el ${num(pos, 0)}% del rango de 52 semanas (R$ ${num(i.low52, 2)} – R$ ${num(i.high52, 2)})`,
+      text: `Em ${num(pos, 0)}% da faixa de 52 semanas (R$ ${num(i.low52, 2)} – R$ ${num(i.high52, 2)})`,
       tone: pos <= 20 ? "pos" : pos >= 90 ? "neg" : "neutral",
     });
     if (pos <= 20) s += 0.5;
     else if (pos >= 90) s -= 0.5;
   }
-  if (!any && !notes.length) notes.push({ text: "Sin datos fundamentales disponibles", tone: "neutral" });
+  if (!any && !notes.length) notes.push({ text: "Sem dados fundamentalistas disponíveis", tone: "neutral" });
   return { score: any ? s : null, notes };
 }
 
@@ -170,8 +170,8 @@ export function buildSignal(i: SignalInput): SignalResult {
       fundScore: null,
       tech: [],
       fund: [],
-      portfolio: [{ text: "Fuera de los objetivos: es un aporte de la empresa y no se puede mover", tone: "neutral" }],
-      headline: "No se puede mover: se mantiene",
+      portfolio: [{ text: "Fora das metas: é um aporte da empresa e não pode ser movido", tone: "neutral" }],
+      headline: "Não pode ser movido: manter",
     };
   if (FIXED.includes(i.cls))
     return {
@@ -180,9 +180,9 @@ export function buildSignal(i: SignalInput): SignalResult {
       techScore: null,
       fundScore: null,
       tech: [],
-      fund: [{ text: "Renta fija: la rentabilidad se define al comprar; vender antes del vencimiento puede costar", tone: "neutral" }],
+      fund: [{ text: "Renda fixa: a rentabilidade é definida na compra; vender antes do vencimento pode custar caro", tone: "neutral" }],
       portfolio: classNotes(i, []),
-      headline: "Renta fija: mantener hasta el vencimiento",
+      headline: "Renda fixa: manter até o vencimento",
     };
 
   const alerts: string[] = [];
@@ -203,32 +203,32 @@ export function buildSignal(i: SignalInput): SignalResult {
   let headline: string;
   if (score <= -2) {
     signal = "venta";
-    headline = alerts[0] ?? "Técnico y fundamentos en contra: evaluar reducir";
+    headline = alerts[0] ?? "Técnico e fundamentos contra: avaliar reduzir";
   } else if (alerts.length) {
     signal = "alerta";
     headline = alerts[0];
   } else if (score >= 1.5 && !classOver && !overweight) {
     signal = "compra";
-    headline = "Señales a favor y su clase tiene lugar en la cartera";
+    headline = "Sinais a favor e a classe tem espaço na carteira";
   } else {
     signal = "hodl";
     headline =
       score >= 1.5 && (classOver || overweight)
-        ? "Buenas señales, pero ya pesa mucho en la cartera: mantener"
+        ? "Bons sinais, mas já pesa muito na carteira: manter"
         : score <= -1
-          ? "Señales flojas: mantener y no sumar por ahora"
-          : "Sin señales fuertes: mantener";
+          ? "Sinais fracos: manter e não aportar por enquanto"
+          : "Sem sinais fortes: manter";
   }
   return { signal, score: Math.round(score * 10) / 10, techScore: tech.score, fundScore: fund.score, tech: tech.notes, fund: fund.notes, portfolio, headline };
 }
 
 function classNotes(i: SignalInput, alerts: string[]): Note[] {
   const out: Note[] = [];
-  if (i.weight !== null && i.weight > i.maxAssetPct) alerts.push(`Concentración: pesa ${num(i.weight)}% de lo invertible (límite ${i.maxAssetPct}%)`);
+  if (i.weight !== null && i.weight > i.maxAssetPct) alerts.push(`Concentração: pesa ${num(i.weight)}% do investível (limite ${i.maxAssetPct}%)`);
   if (i.classGap !== null) {
-    if (i.classGap > i.tolerance) out.push({ text: `Su clase está ${num(i.classGap)} p.p. arriba del objetivo`, tone: "neg" });
-    else if (i.classGap < -i.tolerance) out.push({ text: `Su clase está ${num(-i.classGap)} p.p. abajo del objetivo`, tone: "pos" });
-    else out.push({ text: "Su clase está dentro del objetivo", tone: "neutral" });
+    if (i.classGap > i.tolerance) out.push({ text: `A classe está ${num(i.classGap)} p.p. acima da meta`, tone: "neg" });
+    else if (i.classGap < -i.tolerance) out.push({ text: `A classe está ${num(-i.classGap)} p.p. abaixo da meta`, tone: "pos" });
+    else out.push({ text: "A classe está dentro da meta", tone: "neutral" });
   }
   return out;
 }

@@ -32,13 +32,13 @@ export function parseFredCpi(csv: string): Indicator[] {
     const [y, m] = nsa[i].date.split("-");
     const prevYear = nsa.find((r) => r.date === `${Number(y) - 1}-${m}-01`);
     if (!prevYear) continue;
-    out.push({ id: "cpiUs12m", label: "EE.UU.", value: round2((nsa[i].nsa / prevYear.nsa - 1) * 100), unit: "% 12m", date: nsa[i].date });
+    out.push({ id: "cpiUs12m", label: "EUA", value: round2((nsa[i].nsa / prevYear.nsa - 1) * 100), unit: "% 12m", date: nsa[i].date });
     break;
   }
   const sa = rows.filter((r) => Number.isFinite(r.sa) && r.sa > 0);
   if (sa.length >= 2) {
     const [a, b] = sa.slice(-2);
-    out.push({ id: "cpiUsMes", label: "EE.UU. mes", value: round2((b.sa / a.sa - 1) * 100), unit: "% mes", date: b.date });
+    out.push({ id: "cpiUsMes", label: "EUA mês", value: round2((b.sa / a.sa - 1) * 100), unit: "% mes", date: b.date });
   }
   return out;
 }
@@ -51,7 +51,7 @@ export function mapArgentina(monthly: { fecha: string; valor: number }[], yearly
   const y = yearly.filter((r) => Number.isFinite(r.valor)).at(-1);
   if (y) out.push({ id: "ipcAr12m", label: "Argentina", value: y.valor, unit: "% 12m", date: monthStart(y.fecha) });
   const m = monthly.filter((r) => Number.isFinite(r.valor)).at(-1);
-  if (m) out.push({ id: "ipcArMes", label: "Argentina mes", value: m.valor, unit: "% mes", date: monthStart(m.fecha) });
+  if (m) out.push({ id: "ipcArMes", label: "Argentina mês", value: m.valor, unit: "% mes", date: monthStart(m.fecha) });
   return out;
 }
 
@@ -70,9 +70,9 @@ export const inflationProvider: IndicatorProvider = {
       ]),
     ]);
     if (us.status === "fulfilled") indicators.push(...parseFredCpi(us.value));
-    else errors.push({ provider: "fred", message: errorMessage(us.reason), tickers: ["Inflación EE.UU."] });
+    else errors.push({ provider: "fred", message: errorMessage(us.reason), tickers: ["Inflação EUA"] });
     if (ar.status === "fulfilled") indicators.push(...mapArgentina(...ar.value));
-    else errors.push({ provider: "argentinadatos", message: errorMessage(ar.reason), tickers: ["Inflación Argentina"] });
+    else errors.push({ provider: "argentinadatos", message: errorMessage(ar.reason), tickers: ["Inflação Argentina"] });
     return { indicators, errors };
   },
 };
