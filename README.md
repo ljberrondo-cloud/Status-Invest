@@ -128,5 +128,6 @@ Cripto, previdencia (Zurich), FGTS y el CDB no están en B3: siguen siendo valor
 
 ## Análisis y horario de bolsas
 
+- **Columna izquierda → inflación:** Brasil (IPCA, BCB), EE.UU. (CPI del BLS vía FRED, `fred.stlouisfed.org`) y Argentina (IPC del INDEC vía `api.argentinadatos.com`), sin claves. Si falta un mes en la fuente, el 12 meses se muestra con el último mes comparable y se aclara.
 - **Resumen → bolsas:** Ibovespa, S&P 500 y Nasdaq con su valor (brapi), si están abiertas y cuánto falta para cerrar o abrir, en hora de Brasília. Los horarios y feriados de B3 y NYSE/Nasdaq están en `src/lib/market-hours.ts` (cargar los feriados de cada año nuevo).
 - **Análisis:** señal Compra / Hodl / Alerta / Venta por activo. Técnico: medias de 20/50 ruedas (200 en cripto), RSI 14, MACD y caída desde el máximo (3 meses de B3 por brapi gratis, 1 año de cripto por CoinGecko). Fundamental: P/L (brapi), rango de 52 semanas y rendimiento por cuota de los proventos cobrados. También cuenta el peso de la clase frente a `data/targets.json`. Reglas en `src/lib/signals.ts`; caché de 6 h. No es una recomendación de inversión.

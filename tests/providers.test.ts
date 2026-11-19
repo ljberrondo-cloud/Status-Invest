@@ -139,3 +139,27 @@ describe("dolarapi", () => {
     expect(mapDolarApi("brlArs", "Real", { moneda: "BRL", casa: "oficial", compra: null, venta: null, fechaActualizacion: "" })).toBeNull();
   });
 });
+
+import { mapArgentina, parseFredCpi } from "@/providers/inflation";
+describe("inflación EE.UU. y Argentina", () => {
+  it("CPI: 12 meses sin desestacionalizar y mes desestacionalizado", () => {
+    const csv = "observation_date,CPIAUCNS,CPIAUCSL\n2025-10-01,324.0,323.5\n2026-09-01,336.94,336.298\n2026-10-01,337.511,337.476\n";
+    const r = parseFredCpi(csv);
+    expect(r.find((i) => i.id === "cpiUs12m")).toMatchObject({ value: 4.17, date: "2026-10-01", unit: "% 12m" });
+    expect(r.find((i) => i.id === "cpiUsMes")).toMatchObject({ value: 0.35, unit: "% mes" });
+  });
+  it("si falta el mes del año anterior usa el último mes comparable", () => {
+    const csv = "observation_date,CPIAUCNS,CPIAUCSL\n2025-09-01,324.8,324.245\n2025-10-01,,\n2026-09-01,336.94,336.298\n2026-10-01,337.511,337.476\n";
+    expect(parseFredCpi(csv).find((i) => i.id === "cpiUs12m")).toMatchObject({ value: 3.74, date: "2026-09-01" });
+  });
+  it("sin el mismo mes del año anterior no inventa el 12 meses", () => {
+    expect(parseFredCpi("observation_date,CPIAUCNS,CPIAUCSL\n2026-10-01,337.5,.\n").map((i) => i.id)).toEqual([]);
+  });
+  it("Argentina: último dato de cada serie con su mes", () => {
+    const r = mapArgentina([{ fecha: "2026-10-31", valor: 2.2 }], [{ fecha: "2026-09-30", valor: 33.4 }, { fecha: "2026-10-31", valor: 33.1 }]);
+    expect(r).toEqual([
+      { id: "ipcAr12m", label: "Argentina", value: 33.1, unit: "% 12m", date: "2026-10-01" },
+      { id: "ipcArMes", label: "Argentina mes", value: 2.2, unit: "% mes", date: "2026-10-01" },
+    ]);
+  });
+});

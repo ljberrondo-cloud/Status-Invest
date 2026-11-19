@@ -82,7 +82,34 @@ const fmtIndicator = (i: Indicator) =>
       ? `$ ${i.value.toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
       : `${i.value.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`;
 
-const RATE_IDS: Indicator["id"][] = ["cdi", "selic", "ipca12m", "ipcaMes"];
+const RATE_IDS: Indicator["id"][] = ["cdi", "selic"];
+
+const MONTHS = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
+const fmtRate = (n: number) => `${n.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`;
+
+/** Inflación por país: 12 meses y último mes publicado. */
+function inflationRows(ind: Indicator[]) {
+  const by = new Map(ind.map((i) => [i.id, i]));
+  const rows: { key: string; label: string; hint: string; y?: Indicator; m?: Indicator }[] = [
+    { key: "br", label: "Brasil", hint: "IPCA · IBGE (BCB)", y: by.get("ipca12m"), m: by.get("ipcaMes") },
+    { key: "us", label: "EE.UU.", hint: "CPI · BLS (FRED)", y: by.get("cpiUs12m"), m: by.get("cpiUsMes") },
+    { key: "ar", label: "Argentina", hint: "IPC · INDEC", y: by.get("ipcAr12m"), m: by.get("ipcArMes") },
+  ];
+  return rows
+    .filter((r) => r.y || r.m)
+    .map((r) => {
+      const mon = (d: string) => `${MONTHS[Number(d.slice(5, 7)) - 1]} ${d.slice(2, 4)}`;
+      const month = mon((r.m ?? r.y)!.date);
+      // Si el 12 meses es de otro mes (dato faltante en la fuente), se aclara.
+      const yMonth = r.y && r.m && r.y.date !== r.m.date ? mon(r.y.date) : null;
+      return {
+        ...r,
+        value: r.y ? fmtRate(r.y.value) : "—",
+        extra: `${r.m ? `mes ${fmtRate(r.m.value)} · ` : ""}${month}${yMonth ? ` · 12m a ${yMonth}` : ""}`,
+        title: `${r.hint}. Acumulada 12 meses${yMonth ? ` (hasta ${yMonth}: falta el mismo mes del año anterior)` : ""} y variación del mes (${month})`,
+      };
+    });
+}
 
 /** Pares de monedas: cuánto cuesta 1 unidad de la segunda en la primera. */
 function currencyRows(ind: Indicator[]) {
@@ -108,14 +135,15 @@ function MarketList() {
   if (!data?.indicators.length) return null;
   const rates = data.indicators.filter((i) => RATE_IDS.includes(i.id));
   const fx = currencyRows(data.indicators);
+  const infl = inflationRows(data.indicators);
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {fx.length > 0 && (
         <div>
           <div className="eyebrow mb-2 px-3">Monedas</div>
           <ul className="space-y-0.5">
             {fx.map((r) => (
-              <li key={r.key} className="rounded-lg px-3 py-1.5" title={r.hint}>
+              <li key={r.key} className="rounded-lg px-3 py-1" title={r.hint}>
                 <div className="flex items-baseline justify-between gap-2 text-[13px]">
                   <span className="text-ink-2">{r.label}</span>
                   <span className="num font-medium">{fmtIndicator(r.main!)}</span>
@@ -131,9 +159,28 @@ function MarketList() {
           <div className="eyebrow mb-2 px-3">Tasas</div>
           <ul className="space-y-0.5">
             {rates.map((i) => (
-              <li key={i.id} className="flex items-baseline justify-between rounded-lg px-3 py-1.5 text-[13px]">
+              <li key={i.id} className="flex items-baseline justify-between rounded-lg px-3 py-1 text-[13px]">
                 <span className="text-ink-2">{i.label}</span>
                 <span className="num font-medium">{fmtIndicator(i)}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {infl.length > 0 && (
+        <div>
+          <div className="eyebrow mb-2 flex justify-between px-3">
+            <span>Inflación</span>
+            <span className="normal-case tracking-normal">12 meses</span>
+          </div>
+          <ul className="space-y-0.5">
+            {infl.map((r) => (
+              <li key={r.key} className="rounded-lg px-3 py-1" title={r.title}>
+                <div className="flex items-baseline justify-between gap-2 text-[13px]">
+                  <span className="text-ink-2">{r.label}</span>
+                  <span className="num font-medium">{r.value}</span>
+                </div>
+                <div className="num mt-0.5 text-right text-[11px] text-ink-3">{r.extra}</div>
               </li>
             ))}
           </ul>
@@ -150,6 +197,7 @@ export function MarketStrip() {
   const items = [
     ...currencyRows(data.indicators).map((r) => ({ key: r.key, label: r.label, value: fmtIndicator(r.main!), extra: r.extra })),
     ...data.indicators.filter((i) => RATE_IDS.includes(i.id)).map((i) => ({ key: i.id, label: i.label, value: fmtIndicator(i), extra: undefined as string | undefined })),
+    ...inflationRows(data.indicators).map((r) => ({ key: `infl-${r.key}`, label: `Inflación ${r.label} 12m`, value: r.value, extra: r.extra as string | undefined })),
   ];
   return (
     <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 lg:hidden">
@@ -192,26 +240,30 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <div className="px-3">
           <Logo />
         </div>
-        <nav className="mt-8 space-y-1" aria-label="Secciones">
+        <nav className="mt-6 space-y-0.5" aria-label="Secciones">
           {NAV.map((n) => (
             <Link
               key={n.href}
               href={n.href}
-              className={`flex items-center gap-3 rounded-xl px-3 py-2 text-sm transition ${active(n.href) ? "bg-surface-2 font-medium text-ink" : "text-ink-2 hover:bg-surface-2/60 hover:text-ink"}`}
+              className={`flex items-center gap-3 rounded-xl px-3 py-[7px] text-sm transition ${active(n.href) ? "bg-surface-2 font-medium text-ink" : "text-ink-2 hover:bg-surface-2/60 hover:text-ink"}`}
             >
               <Icon name={n.icon} className={`h-[18px] w-[18px] ${active(n.href) ? "text-accent" : ""}`} />
               {n.label}
             </Link>
           ))}
         </nav>
-        <div className="no-scrollbar mt-8 min-h-0 flex-1 overflow-y-auto pb-4">
+        <div className="no-scrollbar mt-6 min-h-0 flex-1 overflow-y-auto pb-4">
           <MarketList />
         </div>
-        <div className="space-y-3 border-t border-line px-3 pt-4">
+        <div className="space-y-2.5 border-t border-line px-3 pt-3">
           <ThemeToggle />
-          <PrivacyToggle hidden={hidden} onChange={setHidden} />
-          <UpdatedAt />
-          <RefreshButton />
+          <div className="flex items-center justify-between gap-2">
+            <UpdatedAt />
+            <div className="flex gap-2">
+              <PrivacyToggle hidden={hidden} onChange={setHidden} compact />
+              <RefreshButton compact />
+            </div>
+          </div>
           <Logout />
         </div>
       </aside>

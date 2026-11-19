@@ -69,7 +69,7 @@ export interface ProviderError {
 }
 
 export interface Indicator {
-  id: "cdi" | "selic" | "ipca12m" | "ipcaMes" | "usd" | "usdArs" | "usdArsBlue" | "usdArsMep" | "brlArs";
+  id: "cdi" | "selic" | "ipca12m" | "ipcaMes" | "cpiUs12m" | "cpiUsMes" | "ipcAr12m" | "ipcArMes" | "usd" | "usdArs" | "usdArsBlue" | "usdArsMep" | "brlArs";
   label: string;
   value: number;
   unit: "% a.a." | "% mes" | "% 12m" | "R$" | "AR$";
