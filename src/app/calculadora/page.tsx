@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useSyncExternalStore } from "react";
 import { Area, AreaChart, CartesianGrid, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { usePortfolio } from "@/components/data";
 import { Card, PageHeader, Segmented } from "@/components/ui";
@@ -15,6 +15,16 @@ const MODES = [
 ] as const;
 
 const parseMoney = (s: string) => Number(s.replace(/\D/g, "")) || 0;
+const MONTHLY_KEY = "calc:aporte";
+const noop = () => () => {};
+function readStoredMonthly(): number | null {
+  try {
+    const v = localStorage.getItem(MONTHLY_KEY);
+    return v !== null && Number.isFinite(Number(v)) ? Number(v) : null;
+  } catch {
+    return null;
+  }
+}
 const fmtInt = (n: number) => (n ? Math.round(n).toLocaleString("pt-BR") : "");
 const fmtRate = (n: number) => n.toLocaleString("pt-BR", { maximumFractionDigits: 2 });
 
@@ -68,7 +78,16 @@ export default function Calculadora() {
   const [mode, setMode] = useState<Mode>("aporte");
   const [goal, setGoal] = useState(1_000_000);
   const [initial, setInitial] = useState<number | null>(null); // null = usar el patrimonio actual
-  const [monthly, setMonthly] = useState(5_000);
+  // El aporte mensual queda guardado en el dispositivo.
+  const stored = useSyncExternalStore(noop, readStoredMonthly, () => null);
+  const [edited, setEdited] = useState<number | null>(null);
+  const monthly = edited ?? stored ?? 5_000;
+  const setMonthly = (n: number) => {
+    setEdited(n);
+    try {
+      localStorage.setItem(MONTHLY_KEY, String(n));
+    } catch {}
+  };
   const [years, setYears] = useState(10);
   const [rate, setRate] = useState<number | null>(null); // null = CDI de hoy
   const [rateText, setRateText] = useState<string | null>(null); // lo que se está escribiendo
@@ -98,6 +117,9 @@ export default function Calculadora() {
     const n = Math.max(1, Math.round(years * 12));
     return { months: n, A: monthly, final: futureValue(P, monthly, r, n) };
   }, [mode, P, goal, r, years, monthly]);
+
+  // Modo "¿Cuánto aportar?": qué pasa con lo que invertís hoy.
+  const withMine = mode === "aporte" ? { months: monthsToGoal(P, monthly, goal, r), atTerm: futureValue(P, monthly, r, result.months) } : null;
 
   const chartMonths = Number.isFinite(result.months) ? result.months : 0;
   const series = useMemo(() => projection(P, result.A, r, chartMonths), [P, result.A, r, chartMonths]);
@@ -148,11 +170,9 @@ export default function Calculadora() {
             >
               <MoneyInput value={P} onChange={(n) => setInitial(n)} />
             </Field>
-            {mode !== "aporte" && (
-              <Field label="Aporte mensual">
-                <MoneyInput value={monthly} onChange={setMonthly} />
-              </Field>
-            )}
+            <Field label="Aporte mensual" hint={mode === "aporte" ? "Lo que invertís hoy por mes: se compara con el aporte necesario" : "Lo que invertís por mes"}>
+              <MoneyInput value={monthly} onChange={setMonthly} />
+            </Field>
             {mode !== "tiempo" && (
               <Field label={`Plazo: ${years} ${years === 1 ? "año" : "años"}`}>
                 <input type="range" min={1} max={40} value={years} onChange={(e) => setYears(Number(e.target.value))} className="w-full accent-[var(--accent)]" aria-label="Plazo en años" />
@@ -215,12 +235,32 @@ export default function Calculadora() {
             <div className="eyebrow">{headlineLabel}</div>
             <div className="num mt-2 text-[2.4rem] leading-none font-semibold tracking-[-0.03em] sm:text-5xl">{headline}</div>
             {mode === "aporte" && result.A > 0 && <div className="num mt-2 text-sm text-ink-2">{fmtBRL(result.A * 12)} por año</div>}
+            {mode === "aporte" && result.A > 0 && withMine && (
+              <div className={`mt-3 rounded-xl px-3.5 py-2.5 text-sm ${monthly >= result.A ? "bg-pos-bg text-pos" : "bg-warn-bg text-warn"}`}>
+                {monthly >= result.A ? (
+                  <>
+                    Con tu aporte de <b className="num">{fmtBRL(monthly)}</b> llegás antes: en <b>{fmtDuration(withMine.months)}</b>.
+                  </>
+                ) : (
+                  <>
+                    Con tu aporte de <b className="num">{fmtBRL(monthly)}</b> llegarías a <b className="num">{fmtBRL(withMine.atTerm)}</b> en {years}{" "}
+                    {years === 1 ? "año" : "años"}: te faltan <b className="num">{fmtBRL(result.A - monthly)}</b> por mes
+                    {Number.isFinite(withMine.months) ? <>, o llegás en {fmtDuration(withMine.months)}</> : null}.
+                  </>
+                )}
+              </div>
+            )}
             {mode === "aporte" && result.A === 0 && (
               <div className="mt-2 text-sm text-ink-2">
                 Con tu capital y {fmtRate(annual)}% al año llegás a la meta en <b>{fmtDuration(monthsToGoal(P, 0, goal, r))}</b>, sin aportar nada.
               </div>
             )}
-            <dl className="mt-6 grid grid-cols-1 gap-3 rounded-2xl border border-line/80 bg-surface/60 p-4 sm:grid-cols-3 sm:gap-4">
+            <dl className="mt-6 grid grid-cols-2 gap-3 rounded-2xl border border-line/80 bg-surface/60 p-4 sm:grid-cols-4 sm:gap-4">
+              <div>
+                <dt className="text-xs text-ink-3">Aporte mensual</dt>
+                <dd className="num mt-1 font-semibold">{Number.isFinite(result.A) ? fmtBRL(result.A) : "—"}</dd>
+                <dd className="text-[11px] text-ink-3">{mode === "aporte" ? "necesario" : "el tuyo"}</dd>
+              </div>
               <div>
                 <dt className="text-xs text-ink-3">Vas a aportar</dt>
                 <dd className="num mt-1 font-semibold">{Number.isFinite(contributed) ? fmtBRL(contributed) : "—"}</dd>
