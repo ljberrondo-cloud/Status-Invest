@@ -37,7 +37,7 @@ export default function Alertas() {
     <div className="space-y-5">
       <PageHeader
         title="Alertas"
-        subtitle={`Límites: ${t.concentration.max_asset_pct}% por activo · ${t.concentration.max_class_pct}% por clase · tolerancia ±${t.tolerance_pct} p.p. sobre el objetivo`}
+        subtitle={`Sobre lo que manejan${t.exclude_from_allocation?.length ? " (sin la previdencia de empresa)" : ""}. Límites: ${t.concentration.max_asset_pct}% por activo · ${t.concentration.max_class_pct}% por clase · tolerancia ±${t.tolerance_pct} p.p.`}
         action={
           <span className={`rounded-full px-3 py-1 text-sm font-medium ${data.alerts.length ? "bg-warn-bg text-warn" : "bg-pos-bg text-pos"}`}>
             {data.alerts.length ? `${data.alerts.length} activa${data.alerts.length > 1 ? "s" : ""}` : "Todo en orden"}
@@ -97,7 +97,7 @@ export default function Alertas() {
         </ul>
         <p className="mt-4 text-xs text-ink-3">
           Base de cálculo {fmtBRL(data.allocation.base)}
-          {t.exclude_from_allocation?.length ? ` (excluye ${t.exclude_from_allocation.join(", ")})` : ""}. La línea negra marca el objetivo. Se edita en data/targets.json.
+          {t.exclude_from_allocation?.length ? ` (sin ${t.exclude_from_allocation.join(", ")}: cuenta en el patrimonio, pero no se puede mover)` : ""}. La línea negra marca el objetivo. Se edita en data/targets.json.
         </p>
       </Card>
     </div>

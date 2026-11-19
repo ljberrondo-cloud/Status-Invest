@@ -14,7 +14,9 @@
     "otros": 10
   },
   "tolerance_pct": 5,
-  "exclude_from_allocation": [],
+  "exclude_from_allocation": [
+    "PREVIDENCIA"
+  ],
   "asset_weights": {
     "cripto": {
       "BTC": 70,

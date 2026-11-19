@@ -6,7 +6,7 @@ import { Hero } from "@/components/home/Hero";
 import { AlertsCard, AllocationCard, IncomeCard, MoversCard } from "@/components/home/Cards";
 import { MarketStrip } from "@/components/AppShell";
 import { Card, ErrorState, ProviderErrors, Skeleton } from "@/components/ui";
-import type { Alert } from "@/lib/alerts";
+import { classPctOfInvestable, type Alert } from "@/lib/alerts";
 import type { HistoryPoint, Targets } from "@/lib/types";
 import type { ReceivedSummary } from "@/lib/received";
 
@@ -48,7 +48,13 @@ export default function Resumen() {
       <MarketStrip />
 
       <div className="grid gap-5 lg:grid-cols-12 lg:gap-6">
-        <AllocationCard classes={data.byClass} total={data.total} targets={alerts.data?.targets ?? null} className="lg:col-span-7" />
+        <AllocationCard
+          classes={data.byClass}
+          total={data.total}
+          targets={alerts.data?.targets ?? null}
+          managedPct={alerts.data?.targets ? classPctOfInvestable(data, alerts.data.targets) : null}
+          className="lg:col-span-7"
+        />
         <MoversCard positions={data.positions} className="lg:col-span-5" />
         <IncomeCard received={rec} className="lg:col-span-7" />
         <AlertsCard alerts={alerts.data?.alerts ?? null} className="lg:col-span-5" />

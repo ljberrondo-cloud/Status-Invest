@@ -10,7 +10,7 @@
  *    Lo que sobra por redondeo se usa para cuotas enteras de los activos más atrasados que entren.
  * 4. Cada compra se asigna a una cuenta (la que ya tiene ese activo, si le alcanza el presupuesto).
  */
-import { shareInClass } from "./alerts";
+import { isExcluded, shareInClass } from "./alerts";
 import type { AssetClass, Position, Targets } from "./types";
 
 export interface Budget {
@@ -61,10 +61,12 @@ function roundUnits(step: Step, amount: number, price: number): number {
 
 export function planContribution(positions: Position[], targets: Targets, budgets: Budget[], maxAssets = 5): ContributionPlan {
   const cash = Math.max(0, budgets.reduce((s, b) => s + Math.max(0, b.amount), 0));
-  const total = positions.reduce((s, p) => s + (p.value ?? 0), 0);
+  // Los objetivos se miden sobre la parte invertible (sin activos excluidos, como la previdencia de empresa).
+  const managed = positions.filter((p) => !isExcluded(p.asset.ticker, targets));
+  const total = managed.reduce((s, p) => s + (p.value ?? 0), 0);
   const after = total + cash;
 
-  const eligible = positions.filter(
+  const eligible = managed.filter(
     (p) =>
       p.value !== null &&
       (p.price ?? 0) > 0 &&
@@ -81,7 +83,7 @@ export function planContribution(positions: Position[], targets: Targets, budget
   // activos esté por debajo de su parte; y a una clase no se le asigna más de lo que le falta.
   const classGap = new Map<AssetClass, number>();
   for (const c of perClass.keys()) {
-    const value = positions.filter((p) => p.asset.class === c).reduce((s, p) => s + (p.value ?? 0), 0);
+    const value = managed.filter((p) => p.asset.class === c).reduce((s, p) => s + (p.value ?? 0), 0);
     classGap.set(c, Math.max(0, ((targets.allocation[c] ?? 0) / 100) * after - value));
   }
   const raw0 = eligible.map((p) => ({ p, ideal: idealOf(p), gap: Math.max(0, idealOf(p) - (p.value ?? 0)) }));
@@ -210,9 +212,9 @@ export function planContribution(positions: Position[], targets: Targets, budget
     b.weightAfter = after > 0 ? (((p.value ?? 0) + (boughtBy.get(b.ticker) ?? 0)) / after) * 100 : 0;
   }
 
-  const classes = [...new Set(positions.map((p) => p.asset.class))];
+  const classes = [...new Set(managed.map((p) => p.asset.class))];
   const classesAfter = classes.map((c) => {
-    const v = positions.filter((p) => p.asset.class === c).reduce((s, p) => s + (p.value ?? 0), 0);
+    const v = managed.filter((p) => p.asset.class === c).reduce((s, p) => s + (p.value ?? 0), 0);
     const add = buys.filter((b) => b.class === c).reduce((s, b) => s + b.amount, 0);
     return { class: c, before: total > 0 ? (v / total) * 100 : 0, after: after > 0 ? ((v + add) / after) * 100 : 0, target: targets.allocation[c] ?? 0 };
   });

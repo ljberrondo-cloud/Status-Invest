@@ -60,6 +60,7 @@ function Group({
   positions,
   extra,
   targetPct,
+  managedPct,
   tolerance,
   open,
   onToggle,
@@ -70,6 +71,8 @@ function Group({
   positions: Position[];
   extra: Record<string, AssetExtra>;
   targetPct: number | null;
+  /** % de la clase sobre lo invertible; null = fuera de objetivos (previdencia de empresa). */
+  managedPct: number | null | undefined;
   tolerance: number;
   open: boolean;
   onToggle: () => void;
@@ -80,8 +83,10 @@ function Group({
   const receivedTotal = positions.reduce((s, p) => s + (extra[p.asset.ticker]?.received ?? 0), 0);
   const rent = summary.cost > 0 ? ((summary.gain + receivedTotal) / summary.cost) * 100 : null;
   const color = `var(--c-${summary.class})`;
-  const off = targetPct !== null && Math.abs(summary.weight - targetPct) > tolerance;
-  const maxW = Math.max(summary.weight, targetPct ?? 0, 1) * 1.15;
+  const excluded = managedPct === null;
+  const curPct = managedPct ?? summary.weight;
+  const off = !excluded && targetPct !== null && Math.abs(curPct - targetPct) > tolerance;
+  const maxW = Math.max(curPct, targetPct ?? 0, 1) * 1.15;
   const arrow = (k: SortKey | null) => (k && k === sort.key ? (sort.dir === 1 ? " ↑" : " ↓") : "");
 
   return (
@@ -95,11 +100,17 @@ function Group({
           </div>
           <div className="mt-2 flex items-center gap-3">
             <div className="w-20 shrink-0 sm:w-40">
-              <WeightBar value={summary.weight} target={targetPct} color={color} max={maxW} />
+              <WeightBar value={excluded ? 0 : curPct} target={excluded ? null : targetPct} color={color} max={maxW} />
             </div>
             <span className="num text-xs whitespace-nowrap text-ink-2">
-              {fmtPct(summary.weight, 1, false)}
-              {targetPct !== null && <span className={off ? "text-warn" : "text-ink-3"}> / {fmtPct(targetPct, 0, false)}</span>}
+              {excluded ? (
+                <span className="text-ink-3">fuera de objetivos · {fmtPct(summary.weight, 1, false)} del total</span>
+              ) : (
+                <>
+                  {fmtPct(curPct, 1, false)}
+                  {targetPct !== null && <span className={off ? "text-warn" : "text-ink-3"}> / {fmtPct(targetPct, 0, false)}</span>}
+                </>
+              )}
             </span>
           </div>
         </div>
@@ -243,12 +254,14 @@ export function AssetGroups({
   extra,
   targets,
   query,
+  managedPct,
 }: {
   classes: ClassSummary[];
   positions: Position[];
   extra: Record<string, AssetExtra>;
   targets: Targets | null;
   query: string;
+  managedPct?: Record<string, number | null> | null;
 }) {
   const [open, setOpen] = useState<Set<string>>(new Set());
   const [sort, setSort] = useState<{ key: SortKey; dir: 1 | -1 }>({ key: "value", dir: -1 });
@@ -286,6 +299,7 @@ export function AssetGroups({
           positions={positions.filter((p) => p.asset.class === c.class && match(p))}
           extra={extra}
           targetPct={targets ? (targets.allocation[c.class] ?? 0) : null}
+          managedPct={managedPct ? managedPct[c.class] : undefined}
           tolerance={targets?.tolerance_pct ?? 5}
           open={q ? true : open.has(c.class)}
           onToggle={() =>

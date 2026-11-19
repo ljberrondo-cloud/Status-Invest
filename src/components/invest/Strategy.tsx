@@ -113,11 +113,11 @@ export function Strategy({ data, targets, monthly }: { data: PortfolioResponse; 
           </p>
         </Rec>
 
-        <Rec n={3} title="Ordenar los objetivos" tag="Planificación" tone="accent">
+        <Rec n={3} title="Objetivos sobre lo que manejan" tag="Planificación" tone="accent">
           <p>
-            FGTS y previdencia suman <b>{fmtPct(d.lockedPct, 0, false)}</b> del patrimonio y no se pueden mover cuando quieran. Hoy el objetivo de la previdencia es 0% (siempre va
-            a dar alerta) y el del FGTS es 10% (no se puede comprar FGTS). Es más claro definir los objetivos <b>sólo sobre la parte invertible</b> (~{fmtBRL(investable)}) y
-            dejar FGTS y previdencia aparte. Una distribución equilibrada para esa parte, con los juros de hoy:
+            La previdencia de empresa (<b>{fmtPct(d.previdenciaPct, 0, false)}</b> del patrimonio) cuenta como patrimonio, pero no la pueden mover: por eso los objetivos se miden
+            sobre el resto (~{fmtBRL(investable + d.fgtsPct * d.total / 100)}). El FGTS tampoco se puede comprar ni rescatar libremente; si prefieren, también lo saco del
+            cálculo y los objetivos quedan sólo sobre lo que realmente deciden. Una distribución equilibrada para esa parte, con los juros de hoy:
           </p>
           <div className="overflow-x-auto">
             <table className="mt-1 w-full max-w-md text-sm">
@@ -142,12 +142,15 @@ export function Strategy({ data, targets, monthly }: { data: PortfolioResponse; 
           <p className="text-xs text-ink-3">Si les sirve, la cargo como objetivo de la app y las alertas y recomendaciones se recalculan solas.</p>
         </Rec>
 
-        <Rec n={4} title="Previdencia Zurich: revisar, no rescatar apurados" tag="Previdencia">
+        <Rec n={4} title="Previdencia de empresa: aprovechar la contrapartida" tag="Previdencia">
           <p>
-            Representa {fmtPct(d.previdenciaPct, 0, false)} del patrimonio{d.topAsset?.ticker === "PREVIDENCIA" ? ", la mayor posición" : ""}. En la tabla
-            regresiva el IR baja hasta 10% después de 10 años, así que rescatar antes puede costar caro. Lo que sí conviene: comparar su{" "}
-            <b>rentabilidad neta contra el CDI</b> y su <b>tasa de administración</b>. Si rinde menos que un Tesouro Selic, se puede hacer <b>portabilidad</b> a un plan más
-            barato <b>sin pagar impuesto</b>. Si es PGBL, los aportes descuentan hasta 12% de la renta bruta en la declaración completa.
+            Es la inversión con mejor retorno garantizado que tienen: en la mayoría de los planes corporativos la empresa <b>aporta un monto igual o proporcional</b> al del
+            empleado (contrapartida). Por eso conviene <b>aportar como mínimo lo necesario para recibir el máximo de la empresa</b> antes que cualquier otra inversión.
+          </p>
+          <p>
+            Revisen en el reglamento del plan: el porcentaje de contrapartida, el <b>vesting</b> (qué parte de lo que puso la empresa es suya si cambia de trabajo), si el
+            régimen de IR es <b>regresivo</b> (baja hasta 10% después de 10 años) y, si es <b>PGBL</b>, que los aportes descuentan hasta 12% de la renta bruta en la declaración
+            completa. Al dejar la empresa, el saldo se puede llevar a otro plan por <b>portabilidad</b>, sin pagar impuesto.
           </p>
         </Rec>
 

@@ -168,8 +168,8 @@ export function MonthlyPlan({ data, targets, defaults }: { data: PortfolioRespon
               })}
             </ul>
             <p className="mt-4 text-[11px] leading-relaxed text-ink-3">
-              Sólo activos que ya tienen, sin vender nada. Se prioriza lo más atrasado contra su objetivo; FGTS no se compra y la previdencia (objetivo 0%) no recibe aportes. En
-              cripto, los aportes van sólo a BTC y ETH (ver Estrategia). Precios de la última cotización.
+              Sólo activos que ya tienen, sin vender nada. Objetivos sobre lo que manejan: la previdencia de empresa cuenta en el patrimonio pero queda afuera, y el FGTS no
+              se compra. Se prioriza lo más atrasado contra su objetivo; en cripto, los aportes van sólo a BTC y ETH (ver Estrategia). Precios de la última cotización.
             </p>
           </Card>
         </div>

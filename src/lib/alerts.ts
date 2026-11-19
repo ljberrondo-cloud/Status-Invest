@@ -23,17 +23,51 @@ export interface AllocationRow {
 
 const fmt = (n: number) => n.toLocaleString("es-AR", { maximumFractionDigits: 1 });
 
+/** Activos fuera de objetivos y alertas (previdencia de empresa, etc.): cuentan en el patrimonio, no se manejan. */
+export const isExcluded = (ticker: string, t: Targets) => (t.exclude_from_allocation ?? []).some((x) => x.toUpperCase() === ticker.toUpperCase());
+
+/** Parte invertible: patrimonio sin los activos excluidos. Los objetivos se miden sobre esto. */
+export function investableBase(v: Valuation, t: Targets): number {
+  return v.positions.reduce((s, p) => s + (p.value !== null && !isExcluded(p.asset.ticker, t) ? p.value : 0), 0);
+}
+
+/** Clases cuyos activos están todos excluidos (no tienen objetivo). */
+export function excludedClasses(v: Valuation, t: Targets): Set<AssetClass> {
+  const out = new Set<AssetClass>();
+  for (const c of new Set(v.positions.map((p) => p.asset.class))) {
+    const ps = v.positions.filter((p) => p.asset.class === c);
+    if (ps.length && ps.every((p) => isExcluded(p.asset.ticker, t))) out.add(c);
+  }
+  return out;
+}
+
+/** % actual de cada clase sobre la parte invertible (null para clases excluidas). */
+export function classPctOfInvestable(v: Valuation, t: Targets): Record<string, number | null> {
+  const base = investableBase(v, t);
+  const ex = excludedClasses(v, t);
+  const out: Record<string, number | null> = {};
+  for (const c of v.byClass) {
+    if (ex.has(c.class)) {
+      out[c.class] = null;
+      continue;
+    }
+    const val = v.positions.filter((p) => p.asset.class === c.class && !isExcluded(p.asset.ticker, t)).reduce((s, p) => s + (p.value ?? 0), 0);
+    out[c.class] = base > 0 ? (val / base) * 100 : 0;
+  }
+  return out;
+}
+
 /** Asignación actual vs objetivo, sobre la base de cálculo (excluye p.ej. FGTS). */
 export function allocationVsTarget(v: Valuation, t: Targets): { base: number; rows: AllocationRow[] } {
-  const excluded = new Set((t.exclude_from_allocation ?? []).map((s) => s.toUpperCase()));
   const byClass = new Map<AssetClass, number>();
   let base = 0;
   for (const p of v.positions) {
-    if (p.value === null || excluded.has(p.asset.ticker.toUpperCase())) continue;
+    if (p.value === null || isExcluded(p.asset.ticker, t)) continue;
     byClass.set(p.asset.class, (byClass.get(p.asset.class) ?? 0) + p.value);
     base += p.value;
   }
-  const classes = new Set<AssetClass>([...byClass.keys(), ...(Object.keys(t.allocation) as AssetClass[])]);
+  const ex = excludedClasses(v, t);
+  const classes = new Set<AssetClass>([...byClass.keys(), ...(Object.keys(t.allocation) as AssetClass[])].filter((c) => !ex.has(c)));
   const rows = [...classes].map((cls) => {
     const value = byClass.get(cls) ?? 0;
     const currentPct = base > 0 ? (value / base) * 100 : 0;
@@ -55,28 +89,33 @@ export function allocationVsTarget(v: Valuation, t: Targets): { base: number; ro
 
 export function computeAlerts(v: Valuation, t: Targets): Alert[] {
   const alerts: Alert[] = [];
+  const base = investableBase(v, t);
   for (const p of v.positions) {
-    if (p.weight !== null && p.weight > t.concentration.max_asset_pct) {
+    if (p.value === null || isExcluded(p.asset.ticker, t) || base <= 0) continue;
+    const w = (p.value / base) * 100;
+    if (w > t.concentration.max_asset_pct) {
       alerts.push({
         id: `asset-${p.asset.ticker}`,
         level: "warning",
         kind: "concentracion_activo",
-        title: `${p.asset.name ?? p.asset.ticker} concentra ${fmt(p.weight)}% del patrimonio`,
+        title: `${p.asset.name ?? p.asset.ticker} concentra ${fmt(w)}% de lo invertible`,
         detail: `Límite por activo: ${fmt(t.concentration.max_asset_pct)}%.`,
-        current: p.weight,
+        current: w,
         limit: t.concentration.max_asset_pct,
       });
     }
   }
+  const pct = classPctOfInvestable(v, t);
   for (const c of v.byClass) {
-    if (c.weight > t.concentration.max_class_pct) {
+    const w = pct[c.class];
+    if (w !== null && w !== undefined && w > t.concentration.max_class_pct) {
       alerts.push({
         id: `class-${c.class}`,
         level: "warning",
         kind: "concentracion_clase",
-        title: `${c.label} concentra ${fmt(c.weight)}% del patrimonio`,
+        title: `${c.label} concentra ${fmt(w)}% de lo invertible`,
         detail: `Límite por clase: ${fmt(t.concentration.max_class_pct)}%.`,
-        current: c.weight,
+        current: w,
         limit: t.concentration.max_class_pct,
       });
     }
@@ -114,8 +153,13 @@ export function assetTargets(v: Valuation, t: Targets): Record<string, { idealPc
   const byClass = new Map<AssetClass, string[]>();
   for (const p of v.positions) byClass.set(p.asset.class, [...(byClass.get(p.asset.class) ?? []), p.asset.ticker]);
   const out: Record<string, { idealPct: number; buy: boolean }> = {};
+  const scale = v.total > 0 ? investableBase(v, t) / v.total : 1; // objetivos sobre lo invertible → % del total
   for (const p of v.positions) {
-    const idealPct = (t.allocation[p.asset.class] ?? 0) * shareInClass(p.asset.ticker, p.asset.class, byClass.get(p.asset.class) ?? [], t);
+    if (isExcluded(p.asset.ticker, t)) {
+      out[p.asset.ticker] = { idealPct: 0, buy: false };
+      continue;
+    }
+    const idealPct = (t.allocation[p.asset.class] ?? 0) * scale * shareInClass(p.asset.ticker, p.asset.class, (byClass.get(p.asset.class) ?? []).filter((x) => !isExcluded(x, t)), t);
     out[p.asset.ticker] = { idealPct, buy: p.weight !== null && p.weight < idealPct };
   }
   return out;

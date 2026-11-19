@@ -23,12 +23,31 @@ function MoreLink({ href, children }: { href: string; children: React.ReactNode 
 
 /* ---------------- Asignación ---------------- */
 
-export function AllocationCard({ classes, total, targets, className }: { classes: ClassSummary[]; total: number; targets: Targets | null; className?: string }) {
+export function AllocationCard({
+  classes,
+  total,
+  targets,
+  managedPct,
+  className,
+}: {
+  classes: ClassSummary[];
+  total: number;
+  targets: Targets | null;
+  /** % de cada clase sobre lo invertible (null = fuera de objetivos, p.ej. previdencia de empresa). */
+  managedPct: Record<string, number | null> | null;
+  className?: string;
+}) {
   const [hover, setHover] = useState<string | null>(null);
   const focus = classes.find((c) => c.class === hover) ?? null;
-  const max = Math.max(...classes.map((c) => Math.max(c.weight, targets?.allocation[c.class] ?? 0)), 1);
+  const cur = (c: ClassSummary) => (managedPct ? (managedPct[c.class] ?? null) : c.weight);
+  const max = Math.max(...classes.map((c) => Math.max(cur(c) ?? 0, targets?.allocation[c.class] ?? 0)), 1);
   return (
-    <Card className={className} title="Asignación" subtitle={targets ? "Actual vs objetivo por clase" : "Por clase"} action={<MoreLink href="/activos">Ver activos</MoreLink>}>
+    <Card
+      className={className}
+      title="Asignación"
+      subtitle={targets ? "Actual vs objetivo, sobre lo que manejan (sin la previdencia de empresa)" : "Por clase"}
+      action={<MoreLink href="/activos">Ver activos</MoreLink>}
+    >
       <div className="grid items-center gap-6 sm:grid-cols-[180px_minmax(0,1fr)]">
         <div className="relative mx-auto h-[180px] w-[180px]">
           <ResponsiveContainer width="100%" height="100%">
@@ -63,8 +82,10 @@ export function AllocationCard({ classes, total, targets, className }: { classes
         </div>
         <ul className="space-y-2.5">
           {classes.map((c) => {
-            const target = targets?.allocation[c.class] ?? null;
-            const off = target !== null && targets ? Math.abs(c.weight - target) > targets.tolerance_pct : false;
+            const pct = cur(c);
+            const excluded = pct === null;
+            const target = excluded ? null : (targets?.allocation[c.class] ?? null);
+            const off = target !== null && targets && pct !== null ? Math.abs(pct - target) > targets.tolerance_pct : false;
             return (
               <li
                 key={c.class}
@@ -76,15 +97,23 @@ export function AllocationCard({ classes, total, targets, className }: { classes
                   <div className="flex items-baseline gap-2 text-[13px]">
                     <span className="h-2 w-2 shrink-0 translate-y-[-1px] rounded-full" style={{ background: classColor(c.class) }} />
                     <span className="min-w-0 flex-1 truncate">{c.label}</span>
-                    <span className="num font-semibold">{fmtPct(c.weight, 1, false)}</span>
-                    {target !== null && <span className={`num w-12 text-right text-[11px] ${off ? "text-warn" : "text-ink-3"}`}>/ {fmtPct(target, 0, false)}</span>}
-                  </div>
-                  <div className="relative mt-1.5 ml-4 h-1.5 rounded-full bg-surface-2">
-                    <div className="absolute inset-y-0 left-0 rounded-full" style={{ width: `${(c.weight / max) * 100}%`, background: classColor(c.class) }} />
-                    {target !== null && (
-                      <div className="absolute -top-1 -bottom-1 w-[2px] rounded bg-ink/70" style={{ left: `calc(${(target / max) * 100}% - 1px)` }} title={`Objetivo ${target}%`} />
+                    {excluded ? (
+                      <span className="text-[11px] text-ink-3">fuera de objetivos · {fmtPct(c.weight, 1, false)} del total</span>
+                    ) : (
+                      <>
+                        <span className="num font-semibold">{fmtPct(pct, 1, false)}</span>
+                        {target !== null && <span className={`num w-12 text-right text-[11px] ${off ? "text-warn" : "text-ink-3"}`}>/ {fmtPct(target, 0, false)}</span>}
+                      </>
                     )}
                   </div>
+                  {!excluded && (
+                    <div className="relative mt-1.5 ml-4 h-1.5 rounded-full bg-surface-2">
+                      <div className="absolute inset-y-0 left-0 rounded-full" style={{ width: `${((pct ?? 0) / max) * 100}%`, background: classColor(c.class) }} />
+                      {target !== null && (
+                        <div className="absolute -top-1 -bottom-1 w-[2px] rounded bg-ink/70" style={{ left: `calc(${(target / max) * 100}% - 1px)` }} title={`Objetivo ${target}%`} />
+                      )}
+                    </div>
+                  )}
                 </Link>
               </li>
             );

@@ -86,9 +86,27 @@ import { assetTargets } from "@/lib/alerts";
 describe("% ideal por activo", () => {
   it("objetivo de la clase ÷ cantidad de activos, y 'comprar' si pesa menos", () => {
     const t = assetTargets(v, targets);
-    expect(t.BBB11.idealPct).toBe(25); // fiis 50% / 2
+    // fiis 50% de lo invertible (sin FGTS = 800 de 1.000) / 2 activos = 25% de lo invertible = 20% del total
+    expect(t.BBB11.idealPct).toBeCloseTo(20, 10);
+    expect(t.FGTS.idealPct).toBe(0);
     expect(t.CCC11.buy).toBe(true); // pesa 10%
-    expect(t.AAA3.idealPct).toBe(50);
+    expect(t.AAA3.idealPct).toBeCloseTo(40, 10);
     expect(t.AAA3.buy).toBe(false); // pesa 50%
+  });
+});
+
+import { classPctOfInvestable, investableBase } from "@/lib/alerts";
+import { planContribution } from "@/lib/contribution";
+describe("activos excluidos (previdencia de empresa)", () => {
+  const tx: Targets = { ...targets, concentration: { max_asset_pct: 60, max_class_pct: 70 }, exclude_from_allocation: ["FGTS"] };
+  it("no generan alertas, no tienen objetivo y no reciben aportes", () => {
+    expect(investableBase(v, tx)).toBe(800);
+    const pct = classPctOfInvestable(v, tx);
+    expect(pct.renta_fija).toBeNull(); // la clase de FGTS en este ejemplo
+    expect(pct.acciones).toBeCloseTo(62.5, 10);
+    expect(computeAlerts(v, tx).some((a) => a.id.includes("FGTS") || a.id.includes("renta_fija"))).toBe(false);
+    const plan = planContribution(v.positions, { ...tx, allocation: { acciones: 50, fiis: 50, renta_fija: 50 } }, [{ id: "c1", label: "Conta 1", amount: 300 }]);
+    expect(plan.buys.some((b) => b.ticker === "FGTS")).toBe(false);
+    expect(plan.classesAfter.some((c) => c.class === "renta_fija")).toBe(false);
   });
 });

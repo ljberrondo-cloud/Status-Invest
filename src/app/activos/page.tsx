@@ -12,7 +12,7 @@ import {
 } from "@/components/ui";
 import { ByAccount } from "@/components/ByAccount";
 import { Icon } from "@/components/icons";
-import { assetTargets } from "@/lib/alerts";
+import { assetTargets, classPctOfInvestable } from "@/lib/alerts";
 import type { ReceivedSummary } from "@/lib/received";
 import type { Targets } from "@/lib/types";
 import { fmtBRL, fmtPct, fmtSignedBRL, signClass } from "@/lib/format";
@@ -139,6 +139,7 @@ export default function Activos() {
             positions={data.positions}
             extra={extra}
             targets={alerts.data?.targets ?? null}
+            managedPct={data && alerts.data?.targets ? classPctOfInvestable(data, alerts.data.targets) : null}
             query={query}
           />
         </>
