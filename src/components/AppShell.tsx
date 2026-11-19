@@ -9,12 +9,13 @@ import { PrivacyToggle, usePrivacy } from "./privacy";
 import { fmtTime } from "@/lib/format";
 import type { Indicator } from "@/lib/types";
 
-const NAV: { href: string; label: string; icon: IconName }[] = [
+const NAV: { href: string; label: string; short?: string; icon: IconName }[] = [
   { href: "/", label: "Resumen", icon: "home" },
   { href: "/activos", label: "Activos", icon: "assets" },
   { href: "/proventos", label: "Proventos", icon: "income" },
+  { href: "/analisis", label: "Análisis", icon: "pulse" },
   { href: "/invertir", label: "Invertir", icon: "target" },
-  { href: "/calculadora", label: "Calculadora", icon: "calc" },
+  { href: "/calculadora", label: "Calculadora", short: "Calcular", icon: "calc" },
   { href: "/alertas", label: "Alertas", icon: "bell" },
 ];
 
@@ -235,12 +236,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {/* Pestañas (celular) */}
       <nav
         aria-label="Secciones"
-        className="fixed inset-x-0 bottom-0 z-20 grid grid-cols-6 border-t border-line bg-surface/90 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl lg:hidden"
+        className="fixed inset-x-0 bottom-0 z-20 grid grid-cols-7 border-t border-line bg-surface/90 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl lg:hidden"
       >
         {NAV.map((n) => (
           <Link key={n.href} href={n.href} className={`flex flex-col items-center gap-1 pt-2.5 pb-2 text-[10px] font-medium ${active(n.href) ? "text-accent" : "text-ink-3"}`}>
             <Icon name={n.icon} className="h-[22px] w-[22px]" />
-            {n.label}
+            {n.short ?? n.label}
           </Link>
         ))}
       </nav>

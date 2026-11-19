@@ -32,7 +32,7 @@ interface BrapiResponse {
 
 const isB3 = (a: Asset) => (a.provider ? a.provider === "brapi" : ["acciones", "fiis", "etfs"].includes(a.class));
 
-function headers(): Record<string, string> {
+export function brapiHeaders(): Record<string, string> {
   const token = config.brapiToken;
   return token ? { authorization: `Bearer ${token}` } : {};
 }
@@ -59,7 +59,7 @@ async function requestQuotes(tickers: string[], extra = ""): Promise<BrapiQuote[
   const json = await fetchJson<BrapiResponse>(url, {
     revalidate: extra ? config.slowRevalidate : config.quotesRevalidate,
     tags: extra ? [SLOW_TAG, "brapi-dividends"] : [QUOTES_TAG, "brapi"],
-    headers: headers(),
+    headers: brapiHeaders(),
   });
   if (json.error || !json.results) throw new Error(json.message ?? "Respuesta inválida de brapi");
   return json.results;

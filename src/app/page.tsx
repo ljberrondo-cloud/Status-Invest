@@ -3,6 +3,7 @@
 import { useJson, usePortfolio } from "@/components/data";
 import { Heatmap } from "@/components/charts";
 import { Hero } from "@/components/home/Hero";
+import { MarketClock } from "@/components/home/MarketClock";
 import { AlertsCard, AllocationCard, IncomeCard, MoversCard } from "@/components/home/Cards";
 import { MarketStrip } from "@/components/AppShell";
 import { Card, ErrorState, ProviderErrors, Skeleton } from "@/components/ui";
@@ -27,13 +28,14 @@ export default function Resumen() {
 
   return (
     <div className="space-y-5 lg:space-y-6">
-      <div className="flex flex-wrap items-end justify-between gap-2">
+      <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight sm:text-[28px]">Resumen</h1>
           <p className="mt-1 text-sm text-ink-3">
             {today()} · {data.positions.length} activos
           </p>
         </div>
+        <MarketClock className="w-full sm:w-auto sm:min-w-[540px]" />
       </div>
 
       {data.missing.length > 0 && (
