@@ -144,7 +144,7 @@ export function Strategy({ data, targets, monthly }: { data: PortfolioResponse; 
 
         <Rec n={4} title="Previdencia Zurich: revisar, no rescatar apurados" tag="Previdencia">
           <p>
-            Es la mayor posición ({d.topAsset?.ticker === "ZURICH-ANGA" ? fmtPct(d.topAsset.pct, 0, false) : fmtPct(d.previdenciaPct, 0, false)} del patrimonio). En la tabla
+            Representa {fmtPct(d.previdenciaPct, 0, false)} del patrimonio{d.topAsset?.ticker === "PREVIDENCIA" ? ", la mayor posición" : ""}. En la tabla
             regresiva el IR baja hasta 10% después de 10 años, así que rescatar antes puede costar caro. Lo que sí conviene: comparar su{" "}
             <b>rentabilidad neta contra el CDI</b> y su <b>tasa de administración</b>. Si rinde menos que un Tesouro Selic, se puede hacer <b>portabilidad</b> a un plan más
             barato <b>sin pagar impuesto</b>. Si es PGBL, los aportes descuentan hasta 12% de la renta bruta en la declaración completa.
