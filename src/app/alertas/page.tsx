@@ -8,6 +8,10 @@ import type { Alert, AllocationRow } from "@/lib/alerts";
 import type { Targets } from "@/lib/types";
 import { fmtBRL, fmtPct } from "@/lib/format";
 
+/** "PREVIDENCIA", "FGTS" → "Previdencia ni FGTS" (las siglas cortas quedan en mayúsculas). */
+const excludedNames = (t: Targets) =>
+  (t.exclude_from_allocation ?? []).map((x) => (x.length <= 4 ? x : x.charAt(0) + x.slice(1).toLowerCase())).join(" ni ");
+
 interface AlertsResponse {
   targets: Targets | null;
   alerts: Alert[];
@@ -37,7 +41,7 @@ export default function Alertas() {
     <div className="space-y-5">
       <PageHeader
         title="Alertas"
-        subtitle={`Sobre lo que manejan${t.exclude_from_allocation?.length ? " (sin la previdencia de empresa)" : ""}. Límites: ${t.concentration.max_asset_pct}% por activo · ${t.concentration.max_class_pct}% por clase · tolerancia ±${t.tolerance_pct} p.p.`}
+        subtitle={`Sobre lo que manejan${t.exclude_from_allocation?.length ? ` (sin ${excludedNames(t)})` : ""}. Límites: ${t.concentration.max_asset_pct}% por activo · ${t.concentration.max_class_pct}% por clase · tolerancia ±${t.tolerance_pct} p.p.`}
         action={
           <span className={`rounded-full px-3 py-1 text-sm font-medium ${data.alerts.length ? "bg-warn-bg text-warn" : "bg-pos-bg text-pos"}`}>
             {data.alerts.length ? `${data.alerts.length} activa${data.alerts.length > 1 ? "s" : ""}` : "Todo en orden"}
@@ -97,7 +101,7 @@ export default function Alertas() {
         </ul>
         <p className="mt-4 text-xs text-ink-3">
           Base de cálculo {fmtBRL(data.allocation.base)}
-          {t.exclude_from_allocation?.length ? ` (sin ${t.exclude_from_allocation.join(", ")}: cuenta en el patrimonio, pero no se puede mover)` : ""}. La línea negra marca el objetivo. Se edita en data/targets.json.
+          {t.exclude_from_allocation?.length ? ` (sin ${excludedNames(t)}: cuentan en el patrimonio, pero no se pueden mover)` : ""}. La línea negra marca el objetivo. Se edita en data/targets.json.
         </p>
       </Card>
     </div>

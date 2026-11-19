@@ -4,18 +4,19 @@
     "max_class_pct": 45
   },
   "allocation": {
-    "acciones": 10,
-    "fiis": 20,
-    "etfs": 10,
-    "cripto": 10,
-    "tesouro": 30,
-    "renta_fija": 10,
+    "acciones": 11.1,
+    "fiis": 22.2,
+    "etfs": 11.1,
+    "cripto": 11.1,
+    "tesouro": 33.4,
+    "renta_fija": 11.1,
     "fondos": 0,
-    "otros": 10
+    "otros": 0
   },
   "tolerance_pct": 5,
   "exclude_from_allocation": [
-    "PREVIDENCIA"
+    "PREVIDENCIA",
+    "FGTS"
   ],
   "asset_weights": {
     "cripto": {

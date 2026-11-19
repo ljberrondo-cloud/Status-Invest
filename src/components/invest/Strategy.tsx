@@ -115,9 +115,9 @@ export function Strategy({ data, targets, monthly }: { data: PortfolioResponse; 
 
         <Rec n={3} title="Objetivos sobre lo que manejan" tag="Planificación" tone="accent">
           <p>
-            La previdencia de empresa (<b>{fmtPct(d.previdenciaPct, 0, false)}</b> del patrimonio) cuenta como patrimonio, pero no la pueden mover: por eso los objetivos se miden
-            sobre el resto (~{fmtBRL(investable + d.fgtsPct * d.total / 100)}). El FGTS tampoco se puede comprar ni rescatar libremente; si prefieren, también lo saco del
-            cálculo y los objetivos quedan sólo sobre lo que realmente deciden. Una distribución equilibrada para esa parte, con los juros de hoy:
+            La previdencia de empresa (<b>{fmtPct(d.previdenciaPct, 0, false)}</b>) y el FGTS (<b>{fmtPct(d.fgtsPct, 0, false)}</b>) cuentan como patrimonio, pero no los pueden
+            mover: por eso los objetivos se miden sólo sobre lo que realmente deciden (~{fmtBRL(investable)}). Hoy esos objetivos son los de Investidor10 repartidos sobre esa
+            parte. Una distribución más equilibrada, con los juros de hoy:
           </p>
           <div className="overflow-x-auto">
             <table className="mt-1 w-full max-w-md text-sm">

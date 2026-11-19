@@ -8,7 +8,7 @@ export const CLASS_LABELS: Record<AssetClass, string> = {
   cripto: "Criptomonedas",
   tesouro: "Tesouro Directo",
   renta_fija: "Renta fija",
-  fondos: "Fondos de Inversión",
+  fondos: "Previdencia",
   otros: "FGTS",
 };
 

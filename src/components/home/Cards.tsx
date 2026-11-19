@@ -40,12 +40,14 @@ export function AllocationCard({
   const [hover, setHover] = useState<string | null>(null);
   const focus = classes.find((c) => c.class === hover) ?? null;
   const cur = (c: ClassSummary) => (managedPct ? (managedPct[c.class] ?? null) : c.weight);
+  const out = classes.filter((c) => managedPct && managedPct[c.class] === null).map((c) => c.label);
+  const outLabel = out.length > 1 ? `${out.slice(0, -1).join(", ")} ni ${out.at(-1)}` : (out[0] ?? "");
   const max = Math.max(...classes.map((c) => Math.max(cur(c) ?? 0, targets?.allocation[c.class] ?? 0)), 1);
   return (
     <Card
       className={className}
       title="Asignación"
-      subtitle={targets ? "Actual vs objetivo, sobre lo que manejan (sin la previdencia de empresa)" : "Por clase"}
+      subtitle={targets ? `Actual vs objetivo, sobre lo que manejan${outLabel ? ` (sin ${outLabel})` : ""}` : "Por clase"}
       action={<MoreLink href="/activos">Ver activos</MoreLink>}
     >
       <div className="grid items-center gap-6 sm:grid-cols-[180px_minmax(0,1fr)]">
