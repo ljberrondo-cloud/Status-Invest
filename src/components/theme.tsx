@@ -3,10 +3,8 @@
 import { useSyncExternalStore } from "react";
 
 export type ThemeChoice = "auto" | "light" | "dark";
-const KEY = "theme";
+import { THEME_KEY as KEY } from "@/lib/boot-scripts";
 
-/** Se ejecuta antes de pintar (en <head>) para evitar el parpadeo de tema. */
-export const THEME_SCRIPT = `try{var t=localStorage.getItem("${KEY}");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}`;
 
 const listeners = new Set<() => void>();
 function read(): ThemeChoice {

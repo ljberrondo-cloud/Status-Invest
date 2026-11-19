@@ -1,11 +1,15 @@
+import { isPrivate, MASK } from "./privacy";
 const brl = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
 const brlCompact = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL", notation: "compact", maximumFractionDigits: 1 });
 
-export const fmtBRL = (n: number | null | undefined) => (n === null || n === undefined ? "—" : brl.format(n));
-export const fmtBRLCompact = (n: number) => brlCompact.format(n);
+
+/** Montos en reales: en modo privado se ocultan. */
+export const fmtBRL = (n: number | null | undefined) => (n === null || n === undefined ? "—" : isPrivate() ? `R$ ${MASK}` : brl.format(n));
+export const fmtBRLCompact = (n: number) => (isPrivate() ? `R$ ${MASK.slice(0, 3)}` : brlCompact.format(n));
 
 export function fmtSignedBRL(n: number | null | undefined) {
   if (n === null || n === undefined) return "—";
+  if (isPrivate()) return `${n > 0.005 ? "+" : n < -0.005 ? "−" : ""}R$ ${MASK}`;
   const s = brl.format(Math.abs(n));
   return n > 0.005 ? `+${s}` : n < -0.005 ? `−${s}` : s;
 }
@@ -19,6 +23,7 @@ export function fmtPct(n: number | null | undefined, digits = 2, signed = true) 
 
 /** Cantidades: hasta 8 decimales para cripto, sin ceros de más. */
 export function fmtQty(n: number) {
+  if (isPrivate()) return MASK.slice(0, 3);
   return n.toLocaleString("pt-BR", { maximumFractionDigits: n < 1 ? 8 : n < 1000 && n % 1 ? 4 : 2 });
 }
 

@@ -198,6 +198,9 @@ body {
   100% { background-position: -200% 0; }
 }
 
+/* Modo privado: hasta que la app aplique la preferencia, no se muestra el contenido (ni la barra de cotizaciones). */
+:root[data-privacy-pending] main { visibility: hidden; }
+
 .no-scrollbar { scrollbar-width: none; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
 

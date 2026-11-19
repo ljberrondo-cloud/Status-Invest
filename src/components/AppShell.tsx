@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { usePortfolio, useRefresh } from "./data";
 import { Icon, type IconName } from "./icons";
 import { ThemeToggle } from "./theme";
+import { PrivacyToggle, usePrivacy } from "./privacy";
 import { fmtTime } from "@/lib/format";
 import type { Indicator } from "@/lib/types";
 
@@ -181,6 +182,7 @@ function Logout() {
 export function AppShell({ children }: { children: React.ReactNode }) {
   const active = useActive();
   const path = usePathname();
+  const { hidden, setHidden } = usePrivacy();
   if (path === "/login") return <>{children}</>;
   return (
     <div className="min-h-dvh">
@@ -206,6 +208,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
         <div className="space-y-3 border-t border-line px-3 pt-4">
           <ThemeToggle />
+          <PrivacyToggle hidden={hidden} onChange={setHidden} />
           <UpdatedAt />
           <RefreshButton />
           <Logout />
@@ -217,13 +220,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <Logo />
         <div className="flex items-center gap-3">
           <UpdatedAt />
+          <PrivacyToggle hidden={hidden} onChange={setHidden} compact />
           <ThemeToggle compact />
           <RefreshButton compact />
         </div>
       </header>
 
       <main className="px-4 pt-5 pb-28 sm:px-6 lg:ml-60 lg:px-10 lg:pt-8 lg:pb-12">
-        <div className="mx-auto max-w-[1180px]">{children}</div>
+        <div key={hidden ? "privado" : "visible"} className="mx-auto max-w-[1180px]">
+          {children}
+        </div>
       </main>
 
       {/* Pestañas (celular) */}

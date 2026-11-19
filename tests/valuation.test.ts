@@ -191,3 +191,20 @@ describe("orden", () => {
     expect(v.missing).toEqual(["SINPRECIO3"]);
   });
 });
+
+import { fmtBRL, fmtPct, fmtQty, fmtSignedBRL } from "@/lib/format";
+import { setPrivate } from "@/lib/privacy";
+describe("modo privado", () => {
+  it("oculta montos y cantidades, deja porcentajes", () => {
+    setPrivate(true);
+    try {
+      expect(fmtBRL(1234.5)).toBe("R$ •••••");
+      expect(fmtSignedBRL(-10)).toBe("−R$ •••••");
+      expect(fmtQty(94)).toBe("•••");
+      expect(fmtPct(1.5)).toBe("+1,50%");
+    } finally {
+      setPrivate(false);
+    }
+    expect(fmtBRL(1234.5)).toBe("R$ 1.234,50");
+  });
+});

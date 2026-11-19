@@ -3,7 +3,7 @@ import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import { AppShell } from "@/components/AppShell";
-import { THEME_SCRIPT } from "@/components/theme";
+import { PRIVACY_SCRIPT, THEME_SCRIPT } from "@/lib/boot-scripts";
 
 export const metadata: Metadata = {
   title: "Cartera de inversiones 2026",
@@ -22,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="es" className={`${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT + PRIVACY_SCRIPT }} />
       </head>
       <body>
         <AppShell>{children}</AppShell>
