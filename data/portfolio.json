@@ -464,12 +464,12 @@
       "ticker": "FGTS",
       "class": "otros",
       "quantity": 1,
-      "avg_price": 33180.44,
+      "avg_price": 28000.68,
       "name": "FGTS",
       "provider": "manual",
       "manual_value": 33182.36,
       "manual_date": "2026-11-20",
-      "note": "Não é ativo de mercado. Soma das duas contas de FGTS."
+      "note": "Não é ativo de mercado. Investido = depósitos líquidos de saques, segundo o extrato da Caixa (20/11/2026)."
     },
     {
       "ticker": "CSNA3",
