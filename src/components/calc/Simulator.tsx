@@ -1,8 +1,9 @@
 "use client";
 
-import { useMemo, useState, useSyncExternalStore } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { Area, AreaChart, CartesianGrid, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { usePortfolio } from "@/components/data";
+import { useJson, usePortfolio } from "@/components/data";
+import type { ReceivedSummary } from "@/lib/received";
 import { Card, Segmented } from "@/components/ui";
 import { futureValue, monthlyRate, monthsToGoal, projection, realAnnualPct, requiredMonthly } from "@/lib/calculator";
 import { fmtBRL, fmtBRLCompact } from "@/lib/format";
@@ -92,11 +93,25 @@ export function Simulator() {
   const [rate, setRate] = useState<number | null>(null); // null = CDI de hoy
   const [rateText, setRateText] = useState<string | null>(null); // lo que se está escribiendo
   const [real, setReal] = useState(false);
+  // Proventos: la rentabilidad esperada ya los incluye reinvertidos; sin reinvertir, salen de la cartera
+  // y el crecimiento baja en el dividend yield (proventos de 12 meses ÷ patrimonio).
+  const received = useJson<{ summary?: ReceivedSummary }>("/api/received");
+  const prov12m = received.data?.summary?.last12m ?? 0;
+  const defaultDy = current > 0 ? Math.round((prov12m / current) * 1000) / 10 : 0;
+  const [reinvest, setReinvest] = useState(true);
+  const [dyEdited, setDyEdited] = useState<number | null>(null);
+  const [dyText, setDyText] = useState<string | null>(null);
+  const dy = dyEdited ?? defaultDy;
 
   const P = initial ?? current;
   const nominal = rate ?? cdi;
-  const annual = real ? realAnnualPct(nominal, ipca) : nominal;
-  const r = monthlyRate(annual);
+  const rateFor = (withProv: boolean) => {
+    const n = withProv ? nominal : Math.max(0, nominal - dy);
+    return monthlyRate(real ? realAnnualPct(n, ipca) : n);
+  };
+  const nominalEff = reinvest ? nominal : Math.max(0, nominal - dy);
+  const annual = real ? realAnnualPct(nominalEff, ipca) : nominalEff;
+  const r = rateFor(reinvest);
   const presets = [
     { id: "cdi", label: `CDI hoje ${fmtRate(cdi)}%`, value: null as number | null },
     { id: "10", label: "Conservadora 10%", value: 10 },
@@ -104,25 +119,47 @@ export function Simulator() {
     { id: "15", label: "Agressiva 15%", value: 15 },
   ];
 
-  const result = useMemo(() => {
+  const calc = (rr: number) => {
     if (mode === "aporte") {
       const n = Math.max(1, Math.round(years * 12));
-      const A = requiredMonthly(P, goal, r, n);
-      return { months: n, A, final: futureValue(P, A, r, n) };
+      const A = requiredMonthly(P, goal, rr, n);
+      return { months: n, A, final: futureValue(P, A, rr, n) };
     }
     if (mode === "tiempo") {
-      const n = monthsToGoal(P, monthly, goal, r);
-      return { months: n, A: monthly, final: Number.isFinite(n) ? futureValue(P, monthly, r, n) : NaN };
+      const n = monthsToGoal(P, monthly, goal, rr);
+      return { months: n, A: monthly, final: Number.isFinite(n) ? futureValue(P, monthly, rr, n) : NaN };
     }
     const n = Math.max(1, Math.round(years * 12));
-    return { months: n, A: monthly, final: futureValue(P, monthly, r, n) };
-  }, [mode, P, goal, r, years, monthly]);
+    return { months: n, A: monthly, final: futureValue(P, monthly, rr, n) };
+  };
+  const result = calc(r); // cálculo liviano
+  // La otra opción (reinvertir o no), para mostrar cuánto cambia.
+  const other = dy > 0 ? calc(rateFor(!reinvest)) : null;
+  const withProv = reinvest ? result : other;
+  const without = reinvest ? other : result;
+  const provEffect =
+    withProv && without
+      ? mode === "aporte"
+        ? without.A - withProv.A >= 1
+          ? `Reinvestindo os proventos, o aporte necessário cai ${fmtBRL(without.A - withProv.A)} por mês.`
+          : (() => {
+              // Sin aporte necesario en ambos casos: cuánto antes llegan a la meta sólo con el capital.
+              const a = monthsToGoal(P, 0, goal, rateFor(true));
+              const b = monthsToGoal(P, 0, goal, rateFor(false));
+              return Number.isFinite(a) && Number.isFinite(b) && b - a >= 1 ? `Reinvestindo os proventos, vocês chegam à meta ${fmtDuration(b - a)} antes.` : null;
+            })()
+        : mode === "tiempo"
+          ? Number.isFinite(without.months) && Number.isFinite(withProv.months)
+            ? `Reinvestindo os proventos, vocês chegam ${fmtDuration(Math.max(0, without.months - withProv.months))} antes.`
+            : null
+          : `Reinvestindo os proventos, vocês teriam ${fmtBRL(Math.max(0, withProv.final - without.final))} a mais.`
+      : null;
 
   // Modo "¿Cuánto aportar?": qué pasa con lo que invertís hoy.
   const withMine = mode === "aporte" ? { months: monthsToGoal(P, monthly, goal, r), atTerm: futureValue(P, monthly, r, result.months) } : null;
 
   const chartMonths = Number.isFinite(result.months) ? result.months : 0;
-  const series = useMemo(() => projection(P, result.A, r, chartMonths), [P, result.A, r, chartMonths]);
+  const series = projection(P, result.A, r, chartMonths); // liviano: no hace falta memorizarlo
   const contributed = P + result.A * chartMonths;
   const earnings = result.final - contributed;
   const showGoal = mode !== "final";
@@ -216,6 +253,39 @@ export function Simulator() {
                 <span className="pointer-events-none absolute top-1/2 right-3.5 -translate-y-1/2 text-sm text-ink-3">% ao ano</span>
               </div>
             </Field>
+            <div className="rounded-xl bg-surface-2 px-3.5 py-3">
+              <label className="flex cursor-pointer items-start gap-3">
+                <input type="checkbox" checked={reinvest} onChange={(e) => setReinvest(e.target.checked)} className="mt-0.5 h-4 w-4 accent-[var(--accent)]" />
+                <span className="text-sm">
+                  Reinvestir os proventos
+                  <span className="block text-xs text-ink-3">
+                    {reinvest
+                      ? "A rentabilidade acima já considera os proventos reinvestidos. Desmarque para simular gastando os proventos."
+                      : `Gastando os proventos, a carteira cresce ${fmtRate(dy)} p.p. a menos por ano: ${fmtRate(Math.max(0, nominal - dy))}% em vez de ${fmtRate(nominal)}%.`}
+                  </span>
+                </span>
+              </label>
+              <div className="mt-2 flex items-center gap-2 pl-7 text-xs text-ink-3">
+                <span>Dividend yield da carteira</span>
+                <div className="relative w-24">
+                  <input
+                    inputMode="decimal"
+                    value={dyText ?? fmtRate(dy)}
+                    onChange={(e) => {
+                      const t = e.target.value.replace(/[^\d,.]/g, "");
+                      setDyText(t);
+                      const n = Number(t.replace(",", "."));
+                      setDyEdited(Number.isFinite(n) ? Math.min(n, 50) : 0);
+                    }}
+                    onBlur={() => setDyText(null)}
+                    className="num w-full rounded-lg border border-line bg-surface px-2 py-1 pr-6 text-right text-sm text-ink outline-none focus:border-accent"
+                    aria-label="Dividend yield anual em porcentagem"
+                  />
+                  <span className="pointer-events-none absolute top-1/2 right-2 -translate-y-1/2">%</span>
+                </div>
+                <span className="hidden sm:inline">{prov12m > 0 ? `${fmtBRL(prov12m)} em 12 meses ÷ patrimônio` : ""}</span>
+              </div>
+            </div>
             <label className="flex cursor-pointer items-start gap-3 rounded-xl bg-surface-2 px-3.5 py-3">
               <input type="checkbox" checked={real} onChange={(e) => setReal(e.target.checked)} className="mt-0.5 h-4 w-4 accent-[var(--accent)]" />
               <span className="text-sm">
@@ -254,6 +324,7 @@ export function Simulator() {
                 Com seu capital e {fmtRate(annual)}% ao ano você chega à meta em <b>{fmtDuration(monthsToGoal(P, 0, goal, r))}</b>, sem aportar nada.
               </div>
             )}
+            {provEffect && <div className="mt-2 text-xs text-ink-3">{provEffect}</div>}
             <dl className="mt-6 grid grid-cols-2 gap-3 rounded-2xl border border-line/80 bg-surface/60 p-4 sm:grid-cols-4 sm:gap-4">
               <div>
                 <dt className="text-xs text-ink-3">Aporte mensal</dt>
