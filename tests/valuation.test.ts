@@ -208,3 +208,17 @@ describe("modo privado", () => {
     expect(fmtBRL(1234.5)).toBe("R$ 1.234,50");
   });
 });
+
+import { fmtMoneyInt } from "@/lib/format";
+describe("equivalentes del patrimonio", () => {
+  it("sin centavos y ocultos en modo privado", () => {
+    expect(fmtMoneyInt("US$", 65512.4)).toBe("US$ 65.512");
+    expect(fmtMoneyInt("AR$", null)).toBe("—");
+    setPrivate(true);
+    try {
+      expect(fmtMoneyInt("AR$", 102231004)).toBe("AR$ •••••");
+    } finally {
+      setPrivate(false);
+    }
+  });
+});

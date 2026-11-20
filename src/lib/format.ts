@@ -5,6 +5,11 @@ const brlCompact = new Intl.NumberFormat("pt-BR", { style: "currency", currency:
 
 /** Montos en reales: en modo privado se ocultan. */
 export const fmtBRL = (n: number | null | undefined) => (n === null || n === undefined ? "—" : isPrivate() ? `R$ ${MASK}` : brl.format(n));
+/** Equivalentes del patrimonio en otras monedas, sin centavos ("US$ 65.512", "AR$ 102.231.004"). */
+const int = new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 0 });
+export const fmtMoneyInt = (prefix: string, n: number | null | undefined) =>
+  n === null || n === undefined || !Number.isFinite(n) ? "—" : isPrivate() ? `${prefix} ${MASK}` : `${prefix} ${int.format(n)}`;
+
 export const fmtBRLCompact = (n: number) => (isPrivate() ? `R$ ${MASK.slice(0, 3)}` : brlCompact.format(n));
 
 export function fmtSignedBRL(n: number | null | undefined) {

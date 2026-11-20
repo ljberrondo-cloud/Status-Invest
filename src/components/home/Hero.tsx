@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { Area, ComposedChart, CartesianGrid, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import type { HistoryPoint, PortfolioResponse } from "@/lib/types";
 import type { ReceivedSummary } from "@/lib/received";
-import { fmtBRL, fmtBRLCompact, fmtPct, fmtSignedBRL, fmtSince, signClass } from "@/lib/format";
+import { fmtBRL, fmtMoneyInt, fmtBRLCompact, fmtPct, fmtSignedBRL, fmtSince, signClass } from "@/lib/format";
 import { addDays, isoDateSP, isoToBr } from "@/lib/dates";
 import { ChangePill, Segmented } from "../ui";
 import { PrivacyToggle } from "../privacy";
@@ -111,6 +111,9 @@ export function Hero({ data, history, received }: { data: PortfolioResponse; his
   const rent = data.invested > 0 ? (result / data.invested) * 100 : null;
   const first = series[0];
   const periodDelta = first && series.length > 1 ? data.total - first.total : null;
+  // Equivalentes: dólar PTAX (R$ por US$) y real oficial en pesos (AR$ por R$).
+  const usd = data.indicators.find((i) => i.id === "usd" && i.value > 0);
+  const ars = data.indicators.find((i) => i.id === "brlArs" && i.value > 0);
 
   return (
     <section className="card hero overflow-hidden">
@@ -119,7 +122,25 @@ export function Hero({ data, history, received }: { data: PortfolioResponse; his
           <div className="eyebrow">Patrimônio total</div>
           <PrivacyToggle className="h-7 w-7" />
         </div>
-        <div className="num mt-2 text-[2.6rem] leading-none font-semibold tracking-[-0.035em] sm:text-[3.5rem]">{fmtBRL(data.total)}</div>
+        <div className="mt-2 flex flex-wrap items-end gap-x-6 gap-y-2">
+          <div className="num text-[2.1rem] leading-none font-semibold tracking-[-0.035em] sm:text-[2.6rem]">{fmtBRL(data.total)}</div>
+          {(usd || ars) && (
+            <div className="flex items-end gap-5 pb-0.5 sm:border-l sm:border-line-strong sm:pl-6">
+              {usd && (
+                <div title={`Dólar PTAX (BCB): R$ ${usd.value.toLocaleString("pt-BR", { minimumFractionDigits: 4 })} em ${isoToBr(usd.date)}`}>
+                  <div className="text-[11px] text-ink-3">Em dólar</div>
+                  <div className="num text-lg leading-tight font-semibold tracking-tight text-ink-2 sm:text-xl">{fmtMoneyInt("US$", data.total / usd.value)}</div>
+                </div>
+              )}
+              {ars && (
+                <div title={`Real oficial: AR$ ${ars.value.toLocaleString("pt-BR", { minimumFractionDigits: 2 })} em ${isoToBr(ars.date)}`}>
+                  <div className="text-[11px] text-ink-3">Em peso argentino</div>
+                  <div className="num text-lg leading-tight font-semibold tracking-tight text-ink-2 sm:text-xl">{fmtMoneyInt("AR$", data.total * ars.value)}</div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
         <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-sm">
           <span className="flex items-center gap-2 whitespace-nowrap">
             <ChangePill pct={data.dayChangePct} size="md" />
