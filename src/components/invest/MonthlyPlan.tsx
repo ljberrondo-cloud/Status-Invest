@@ -10,6 +10,8 @@ import { MoneyInput } from "../calc/Simulator";
 
 const KEY = "invertir:montos"; // clave guardada en el dispositivo: no cambiar
 type Amounts = Record<string, { aporte: number; proventos: number }>;
+/** Sugerencia por cuenta: aporte del plan y proventos previstos del mes (recibido + a recibir). */
+type Defaults = Record<string, { aporte: number; proventos: number; got: number; pending: number }>;
 const noop = () => () => {};
 const readStored = (): string | null => {
   try {
@@ -25,7 +27,7 @@ const MAX_OPTIONS = [
   { id: "8", label: "8" },
 ] as const;
 
-export function MonthlyPlan({ data, targets, defaults }: { data: PortfolioResponse; targets: Targets; defaults: Amounts }) {
+export function MonthlyPlan({ data, targets, defaults }: { data: PortfolioResponse; targets: Targets; defaults: Defaults }) {
   const raw = useSyncExternalStore(noop, readStored, () => null);
   const stored = useMemo<Amounts | null>(() => {
     try {
@@ -35,14 +37,23 @@ export function MonthlyPlan({ data, targets, defaults }: { data: PortfolioRespon
     }
   }, [raw]);
   const [edited, setEdited] = useState<Amounts | null>(null);
-  const amounts: Amounts = edited ?? stored ?? defaults;
+  // El aporte se guarda en el aparelho; los proventos siempre arrancan en el previsto del mes.
+  const amounts: Amounts = Object.fromEntries(
+    ACCOUNTS.map((a) => [
+      a.id,
+      {
+        aporte: edited?.[a.id]?.aporte ?? stored?.[a.id]?.aporte ?? defaults[a.id]?.aporte ?? 0,
+        proventos: edited?.[a.id]?.proventos ?? defaults[a.id]?.proventos ?? 0,
+      },
+    ]),
+  );
   const [max, setMax] = useState<"3" | "5" | "8">("5");
 
   const set = (id: string, field: "aporte" | "proventos", n: number) => {
     const next = { ...amounts, [id]: { ...(amounts[id] ?? { aporte: 0, proventos: 0 }), [field]: n } };
     setEdited(next);
     try {
-      localStorage.setItem(KEY, JSON.stringify(next));
+      localStorage.setItem(KEY, JSON.stringify(Object.fromEntries(Object.entries(next).map(([k, v]) => [k, { aporte: v.aporte, proventos: 0 }]))));
     } catch {}
   };
 
@@ -60,7 +71,7 @@ export function MonthlyPlan({ data, targets, defaults }: { data: PortfolioRespon
 
   return (
     <div className="space-y-5">
-      <Card title="Quanto cada um investe este mês?" subtitle="Aporte novo + proventos recebidos que querem reinvestir. Fica salvo neste aparelho.">
+      <Card title="Quanto cada um investe este mês?" subtitle="Aporte novo + proventos do mês. O aporte fica salvo neste aparelho; os proventos começam sempre no previsto do mês.">
         <div className="grid gap-4 sm:grid-cols-2">
           {ACCOUNTS.map((a) => (
             <div key={a.id} className="rounded-xl border border-line p-4">
@@ -77,6 +88,12 @@ export function MonthlyPlan({ data, targets, defaults }: { data: PortfolioRespon
                   <div className="mt-1">
                     <MoneyInput value={amounts[a.id]?.proventos ?? 0} onChange={(n) => set(a.id, "proventos", n)} />
                   </div>
+                  {defaults[a.id] && (defaults[a.id].got > 0 || defaults[a.id].pending > 0) && (
+                    <span className="mt-1 block text-[11px] text-ink-3">
+                      Previsto do mês: {fmtBRL(defaults[a.id].got)} recebido
+                      {defaults[a.id].pending > 0 ? ` + ~${fmtBRL(defaults[a.id].pending)} a receber` : ""}
+                    </span>
+                  )}
                 </label>
               </div>
             </div>
