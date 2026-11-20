@@ -23,31 +23,54 @@ const color = (t: ReceivedType) => `var(--r-${t})`;
 const MONTHS = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
 const fmtMonth = (ym: string) => `${MONTHS[Number(ym.slice(5, 7)) - 1]} ${ym.slice(2, 4)}`;
 
-function MonthlyChart({ s }: { s: ReceivedSummary }) {
+type MonthRow = ReceivedSummary["byMonth"][number] & { previsto: number };
+
+/** Meses del gráfico: los 12 recibidos + lo previsto (estimado), y el mes siguiente si tiene previstos. */
+function withExpected(s: ReceivedSummary, upcoming: CalendarPayment[]): MonthRow[] {
+  const exp = new Map<string, number>();
+  for (const p of upcoming) exp.set(p.date.slice(0, 7), (exp.get(p.date.slice(0, 7)) ?? 0) + p.amount);
+  const rows: MonthRow[] = s.byMonth.map((m) => ({ ...m, previsto: Math.round((exp.get(m.month) ?? 0) * 100) / 100 }));
+  const lastMonth = rows.at(-1)?.month;
+  for (const [month, v] of [...exp].sort(([a], [b]) => a.localeCompare(b))) {
+    if (lastMonth && month > lastMonth) rows.push({ month, total: 0, dividendo: 0, jcp: 0, rendimento: 0, outro: 0, previsto: Math.round(v * 100) / 100 });
+  }
+  return rows;
+}
+
+function MonthlyChart({ s, upcoming }: { s: ReceivedSummary; upcoming: CalendarPayment[] }) {
   const types = TYPES.filter((t) => s.byMonth.some((m) => m[t] > 0));
+  const data = withExpected(s, upcoming);
+  const hasExpected = data.some((m) => m.previsto > 0);
   return (
     <div>
       <div className="h-56">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={s.byMonth} margin={{ top: 4, right: 0, bottom: 0, left: 0 }} barCategoryGap="22%">
+          <BarChart data={data} margin={{ top: 4, right: 0, bottom: 0, left: 0 }} barCategoryGap="22%">
             <CartesianGrid vertical={false} stroke="var(--border)" />
             <XAxis dataKey="month" tickFormatter={fmtMonth} tick={{ fill: "var(--text-3)", fontSize: 11 }} axisLine={false} tickLine={false} interval="preserveStartEnd" minTickGap={8} />
             <YAxis tickFormatter={(v: number) => fmtBRLCompact(v)} tick={{ fill: "var(--text-3)", fontSize: 11 }} axisLine={false} tickLine={false} width={72} />
             <Tooltip
               cursor={{ fill: "var(--surface-2)" }}
               content={({ active, payload }) => {
-                const m = payload?.[0]?.payload as ReceivedSummary["byMonth"][number] | undefined;
+                const m = payload?.[0]?.payload as MonthRow | undefined;
                 return active && m ? (
                   <div className="card px-3 py-2 text-xs shadow-lg">
                     <div className="mb-1 font-medium">{fmtMonth(m.month)}</div>
-                    {types.map((t) => (
+                    {types.filter((t) => m[t] > 0).map((t) => (
                       <div key={t} className="flex items-center gap-2">
                         <span className="h-2 w-2 rounded-sm" style={{ background: color(t) }} />
                         <span className="flex-1 text-ink-2">{RECEIVED_LABELS[t]}</span>
                         <span className="num">{fmtBRL(m[t])}</span>
                       </div>
                     ))}
-                    <div className="num mt-1 border-t border-line pt-1 text-right font-medium">{fmtBRL(m.total)}</div>
+                    {m.total > 0 && <div className="num mt-1 border-t border-line pt-1 text-right font-medium">Recebido {fmtBRL(m.total)}</div>}
+                    {m.previsto > 0 && (
+                      <div className="mt-1 flex items-center gap-2 text-ink-3">
+                        <span className="h-2 w-2 rounded-sm border border-dashed" style={{ borderColor: "var(--r-rendimento)", background: "color-mix(in oklab, var(--r-rendimento) 30%, transparent)" }} />
+                        <span className="flex-1">Previsto (estimado)</span>
+                        <span className="num">~{fmtBRL(m.previsto)}</span>
+                      </div>
+                    )}
                   </div>
                 ) : null;
               }}
@@ -60,10 +83,24 @@ function MonthlyChart({ s }: { s: ReceivedSummary }) {
                 fill={color(t)}
                 stroke="var(--surface)"
                 strokeWidth={1}
-                radius={i === types.length - 1 ? [4, 4, 0, 0] : 0}
+                radius={i === types.length - 1 && !hasExpected ? [4, 4, 0, 0] : 0}
                 isAnimationActive={false}
               />
             ))}
+            {hasExpected && (
+              <Bar
+                dataKey="previsto"
+                stackId="a"
+                fill="var(--r-rendimento)"
+                fillOpacity={0.28}
+                stroke="var(--r-rendimento)"
+                strokeOpacity={0.7}
+                strokeDasharray="3 3"
+                strokeWidth={1}
+                radius={[4, 4, 0, 0]}
+                isAnimationActive={false}
+              />
+            )}
           </BarChart>
         </ResponsiveContainer>
       </div>
@@ -74,6 +111,12 @@ function MonthlyChart({ s }: { s: ReceivedSummary }) {
             {RECEIVED_LABELS[t]}
           </span>
         ))}
+        {hasExpected && (
+          <span className="flex items-center gap-1.5">
+            <span className="h-2.5 w-2.5 rounded-sm border border-dashed" style={{ borderColor: "var(--r-rendimento)", background: "color-mix(in oklab, var(--r-rendimento) 28%, transparent)" }} />
+            Previsto (estimado)
+          </span>
+        )}
       </div>
     </div>
   );
@@ -148,8 +191,8 @@ export function ReceivedView() {
         ))}
       </div>
 
-      <Card title="Por mês · últimos 12 meses" subtitle="Pagamentos com data. Os anos que só têm total anual não são divididos por mês.">
-        <MonthlyChart s={s} />
+      <Card title="Por mês · últimos 12 meses" subtitle="Pagamentos com data; em transparente, o previsto estimado pelo histórico. Os anos que só têm total anual não são divididos por mês.">
+        <MonthlyChart s={s} upcoming={data.upcoming ?? []} />
       </Card>
 
       {data.calendar && <PaymentsCalendar received={data.calendar} upcoming={data.upcoming ?? []} />}
