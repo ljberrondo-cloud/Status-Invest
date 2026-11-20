@@ -84,6 +84,32 @@ export default function Patrimonio() {
         </dl>
       </section>
 
+      <Card title="Investimentos + bens" subtitle="Em reais, dólar (PTAX) e peso argentino (oficial)">
+        <div className="divide-y divide-line">
+          <div className="hidden grid-cols-[1.4fr_1fr_1fr_1.2fr] gap-3 pb-2 text-xs text-ink-3 sm:grid">
+            <span />
+            <span className="text-right">Reais</span>
+            <span className="text-right">Dólar</span>
+            <span className="text-right">Peso argentino</span>
+          </div>
+          {[
+            { key: "inv", label: "Investimentos", hint: "carteira, previdência e FGTS", value: data.total },
+            { key: "bens", label: "Bens", hint: "casa e carros", value: imovel + veiculos },
+            { key: "total", label: "Patrimônio total", hint: null, value: total },
+          ].map((r) => (
+            <div key={r.key} className={`grid grid-cols-1 gap-x-3 gap-y-0.5 py-3 sm:grid-cols-[1.4fr_1fr_1fr_1.2fr] sm:items-baseline ${r.key === "total" ? "font-semibold" : ""}`}>
+              <div className="mb-1 sm:mb-0">
+                <span className={r.key === "total" ? "" : "font-medium"}>{r.label}</span>
+                {r.hint && <span className="ml-2 text-xs font-normal text-ink-3">{r.hint}</span>}
+              </div>
+              <span className="num text-[15px] whitespace-nowrap sm:text-right">{fmtBRL(r.value)}</span>
+              <span className="num text-sm whitespace-nowrap text-ink-2 sm:text-right sm:text-[15px]">{usd ? fmtMoneyInt("US$", r.value / usd.value) : "—"}</span>
+              <span className="num text-sm whitespace-nowrap text-ink-2 sm:text-right sm:text-[15px]">{ars ? fmtMoneyInt("AR$", r.value * ars.value) : "—"}</span>
+            </div>
+          ))}
+        </div>
+      </Card>
+
       <Card title="Bens" subtitle={`Valores estimados em ${bens.data.asOf ? isoToBr(bens.data.asOf) : "—"}: média entre a tabela FIPE e a mediana dos anúncios; o imóvel, pela mediana do R$/m² de casas comparáveis.`}>
         {/* Celular: una tarjeta por bien */}
         <ul className="space-y-3 sm:hidden">

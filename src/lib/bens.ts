@@ -18,6 +18,8 @@ export interface Bem {
   area_m2?: number;
   fipe?: { value: number; ref: string; source: string };
   market: MarketListing[];
+  /** Valor que ustedes consideran (prevalece sobre la estimación; la estimación queda como referencia). */
+  owner_value?: number;
   note?: string;
 }
 
@@ -43,6 +45,11 @@ export function median(xs: number[]): number | null {
 const round = (n: number) => Math.round(n);
 
 export function valueBem(b: Bem): BemValue {
+  const est = estimate(b);
+  return b.owner_value ? { ...est, value: b.owner_value, method: "Valor informado por vocês" } : est;
+}
+
+function estimate(b: Bem): BemValue {
   const withArea = b.area_m2 ? b.market.filter((l) => l.area_m2 && l.area_m2 > 0) : [];
   const perM2 = withArea.length ? median(withArea.map((l) => l.price / l.area_m2!)) : null;
   const marketValue = perM2 !== null && b.area_m2 ? round(perM2 * b.area_m2) : (() => {

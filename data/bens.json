@@ -8,26 +8,67 @@
       "details": "3 quartos (1 suíte), quintal, garagem para 2 carros, churrasqueira, aquecimento solar, filtro de água",
       "area_m2": 90,
       "market": [
-        { "price": 450000, "area_m2": 92, "source": "OLX" },
-        { "price": 490000, "area_m2": 87, "source": "Mundo Imobiliário" },
-        { "price": 499000, "area_m2": 87, "source": "Attria" },
-        { "price": 520000, "area_m2": 90, "source": "Arbo Imóveis" },
-        { "price": 520000, "area_m2": 87, "source": "Mundo Imobiliário" },
-        { "price": 530000, "area_m2": 86, "source": "Marcio Santos Imóveis" }
+        {
+          "price": 450000,
+          "area_m2": 92,
+          "source": "OLX"
+        },
+        {
+          "price": 490000,
+          "area_m2": 87,
+          "source": "Mundo Imobiliário"
+        },
+        {
+          "price": 499000,
+          "area_m2": 87,
+          "source": "Attria"
+        },
+        {
+          "price": 520000,
+          "area_m2": 90,
+          "source": "Arbo Imóveis"
+        },
+        {
+          "price": 520000,
+          "area_m2": 87,
+          "source": "Mundo Imobiliário"
+        },
+        {
+          "price": 530000,
+          "area_m2": 86,
+          "source": "Marcio Santos Imóveis"
+        }
       ],
-      "note": "Anúncios de casas comparáveis no mesmo condomínio (preço pedido). Sem FIPE: o valor é a mediana do R$/m² × 90 m²."
+      "note": "Anúncios de casas comparáveis no mesmo condomínio (preço pedido). Sem FIPE: o valor é a mediana do R$/m² × 90 m².",
+      "owner_value": 520000
     },
     {
       "id": "tiggo7",
       "kind": "veiculo",
       "name": "Caoa Chery Tiggo 7 Sport 1.5 Turbo Flex",
       "details": "2025",
-      "fipe": { "value": 120353, "ref": "2026-11", "source": "https://tabelacarros.com/modelo/carros/caoa-chery/TIGGO-7/2025-Gasolina" },
+      "fipe": {
+        "value": 120353,
+        "ref": "2026-11",
+        "source": "https://tabelacarros.com/modelo/carros/caoa-chery/TIGGO-7/2025-Gasolina"
+      },
       "market": [
-        { "price": 118500, "source": "https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/chery/tiggo-7" },
-        { "price": 118700, "source": "https://lista.mercadolivre.com.br/caoa-chery-tiggo-7-sport-usado" },
-        { "price": 121990, "source": "https://lista.mercadolivre.com.br/caoa-chery-tiggo-7-sport-usado" },
-        { "price": 123990, "source": "https://www.mobiauto.com.br/comprar/carros-usados/sp-sao-paulo/caoa-chery/tiggo-7" }
+        {
+          "price": 118500,
+          "source": "https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/chery/tiggo-7"
+        },
+        {
+          "price": 118700,
+          "source": "https://lista.mercadolivre.com.br/caoa-chery-tiggo-7-sport-usado"
+        },
+        {
+          "price": 121990,
+          "source": "https://lista.mercadolivre.com.br/caoa-chery-tiggo-7-sport-usado"
+        },
+        {
+          "price": 123990,
+          "source": "https://www.mobiauto.com.br/comprar/carros-usados/sp-sao-paulo/caoa-chery/tiggo-7"
+        }
       ]
     },
     {
@@ -35,13 +76,32 @@
       "kind": "veiculo",
       "name": "Ford Fiesta SE 1.6 16V Flex",
       "details": "2015",
-      "fipe": { "value": 41065, "ref": "2026-09", "source": "https://carro.blog.br/fipe/ford/fiesta/2015/16-16v-flex-mecanico-5p" },
+      "fipe": {
+        "value": 41065,
+        "ref": "2026-09",
+        "source": "https://carro.blog.br/fipe/ford/fiesta/2015/16-16v-flex-mecanico-5p"
+      },
       "market": [
-        { "price": 37900, "source": "https://www.webmotors.com.br/carros/estoque/ford/fiesta/16-se-hatch-16v-flex-4p-manual/de.2015/ate.2015" },
-        { "price": 40000, "source": "https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/ford/fiesta/estado-sp/vale-do-paraiba-e-litoral-norte" },
-        { "price": 42900, "source": "https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/ford/fiesta/estado-sp/vale-do-paraiba-e-litoral-norte" },
-        { "price": 49500, "source": "https://www.webmotors.com.br/carros/estoque/ford/fiesta/16-se-hatch-16v-flex-4p-manual/de.2015/ate.2015" },
-        { "price": 52800, "source": "https://www.webmotors.com.br/carros/estoque/ford/fiesta/16-se-hatch-16v-flex-4p-manual/de.2015/ate.2015" }
+        {
+          "price": 37900,
+          "source": "https://www.webmotors.com.br/carros/estoque/ford/fiesta/16-se-hatch-16v-flex-4p-manual/de.2015/ate.2015"
+        },
+        {
+          "price": 40000,
+          "source": "https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/ford/fiesta/estado-sp/vale-do-paraiba-e-litoral-norte"
+        },
+        {
+          "price": 42900,
+          "source": "https://www.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/ford/fiesta/estado-sp/vale-do-paraiba-e-litoral-norte"
+        },
+        {
+          "price": 49500,
+          "source": "https://www.webmotors.com.br/carros/estoque/ford/fiesta/16-se-hatch-16v-flex-4p-manual/de.2015/ate.2015"
+        },
+        {
+          "price": 52800,
+          "source": "https://www.webmotors.com.br/carros/estoque/ford/fiesta/16-se-hatch-16v-flex-4p-manual/de.2015/ate.2015"
+        }
       ]
     }
   ]

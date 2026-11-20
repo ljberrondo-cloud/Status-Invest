@@ -18,3 +18,12 @@ describe("bienes", () => {
     expect(v.value).toBe(450000);
   });
 });
+
+describe("valor informado", () => {
+  it("prevalece sobre la estimación, que queda como referencia de mercado", () => {
+    const v = valueBem({ id: "c", kind: "imovel", name: "C", area_m2: 90, owner_value: 520000, market: [{ price: 450000, area_m2: 90, source: "x" }] });
+    expect(v.value).toBe(520000);
+    expect(v.marketValue).toBe(450000);
+    expect(v.method).toBe("Valor informado por vocês");
+  });
+});
