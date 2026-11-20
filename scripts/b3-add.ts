@@ -2,7 +2,7 @@
  * Convierte archivos de B3 (extracto de Movimentação PDF/Excel o relatório consolidado) al formato
  * que guarda el botón "Subir extracto": data/b3/<cuenta>/<período>-<hash>.json, sólo proventos.
  *
- * Uso: npm run b3:add -- <cuenta> <archivo> [<archivo>...]     (cuenta: mi-cuenta | esposa)
+ * Uso: npm run b3:add -- <cuenta> <archivo> [<archivo>...]     (cuenta: conta-1 | conta-2)
  */
 import { promises as fs } from "node:fs";
 import path from "node:path";

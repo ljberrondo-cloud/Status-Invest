@@ -8,8 +8,8 @@ import { fmtBRL, fmtPct, fmtQty, fmtSignedBRL, signClass } from "@/lib/format";
 import { Card, TickerAvatar } from "./ui";
 
 const ACCOUNT_COLOR: Record<string, string> = {
-  "mi-cuenta": "var(--accent)",
-  esposa: "var(--c-tesouro)",
+  "conta-1": "var(--accent)",
+  "conta-2": "var(--c-tesouro)",
   [UNASSIGNED]: "var(--c-otros)",
 };
 

@@ -86,7 +86,7 @@ export function EmptyReceived() {
 }
 
 export function ReceivedView() {
-  // Siempre consolidado: tus proventos y los de tu esposa juntos.
+  // Siempre consolidado: los proventos de todas las cuentas juntos.
   const { data, error, isLoading } = useJson<ReceivedResponse>("/api/received");
   if (error && !data) return <ErrorState message={error.message} />;
   if (isLoading || !data) return <Skeleton className="h-72" />;

@@ -1,12 +1,12 @@
 {
-  "account": "mi-cuenta",
-  "asOf": "2026-04-30",
+  "account": "conta-1",
+  "asOf": "2026-01-31",
   "positions": [
     {
       "ticker": "BBAS3",
       "name": "BCO BRASIL S.A.",
       "class": "acciones",
-      "quantity": 65
+      "quantity": 50
     },
     {
       "ticker": "CMIG4",
@@ -18,7 +18,7 @@
       "ticker": "NEOE3",
       "name": "NEOENERGIA S.A.",
       "class": "acciones",
-      "quantity": 36
+      "quantity": 32
     },
     {
       "ticker": "PETR4",
@@ -42,19 +42,19 @@
       "ticker": "RANI3",
       "name": "IRANI PAPEL E EMBALAGEM S.A.",
       "class": "acciones",
-      "quantity": 175
+      "quantity": 125
     },
     {
       "ticker": "SANB3",
       "name": "BCO SANTANDER (BRASIL) S.A.",
       "class": "acciones",
-      "quantity": 84
+      "quantity": 54
     },
     {
       "ticker": "TAEE3",
       "name": "TRANSMISSORA ALIANÇA DE ENERGIA ELÉTRICA S.A.",
       "class": "acciones",
-      "quantity": 77
+      "quantity": 64
     },
     {
       "ticker": "VALE3",
@@ -63,16 +63,16 @@
       "quantity": 15
     },
     {
-      "ticker": "VIVT3",
-      "name": "TELEFÔNICA BRASIL S.A",
+      "ticker": "VBBR3",
+      "name": "VIBRA ENERGIA S.A.",
       "class": "acciones",
       "quantity": 32
     },
     {
-      "ticker": "VBBR3",
-      "name": "VIBRA ENERGIA S.A.",
+      "ticker": "VIVT3",
+      "name": "TELEFÔNICA BRASIL S.A",
       "class": "acciones",
-      "quantity": 42
+      "quantity": 32
     },
     {
       "ticker": "IVVB11",
@@ -96,13 +96,7 @@
       "ticker": "BTLG11",
       "name": "BTG PACTUAL LOGISTICA FDO INV IMOB RESP LIM",
       "class": "fiis",
-      "quantity": 10
-    },
-    {
-      "ticker": "BTLG12",
-      "name": "BTG PACTUAL LOGISTICA FDO INV IMOB RESP LIM",
-      "class": "fiis",
-      "quantity": 2
+      "quantity": 100
     },
     {
       "ticker": "HABT11",
@@ -120,7 +114,7 @@
       "ticker": "HGLG11",
       "name": "PATRIA LOG - FDO INV IMOB - RESPONSABILIDADE LTDA.",
       "class": "fiis",
-      "quantity": 10
+      "quantity": 100
     },
     {
       "ticker": "KNCR11",
@@ -132,7 +126,7 @@
       "ticker": "KNIP11",
       "name": "KINEA ÍNDICES DE PREÇOS FII RESP LIM",
       "class": "fiis",
-      "quantity": 13
+      "quantity": 113
     },
     {
       "ticker": "MXRF11",
@@ -144,7 +138,7 @@
       "ticker": "RZTR11",
       "name": "FUNDO DE INVEST IMOB RIZA TERRAX RESP LIM",
       "class": "fiis",
-      "quantity": 10
+      "quantity": 102
     },
     {
       "ticker": "TGAR11",
@@ -163,29 +157,13 @@
       "name": "XP MALLS FDO INV IMOB FII RESP LIM",
       "class": "fiis",
       "quantity": 115
+    },
+    {
+      "ticker": "XPML12",
+      "name": "XP MALLS FDO INV IMOB FII RESP LIM",
+      "class": "fiis",
+      "quantity": 7
     }
   ],
-  "trades": [
-    {
-      "ticker": "NEOE3",
-      "buyQty": 4,
-      "sellQty": 0,
-      "buyAvg": 33.65,
-      "from": "2026-04-23"
-    },
-    {
-      "ticker": "RANI3",
-      "buyQty": 50,
-      "sellQty": 0,
-      "buyAvg": 9.09,
-      "from": "2026-04-16"
-    },
-    {
-      "ticker": "SANB3",
-      "buyQty": 30,
-      "sellQty": 0,
-      "buyAvg": 15.7,
-      "from": "2026-04-16"
-    }
-  ]
+  "trades": []
 }

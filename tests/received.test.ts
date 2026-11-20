@@ -45,11 +45,11 @@ describe("extracto de Movimentação de B3", () => {
 
   it("el mismo pago en cuentas de dos titulares cuenta dos veces", () => {
     const a = parseMovimentacaoRows(toRows());
-    const yo = a.map((p) => ({ ...p, owner: "Yo" }));
-    const ella = a.map((p) => ({ ...p, owner: "Esposa" }));
-    const merged = mergePayments(yo, ella, yo);
+    const c1 = a.map((p) => ({ ...p, owner: "Conta 1" }));
+    const c2 = a.map((p) => ({ ...p, owner: "Conta 2" }));
+    const merged = mergePayments(c1, c2, c1);
     expect(merged).toHaveLength(6);
-    expect(ownersOf(merged)).toEqual(["Esposa", "Yo"]);
+    expect(ownersOf(merged)).toEqual(["Conta 1", "Conta 2"]);
   });
 
   it("une extractos superpuestos sin duplicar", () => {
@@ -73,8 +73,8 @@ describe("extracto de Movimentação de B3", () => {
 
 describe("titulares", () => {
   it("nombre visible desde la carpeta", () => {
-    expect(ownerLabel("esposa")).toBe("Esposa");
-    expect(ownerLabel("maria-luz")).toBe("Maria Luz");
+    expect(ownerLabel("conta-3")).toBe("Conta 3");
+    expect(ownerLabel("conta-extra")).toBe("Conta Extra");
   });
 });
 
@@ -168,8 +168,8 @@ describe("relatórios consolidados de B3", () => {
 import { accountLabel } from "@/lib/accounts";
 describe("nombres de cuenta", () => {
   it("las carpetas conocidas muestran el nombre elegido", () => {
-    expect(accountLabel("mi-cuenta")).toBe("Conta 1");
-    expect(accountLabel("esposa")).toBe("Conta 2");
+    expect(accountLabel("conta-1")).toBe("Conta 1");
+    expect(accountLabel("conta-2")).toBe("Conta 2");
     expect(accountLabel("otra-cuenta")).toBe("Otra Cuenta");
   });
 });

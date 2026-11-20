@@ -21,7 +21,7 @@ describe("posiciones del relatório mensal", () => {
         { name: "Posição - Tesouro Direto", rows: [{ Produto: "Tesouro Selic 2031", Vencimento: "01/03/2031", Quantidade: 0.55, "Valor Aplicado": 10760.8 }] },
         { name: "Negociações", rows: [{ "Código de Negociação": "HFOF11", "Período (Inicial)": "15/10/2026", "Quantidade (Compra)": 8, "Quantidade (Venda)": 0, "Preço Médio (Compra)": 6.56 }] },
       ],
-      "mi-cuenta",
+      "conta-1",
       "relatorio-consolidado-mensal-2026-outubro.xlsx",
     )!;
     expect(f.asOf).toBe("2026-10-31");
@@ -38,15 +38,15 @@ describe("posiciones del relatório mensal", () => {
 
 describe("aplicar posiciones por cuenta", () => {
   const base: Portfolio = {
-    positions_as_of: { "mi-cuenta": "2026-11-13", esposa: "2026-11-15" },
+    positions_as_of: { "conta-1": "2026-11-13", "conta-2": "2026-11-15" },
     assets: [
-      { ticker: "HFOF11", class: "fiis", quantity: 2575, avg_price: 5.8, accounts: { "mi-cuenta": { quantity: 910 }, esposa: { quantity: 1665 } } },
-      { ticker: "BBAS3", class: "acciones", quantity: 94, avg_price: 20.76, accounts: { "mi-cuenta": { quantity: 94 } } },
+      { ticker: "HFOF11", class: "fiis", quantity: 2575, avg_price: 5.8, accounts: { "conta-1": { quantity: 910 }, "conta-2": { quantity: 1665 } } },
+      { ticker: "BBAS3", class: "acciones", quantity: 94, avg_price: 20.76, accounts: { "conta-1": { quantity: 94 } } },
       { ticker: "BTC", class: "cripto", quantity: 0.5 },
     ],
   };
   const nov = (over: Partial<PositionFile> = {}): PositionFile => ({
-    account: "mi-cuenta",
+    account: "conta-1",
     asOf: "2026-11-30",
     positions: [{ ticker: "HFOF11", class: "fiis", quantity: 1010 }],
     trades: [{ ticker: "HFOF11", buyQty: 100, sellQty: 0, buyAvg: 6, from: "2026-11-20" }],
@@ -56,12 +56,12 @@ describe("aplicar posiciones por cuenta", () => {
   it("reemplaza la cuenta, suma con la otra y actualiza el precio medio con las compras", () => {
     const { portfolio, changes } = applyPositionFiles(base, [nov()]);
     const h = portfolio.assets.find((a) => a.ticker === "HFOF11")!;
-    expect(h.accounts).toEqual({ "mi-cuenta": { quantity: 1010 }, esposa: { quantity: 1665 } });
+    expect(h.accounts).toEqual({ "conta-1": { quantity: 1010 }, "conta-2": { quantity: 1665 } });
     expect(h.quantity).toBe(2675);
     expect(h.avg_price).toBeCloseTo((2575 * 5.8 + 100 * 6) / 2675, 4);
     // BBAS3 ya no aparece en la cuenta: vendido → sale de la cartera; el cripto (manual) no se toca
     expect(portfolio.assets.map((a) => a.ticker)).toEqual(["HFOF11", "BTC"]);
-    expect(portfolio.positions_as_of).toEqual({ "mi-cuenta": "2026-11-30", esposa: "2026-11-15" });
+    expect(portfolio.positions_as_of).toEqual({ "conta-1": "2026-11-30", "conta-2": "2026-11-15" });
     expect(changes.map((c) => [c.ticker, c.before, c.after])).toEqual([
       ["HFOF11", 2575, 2675],
       ["BBAS3", 94, 0],

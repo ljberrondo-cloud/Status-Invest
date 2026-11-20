@@ -3,12 +3,12 @@
  * `label` es el nombre que se ve en la app y en los proventos importados.
  */
 export const ACCOUNTS = [
-  { id: "mi-cuenta", label: "Conta 1" },
-  { id: "esposa", label: "Conta 2" },
+  { id: "conta-1", label: "Conta 1" },
+  { id: "conta-2", label: "Conta 2" },
 ] as const;
 export type AccountId = (typeof ACCOUNTS)[number]["id"];
 
-/** Nombre visible de una carpeta de cuenta (las que no están en ACCOUNTS: "maria-luz" → "Maria Luz"). */
+/** Nombre visible de una carpeta de cuenta (las que no están en ACCOUNTS: "conta-3" → "Conta 3"). */
 export function accountLabel(dir: string): string {
   return ACCOUNTS.find((a) => a.id === dir)?.label ?? dir.replace(/[-_]+/g, " ").replace(/\b\p{L}/gu, (c) => c.toUpperCase());
 }

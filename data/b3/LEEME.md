@@ -1,6 +1,6 @@
 # Extractos de B3
 
-Una subcarpeta por cuenta: `mi-cuenta/` y `esposa/`. En la app se muestran siempre juntas; las carpetas separadas sólo sirven para que un mismo pago recibido en las dos cuentas no se cuente como repetido.
+Una subcarpeta por cuenta: `conta-1/` y `conta-2/`. En la app se muestran siempre juntas; las carpetas separadas sólo sirven para que un mismo pago recibido en las dos cuentas no se cuente como repetido.
 
 Lo más simple: en la app, **Proventos → Subir extracto de B3**. Acepta:
 - Extrato de **Movimentação** (PDF o Excel).

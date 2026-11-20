@@ -102,7 +102,7 @@ Cada activo en `data/portfolio.json` tiene `ticker`, `class` (`acciones` · `fii
 
 **A mano:**
 
-B3 no ofrece una API abierta para personas, pero permite descargar el extracto de **Movimentação** (Área do Investidor → Extratos → Movimentação → Excel). Subí ese `.xlsx` a la carpeta del titular en [`data/b3/`](data/b3/) (`mi-cuenta/`, `esposa/`; la app las muestra consolidadas, la separación evita descartar como duplicado un mismo pago recibido en ambas cuentas) y el workflow [`import-b3.yml`](.github/workflows/import-b3.yml) genera `data/proventos-recebidos.json`. La pestaña **Proventos → Recibidos** muestra el acumulado (12 meses, año, histórico), separado en dividendos, JCP y rendimientos, por mes y por activo. Podés subir extractos superpuestos: los pagos repetidos se cuentan una sola vez. Localmente: `npm run import:b3`.
+B3 no ofrece una API abierta para personas, pero permite descargar el extracto de **Movimentação** (Área do Investidor → Extratos → Movimentação → Excel). Subí ese `.xlsx` a la carpeta del titular en [`data/b3/`](data/b3/) (`conta-1/`, `conta-2/`; la app las muestra consolidadas, la separación evita descartar como duplicado un mismo pago recibido en ambas cuentas) y el workflow [`import-b3.yml`](.github/workflows/import-b3.yml) genera `data/proventos-recebidos.json`. La pestaña **Proventos → Recibidos** muestra el acumulado (12 meses, año, histórico), separado en dividendos, JCP y rendimientos, por mes y por activo. Podés subir extractos superpuestos: los pagos repetidos se cuentan una sola vez. Localmente: `npm run import:b3`.
 
 ## Posiciones por cuenta (relatório consolidado mensual)
 

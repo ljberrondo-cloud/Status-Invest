@@ -1,24 +1,24 @@
 {
-  "account": "mi-cuenta",
-  "asOf": "2026-05-31",
+  "account": "conta-1",
+  "asOf": "2026-02-28",
   "positions": [
     {
       "ticker": "BBAS3",
       "name": "BCO BRASIL S.A.",
       "class": "acciones",
-      "quantity": 65
-    },
-    {
-      "ticker": "BBSE3",
-      "name": "BB SEGURIDADE PARTICIPAÇÕES S.A.",
-      "class": "acciones",
-      "quantity": 20
+      "quantity": 50
     },
     {
       "ticker": "CMIG4",
       "name": "CIA ENERGETICA DE MINAS GERAIS - CEMIG",
       "class": "acciones",
       "quantity": 90
+    },
+    {
+      "ticker": "NEOE3",
+      "name": "NEOENERGIA S.A.",
+      "class": "acciones",
+      "quantity": 32
     },
     {
       "ticker": "PETR4",
@@ -42,19 +42,19 @@
       "ticker": "RANI3",
       "name": "IRANI PAPEL E EMBALAGEM S.A.",
       "class": "acciones",
-      "quantity": 182
+      "quantity": 125
     },
     {
       "ticker": "SANB3",
       "name": "BCO SANTANDER (BRASIL) S.A.",
       "class": "acciones",
-      "quantity": 84
+      "quantity": 54
     },
     {
       "ticker": "TAEE3",
       "name": "TRANSMISSORA ALIANÇA DE ENERGIA ELÉTRICA S.A.",
       "class": "acciones",
-      "quantity": 77
+      "quantity": 64
     },
     {
       "ticker": "VALE3",
@@ -66,19 +66,13 @@
       "ticker": "VBBR3",
       "name": "VIBRA ENERGIA S.A.",
       "class": "acciones",
-      "quantity": 42
+      "quantity": 32
     },
     {
       "ticker": "VIVT3",
       "name": "TELEFÔNICA BRASIL S.A",
       "class": "acciones",
       "quantity": 32
-    },
-    {
-      "ticker": "DIVD11",
-      "name": "IT NOW IDIV RENDA DIV FDO DE ÍNDICE – RESP LIMIT",
-      "class": "etfs",
-      "quantity": 1
     },
     {
       "ticker": "IVVB11",
@@ -96,7 +90,7 @@
       "ticker": "SPYI11",
       "name": "BUENA VISTA I FUNDO DE ÍNDICE",
       "class": "etfs",
-      "quantity": 63
+      "quantity": 60
     },
     {
       "ticker": "BTLG11",
@@ -144,7 +138,7 @@
       "ticker": "RZTR11",
       "name": "FUNDO DE INVEST IMOB RIZA TERRAX RESP LIM",
       "class": "fiis",
-      "quantity": 20
+      "quantity": 10
     },
     {
       "ticker": "TGAR11",
@@ -167,53 +161,32 @@
   ],
   "trades": [
     {
-      "ticker": "BBSE3",
-      "buyQty": 20,
-      "sellQty": 0,
-      "buyAvg": 34.08,
-      "from": "2026-05-18"
+      "ticker": "BTLG11",
+      "buyQty": 0,
+      "sellQty": 90,
+      "buyAvg": 0,
+      "from": "2026-02-12"
     },
     {
-      "ticker": "DIVD11",
-      "buyQty": 1,
-      "sellQty": 0,
-      "buyAvg": 65.69,
-      "from": "2026-05-04"
+      "ticker": "HGLG11",
+      "buyQty": 0,
+      "sellQty": 90,
+      "buyAvg": 0,
+      "from": "2026-02-12"
     },
     {
-      "ticker": "HFOF11",
-      "buyQty": 40,
-      "sellQty": 0,
-      "buyAvg": 6.68,
-      "from": "2026-05-29"
-    },
-    {
-      "ticker": "RANI3",
-      "buyQty": 7,
-      "sellQty": 0,
-      "buyAvg": 7.88,
-      "from": "2026-05-08"
+      "ticker": "KNIP11",
+      "buyQty": 0,
+      "sellQty": 100,
+      "buyAvg": 0,
+      "from": "2026-02-12"
     },
     {
       "ticker": "RZTR11",
-      "buyQty": 10,
-      "sellQty": 0,
-      "buyAvg": 90.09,
-      "from": "2026-05-18"
-    },
-    {
-      "ticker": "SPYI11",
-      "buyQty": 3,
-      "sellQty": 0,
-      "buyAvg": 106.5,
-      "from": "2026-05-18"
-    },
-    {
-      "ticker": "TAEE3",
-      "buyQty": 20,
-      "sellQty": 0,
-      "buyAvg": 12.97,
-      "from": "2026-05-29"
+      "buyQty": 0,
+      "sellQty": 92,
+      "buyAvg": 0,
+      "from": "2026-02-12"
     }
   ]
 }

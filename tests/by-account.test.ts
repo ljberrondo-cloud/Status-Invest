@@ -5,16 +5,16 @@ import type { Asset, Quote } from "@/lib/types";
 
 const q = (ticker: string, price: number): Quote => ({ ticker, price, previousClose: price, changePct: 0, asOf: "", source: "t", kind: "market" });
 const ACC = [
-  { id: "mi-cuenta", label: "Mi Cuenta" },
-  { id: "esposa", label: "Esposa" },
+  { id: "conta-1", label: "Mi Cuenta" },
+  { id: "conta-2", label: "Conta 2" },
 ] as const;
 
 describe("patrimonio por cuenta", () => {
   const assets: Asset[] = [
-    { ticker: "HFOF11", class: "fiis", quantity: 100, avg_price: 5, accounts: { "mi-cuenta": { quantity: 40 }, esposa: { quantity: 60 } } },
-    { ticker: "BBAS3", class: "acciones", quantity: 10, avg_price: 20, accounts: { "mi-cuenta": { quantity: 10 } } },
-    { ticker: "SELIC2031", class: "tesouro", quantity: 1, avg_price: 9000, accounts: { esposa: { quantity: 1, invested: 9500 } } },
-    { ticker: "BTC", class: "cripto", quantity: 1, avg_price: 300, owner: "mi-cuenta" },
+    { ticker: "HFOF11", class: "fiis", quantity: 100, avg_price: 5, accounts: { "conta-1": { quantity: 40 }, "conta-2": { quantity: 60 } } },
+    { ticker: "BBAS3", class: "acciones", quantity: 10, avg_price: 20, accounts: { "conta-1": { quantity: 10 } } },
+    { ticker: "SELIC2031", class: "tesouro", quantity: 1, avg_price: 9000, accounts: { "conta-2": { quantity: 1, invested: 9500 } } },
+    { ticker: "BTC", class: "cripto", quantity: 1, avg_price: 300, owner: "conta-1" },
     { ticker: "FGTS", class: "otros", quantity: 1, provider: "manual", manual_value: 1000 },
   ];
   const v = valuePortfolio(
@@ -31,18 +31,18 @@ describe("patrimonio por cuenta", () => {
 
   it("reparte por cantidad de cada cuenta y respeta owner", () => {
     expect(s.map((a) => [a.id, a.count, a.value])).toEqual([
-      ["mi-cuenta", 3, 240 + 150 + 400],
-      ["esposa", 2, 360 + 10000],
+      ["conta-1", 3, 240 + 150 + 400],
+      ["conta-2", 2, 360 + 10000],
       [UNASSIGNED, 1, 1000],
     ]);
   });
 
   it("invertido por cuenta: cantidad × precio medio, Tesouro con su valor aplicado", () => {
-    const mi = s.find((a) => a.id === "mi-cuenta")!;
+    const mi = s.find((a) => a.id === "conta-1")!;
     expect(mi.invested).toBe(40 * 5 + 10 * 20 + 300);
     expect(mi.gain).toBeCloseTo(790 - 700, 10);
-    const esposa = s.find((a) => a.id === "esposa")!;
-    expect(esposa.invested).toBe(60 * 5 + 9500);
+    const c2 = s.find((a) => a.id === "conta-2")!;
+    expect(c2.invested).toBe(60 * 5 + 9500);
   });
 
   it("los porcentajes suman 100 y el total cuadra con la cartera", () => {

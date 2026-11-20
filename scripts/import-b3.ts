@@ -21,11 +21,11 @@ const OUT = path.join(DATA, "proventos-recebidos.json");
 /** Compatibilidad (tests): filas de un extracto de Movimentação en .xlsx. */
 export { readXlsxFile as readXlsxRows } from "../src/lib/b3-xlsx";
 
-/** Nombre de carpeta → nombre visible: "esposa" → "Esposa", "maria-luz" → "Maria Luz". */
+/** Nombre de carpeta → nombre visible: "conta-3" → "Conta 3". */
 export const ownerLabel = (dir: string) => dir.replace(/[-_]+/g, " ").replace(/\b\p{L}/gu, (c) => c.toUpperCase());
 
 /**
- * Extractos a procesar. Cada subcarpeta de data/b3/ es un titular (data/b3/esposa/*.xlsx).
+ * Extractos a procesar. Cada subcarpeta de data/b3/ es un titular (data/b3/conta-2/*.xlsx).
  * Los .xlsx sueltos en data/b3/ se toman sin titular.
  */
 async function listFiles(): Promise<{ rel: string; full: string; owner?: string }[]> {

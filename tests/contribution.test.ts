@@ -26,7 +26,7 @@ const v = valuePortfolio(
 
 describe("dónde invertir el aporte", () => {
   const plan = planContribution(v.positions, targets, [
-    { id: "c1", label: "Conta 1", amount: 1000 },
+    { id: "conta-1", label: "Conta 1", amount: 1000 },
     { id: "c2", label: "Conta 2", amount: 505 },
   ]);
 
@@ -55,10 +55,10 @@ describe("dónde invertir el aporte", () => {
   });
 
   it("cripto en fracciones y sin aporte no compra nada", () => {
-    const onlyCrypto = planContribution(v.positions, { ...targets, allocation: { cripto: 100 } }, [{ id: "c1", label: "Conta 1", amount: 6000 }]);
+    const onlyCrypto = planContribution(v.positions, { ...targets, allocation: { cripto: 100 } }, [{ id: "conta-1", label: "Conta 1", amount: 6000 }]);
     expect(onlyCrypto.buys.map((b) => b.ticker)).toEqual(["BTC"]);
     expect(onlyCrypto.buys[0].units).toBeCloseTo(0.02, 8);
-    expect(planContribution(v.positions, targets, [{ id: "c1", label: "Conta 1", amount: 0 }]).buys).toEqual([]);
+    expect(planContribution(v.positions, targets, [{ id: "conta-1", label: "Conta 1", amount: 0 }]).buys).toEqual([]);
   });
 
   it("las clases se acercan al objetivo", () => {
@@ -76,7 +76,7 @@ describe("pesos por activo dentro de la clase", () => {
     ];
     const vv = valuePortfolio(a, new Map([["BTC", q("BTC", 300000)], ["DOGE", q("DOGE", 0.3)]]));
     const t: Targets = { ...targets, allocation: { cripto: 100 }, asset_weights: { cripto: { BTC: 100 } } };
-    const p = planContribution(vv.positions, t, [{ id: "c1", label: "Conta 1", amount: 1000 }]);
+    const p = planContribution(vv.positions, t, [{ id: "conta-1", label: "Conta 1", amount: 1000 }]);
     expect(p.buys.map((b) => b.ticker)).toEqual(["BTC"]);
   });
 });
@@ -90,7 +90,7 @@ describe("control por clase", () => {
     ];
     const vv = valuePortfolio(a, new Map([["BIG11", q("BIG11", 100)], ["SMALL11", q("SMALL11", 100)], ["AAA3", q("AAA3", 10)]]));
     // FIIs 90% de la cartera con objetivo 50%: el aporte va todo a acciones.
-    const p = planContribution(vv.positions, { ...targets, allocation: { fiis: 50, acciones: 50 } }, [{ id: "c1", label: "Conta 1", amount: 1000 }]);
+    const p = planContribution(vv.positions, { ...targets, allocation: { fiis: 50, acciones: 50 } }, [{ id: "conta-1", label: "Conta 1", amount: 1000 }]);
     expect(p.buys.map((b) => b.ticker)).toEqual(["AAA3"]);
   });
 });

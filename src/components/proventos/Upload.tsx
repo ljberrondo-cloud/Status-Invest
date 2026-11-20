@@ -25,7 +25,7 @@ interface UploadResult {
 /** Botón + panel para subir el extracto de Movimentação de B3 (PDF o Excel). */
 export function UploadExtract({ defaultOpen = false }: { defaultOpen?: boolean }) {
   const [open, setOpen] = useState(defaultOpen);
-  const [account, setAccount] = useState<AccountId>("mi-cuenta");
+  const [account, setAccount] = useState<AccountId>("conta-1");
   const [file, setFile] = useState<File | null>(null);
   const [busy, setBusy] = useState(false);
   const [result, setResult] = useState<UploadResult | null>(null);
