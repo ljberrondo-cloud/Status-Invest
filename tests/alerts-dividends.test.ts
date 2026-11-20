@@ -105,7 +105,7 @@ describe("activos excluidos (previdencia de empresa)", () => {
     expect(pct.renta_fija).toBeNull(); // la clase de FGTS en este ejemplo
     expect(pct.acciones).toBeCloseTo(62.5, 10);
     expect(computeAlerts(v, tx).some((a) => a.id.includes("FGTS") || a.id.includes("renta_fija"))).toBe(false);
-    const plan = planContribution(v.positions, { ...tx, allocation: { acciones: 50, fiis: 50, renta_fija: 50 } }, [{ id: "conta-1", label: "Conta 1", amount: 300 }]);
+    const plan = planContribution(v.positions, { ...tx, allocation: { acciones: 50, fiis: 50, renta_fija: 50 } }, [{ id: "c1", label: "Conta 1", amount: 300 }]);
     expect(plan.buys.some((b) => b.ticker === "FGTS")).toBe(false);
     expect(plan.classesAfter.some((c) => c.class === "renta_fija")).toBe(false);
   });
