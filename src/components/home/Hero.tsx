@@ -102,15 +102,11 @@ function PortfolioChart({ series }: { series: ReturnType<typeof dailySeries> }) 
   );
 }
 
-export function Hero({ data, history, received }: { data: PortfolioResponse; history: HistoryPoint[] | null; received: ReceivedSummary | null }) {
-  const [range, setRange] = useState<RangeId>("3m");
-  const days = RANGES.find((r) => r.id === range)!.days;
-  const series = useMemo(() => (history ? dailySeries(history, { total: data.total, invested: data.invested }, days) : []), [history, data, days]);
+/** Patrimonio total, equivalentes en otras monedas y métricas principales (sin el gráfico). */
+export function Hero({ data, received }: { data: PortfolioResponse; received: ReceivedSummary | null }) {
   const prov = received?.total ?? 0;
   const result = data.gain + prov;
   const rent = data.invested > 0 ? (result / data.invested) * 100 : null;
-  const first = series[0];
-  const periodDelta = first && series.length > 1 ? data.total - first.total : null;
   // Equivalentes: dólar PTAX (R$ por US$) y real oficial en pesos (AR$ por R$).
   const usd = data.indicators.find((i) => i.id === "usd" && i.value > 0);
   const ars = data.indicators.find((i) => i.id === "brlArs" && i.value > 0);
@@ -147,13 +143,6 @@ export function Hero({ data, history, received }: { data: PortfolioResponse; his
             <span className={`num font-medium ${signClass(data.dayChange)}`}>{fmtSignedBRL(data.dayChange)}</span>
             <span className="text-ink-3">hoje</span>
           </span>
-          {periodDelta !== null && (
-            <span className="flex items-center gap-2 whitespace-nowrap">
-              <span className="hidden h-3.5 w-px bg-line-strong sm:block" aria-hidden />
-              <span className={`num font-medium ${signClass(periodDelta)}`}>{fmtSignedBRL(periodDelta)}</span>
-              <span className="text-ink-3">no período</span>
-            </span>
-          )}
         </div>
         <dl className="mt-6 grid grid-cols-2 gap-y-4 rounded-2xl border border-line/80 bg-surface/60 py-4 sm:grid-cols-4 sm:divide-x sm:divide-line">
           {[
@@ -172,20 +161,40 @@ export function Hero({ data, history, received }: { data: PortfolioResponse; his
           ))}
         </dl>
       </div>
-      <div className="border-t border-line/70 px-2 pt-4 pb-3 sm:px-4">
-        <div className="mb-2 flex flex-wrap items-center justify-between gap-3 px-3">
-          <div className="flex items-center gap-4 text-xs text-ink-2">
+    </section>
+  );
+}
+
+/** Evolución del patrimonio contra lo invertido, con selector de período. */
+export function HistoryCard({ data, history, className = "" }: { data: PortfolioResponse; history: HistoryPoint[] | null; className?: string }) {
+  const [range, setRange] = useState<RangeId>("3m");
+  const days = RANGES.find((r) => r.id === range)!.days;
+  const series = useMemo(() => (history ? dailySeries(history, { total: data.total, invested: data.invested }, days) : []), [history, data, days]);
+  const first = series[0];
+  const periodDelta = first && series.length > 1 ? data.total - first.total : null;
+  return (
+    <section className={`card px-2 pt-5 pb-3 sm:px-4 ${className}`}>
+      <div className="mb-3 flex flex-wrap items-start justify-between gap-3 px-3">
+        <div>
+          <h2 className="text-[15px] font-semibold tracking-tight">Evolução do patrimônio</h2>
+          <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-ink-2">
             <span className="flex items-center gap-1.5">
               <span className="h-0.5 w-4 rounded bg-accent" /> Patrimônio
             </span>
             <span className="flex items-center gap-1.5">
               <span className="w-4 border-t-[1.5px] border-dashed border-ink-3" /> Investido
             </span>
+            {periodDelta !== null && (
+              <span className="flex items-center gap-1.5">
+                <span className={`num font-medium ${signClass(periodDelta)}`}>{fmtSignedBRL(periodDelta)}</span>
+                <span className="text-ink-3">no período</span>
+              </span>
+            )}
           </div>
-          <Segmented label="Período" options={RANGES} value={range} onChange={setRange} />
         </div>
-        <div className="h-56 sm:h-64">{history ? <PortfolioChart series={series} /> : <div className="skeleton h-full" />}</div>
+        <Segmented label="Período" options={RANGES} value={range} onChange={setRange} />
       </div>
+      <div className="h-56 sm:h-72">{history ? <PortfolioChart series={series} /> : <div className="skeleton h-full" />}</div>
     </section>
   );
 }

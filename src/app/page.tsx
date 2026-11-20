@@ -2,7 +2,7 @@
 
 import { useJson, usePortfolio } from "@/components/data";
 import { Heatmap } from "@/components/charts";
-import { Hero } from "@/components/home/Hero";
+import { Hero, HistoryCard } from "@/components/home/Hero";
 import { MarketClock } from "@/components/home/MarketClock";
 import { AlertsCard, AllocationCard, IncomeCard, MoversCard } from "@/components/home/Cards";
 import { MarketStrip } from "@/components/AppShell";
@@ -46,7 +46,7 @@ export default function Resumo() {
       )}
       <ProviderErrors errors={data.errors} />
 
-      <Hero data={data} history={history.data?.history ?? null} received={rec} />
+      <Hero data={data} received={rec} />
       <MarketStrip />
 
       <div className="grid gap-5 lg:grid-cols-12 lg:gap-6">
@@ -58,6 +58,7 @@ export default function Resumo() {
           className="lg:col-span-7"
         />
         <MoversCard positions={data.positions} className="lg:col-span-5" />
+        <HistoryCard data={data} history={history.data?.history ?? null} className="lg:col-span-12" />
         <IncomeCard received={rec} className="lg:col-span-7" />
         <AlertsCard alerts={alerts.data?.alerts ?? null} className="lg:col-span-5" />
         <Card title="Mapa de calor" subtitle="Variação do dia · o tamanho é o valor de cada posição" className="lg:col-span-12">
