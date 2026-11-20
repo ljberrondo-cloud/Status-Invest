@@ -1,7 +1,7 @@
 import { config, QUOTES_TAG, SLOW_TAG } from "@/lib/config";
 import { isoDateSP } from "@/lib/dates";
 import type { Asset, DividendEvent, ProviderError, Quote } from "@/lib/types";
-import { errorMessage, fetchJson, HttpError } from "./http";
+import { errorMessage, fetchJson, HttpError, withRetry } from "./http";
 import type { DividendProvider, PriceProvider, ProviderResult } from "./types";
 
 const BASE = "https://brapi.dev/api/quote";
@@ -55,6 +55,10 @@ export function mapBrapiQuote(r: BrapiQuote): Quote | null {
 }
 
 async function requestQuotes(tickers: string[], extra = ""): Promise<BrapiQuote[]> {
+  return withRetry(() => requestQuotesOnce(tickers, extra));
+}
+
+async function requestQuotesOnce(tickers: string[], extra = ""): Promise<BrapiQuote[]> {
   const url = `${BASE}/${tickers.map(encodeURIComponent).join(",")}${extra}`;
   const json = await fetchJson<BrapiResponse>(url, {
     revalidate: extra ? config.slowRevalidate : config.quotesRevalidate,

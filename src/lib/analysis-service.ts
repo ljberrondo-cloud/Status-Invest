@@ -7,7 +7,7 @@ import { buildSignal, type SignalResult } from "./signals";
 import { summarize, type TechSummary } from "./technical";
 import { CLASS_LABELS, type AssetClass, type ProviderError } from "./types";
 import { b3History, cryptoHistory, type PriceHistory } from "@/providers/history";
-import { errorMessage, HttpError } from "@/providers/http";
+import { errorMessage, withRetry } from "@/providers/http";
 
 export interface AnalysisRow extends SignalResult {
   ticker: string;
@@ -34,20 +34,6 @@ export interface AnalysisResponse {
 }
 
 const B3_CLASSES: AssetClass[] = ["acciones", "fiis", "etfs"];
-
-const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-
-/** Reintenta ante 429 (límite de pedidos), esperando cada vez más. */
-async function withRetry<T>(fn: () => Promise<T>, tries = 3): Promise<T> {
-  for (let i = 0; ; i++) {
-    try {
-      return await fn();
-    } catch (e) {
-      if (i >= tries - 1 || !(e instanceof HttpError && e.status === 429)) throw e;
-      await sleep(1500 * (i + 1) * (i + 1));
-    }
-  }
-}
 
 function downsample(v: number[], n = 60): number[] {
   if (v.length <= n) return v;

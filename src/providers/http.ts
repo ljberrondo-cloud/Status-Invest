@@ -56,3 +56,17 @@ export async function fetchJson<T>(url: string, opts: CachedFetchOptions): Promi
 export function errorMessage(e: unknown): string {
   return e instanceof Error ? e.message : String(e);
 }
+
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+/** Reintenta ante 429 (límite de pedidos, p.ej. brapi gratis no acepta simultáneos), esperando cada vez más. */
+export async function withRetry<T>(fn: () => Promise<T>, tries = 3): Promise<T> {
+  for (let i = 0; ; i++) {
+    try {
+      return await fn();
+    } catch (e) {
+      if (i >= tries - 1 || !(e instanceof HttpError && e.status === 429)) throw e;
+      await sleep(1000 * (i + 1) * (i + 1));
+    }
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "account": "esposa",
+  "asOf": "2026-11-19",
+  "positions": [
+    {
+      "ticker": "BBAS3",
+      "name": "BANCO DO BRASIL S/A",
+      "class": "acciones",
+      "quantity": 2
+    },
+    {
+      "ticker": "BTLG11",
+      "name": "BTG PACTUAL LOGISTICA FUNDO DE INVESTIMENTO IMOBILIARIO RESPONSABILIDADE LIMITADA",
+      "class": "fiis",
+      "quantity": 21
+    },
+    {
+      "ticker": "CMIG4",
+      "name": "CIA. ENERGETICA DE MINAS GERAIS- CEMIG",
+      "class": "acciones",
+      "quantity": 6
+    },
+    {
+      "ticker": "CSNA3",
+      "name": "COMPANHIA SIDERURGICA NACIONAL",
+      "class": "acciones",
+      "quantity": 10
+    },
+    {
+      "ticker": "CYRE3",
+      "name": "CYRELA BRAZIL REALTY S/A EMPREENDIMENTOS E PARTICIPACOES",
+      "class": "acciones",
+      "quantity": 11
+    },
+    {
+      "ticker": "ENGI11",
+      "name": "ENERGISA S.A.",
+      "class": "acciones",
+      "quantity": 1
+    },
+    {
+      "ticker": "GOLD11",
+      "name": "BTG PACTUAL FUTURO DE OURO B3 FUNDO DE ÍNDICE",
+      "class": "etfs",
+      "quantity": 61
+    },
+    {
+      "ticker": "HABT11",
+      "name": "HABITAT RECEBIVEIS PULVERIZADOS FUNDO DE INVESTIMENTO IMOBILIARIO RESPONSABILIDADE LIMITADA",
+      "class": "fiis",
+      "quantity": 42
+    },
+    {
+      "ticker": "HFOF11",
+      "name": "HEDGE TOP FOFII 3 FDO INV IMOB",
+      "class": "fiis",
+      "quantity": 512
+    },
+    {
+      "ticker": "IPCA+2029",
+      "name": "Tesouro IPCA+ 2029",
+      "class": "tesouro",
+      "quantity": 20.24,
+      "invested": 66029.48,
+      "tesouroId": "Tesouro IPCA+;15/05/2029"
+    },
+    {
+      "ticker": "KNCR11",
+      "name": "KINEA RENDIMENTOS IMOBILIÁRIOS FDO INV IMOB - FII",
+      "class": "fiis",
+      "quantity": 19
+    },
+    {
+      "ticker": "PRIO3",
+      "name": "PRIO S.A.",
+      "class": "acciones",
+      "quantity": 45
+    },
+    {
+      "ticker": "SLVR11",
+      "name": "TREND ETF LBMA PRATA CLASSE DE INDICE - RESPONSABILIDADE LIMITADA",
+      "class": "etfs",
+      "quantity": 1
+    },
+    {
+      "ticker": "SUZB3",
+      "name": "SUZANO S.A.",
+      "class": "acciones",
+      "quantity": 1
+    },
+    {
+      "ticker": "VALE3",
+      "name": "VALE S.A.",
+      "class": "acciones",
+      "quantity": 1
+    },
+    {
+      "ticker": "VILG11",
+      "name": "FII VINCI LG",
+      "class": "fiis",
+      "quantity": 30
+    },
+    {
+      "ticker": "VIVT3",
+      "name": "TELEFONICA BRASIL S.A.",
+      "class": "acciones",
+      "quantity": 2
+    },
+    {
+      "ticker": "XPML11",
+      "name": "XP MALLS FDO INV IMOB FII",
+      "class": "fiis",
+      "quantity": 86
+    }
+  ],
+  "trades": []
+}

@@ -1,0 +1,77 @@
+{
+  "source": "relatorio-anual",
+  "period": {
+    "from": "2025-01-01",
+    "to": "2025-12-31"
+  },
+  "rows_read": 6,
+  "payments": [
+    {
+      "date": "2025-01-01",
+      "ticker": "BTLG11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 559.64,
+      "annual": true,
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-01-01",
+      "ticker": "HABT11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 900.2,
+      "annual": true,
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-01-01",
+      "ticker": "HFOF11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 707.4,
+      "annual": true,
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-01-01",
+      "ticker": "KNCR11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 5.77,
+      "annual": true,
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-01-01",
+      "ticker": "VILG11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 516.49,
+      "annual": true,
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-01-01",
+      "ticker": "XPML11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": null,
+      "unitValue": null,
+      "amount": 529,
+      "annual": true,
+      "owner": "Conta 2"
+    }
+  ],
+  "uploaded_at": "2026-11-20T20:28:04.929Z"
+}

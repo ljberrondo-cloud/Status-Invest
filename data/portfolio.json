@@ -2,17 +2,22 @@
   "base_currency": "BRL",
   "positions_as_of": {
     "mi-cuenta": "2026-11-13",
-    "esposa": "2026-11-15"
+    "esposa": "2026-11-19"
   },
   "assets": [
     {
       "ticker": "PRIO3",
       "class": "acciones",
-      "quantity": 25,
-      "avg_price": 38.29,
+      "quantity": 70,
+      "avg_price": 45.13,
       "accounts": {
         "mi-cuenta": {
-          "quantity": 25
+          "quantity": 25,
+          "invested": 957.25
+        },
+        "esposa": {
+          "quantity": 45,
+          "invested": 2201.85
         }
       }
     },
@@ -30,22 +35,32 @@
     {
       "ticker": "VIVT3",
       "class": "acciones",
-      "quantity": 43,
-      "avg_price": 30.26,
+      "quantity": 45,
+      "avg_price": 30.2458,
       "accounts": {
         "mi-cuenta": {
-          "quantity": 43
+          "quantity": 43,
+          "invested": 1301.18
+        },
+        "esposa": {
+          "quantity": 2,
+          "invested": 59.88
         }
       }
     },
     {
       "ticker": "BBAS3",
       "class": "acciones",
-      "quantity": 94,
-      "avg_price": 20.76,
+      "quantity": 96,
+      "avg_price": 20.7735,
       "accounts": {
         "mi-cuenta": {
-          "quantity": 94
+          "quantity": 94,
+          "invested": 1951.44
+        },
+        "esposa": {
+          "quantity": 2,
+          "invested": 42.82
         }
       }
     },
@@ -74,22 +89,32 @@
     {
       "ticker": "VALE3",
       "class": "acciones",
-      "quantity": 21,
-      "avg_price": 57.36,
+      "quantity": 22,
+      "avg_price": 58.3332,
       "accounts": {
         "mi-cuenta": {
-          "quantity": 21
+          "quantity": 21,
+          "invested": 1204.56
+        },
+        "esposa": {
+          "quantity": 1,
+          "invested": 78.77
         }
       }
     },
     {
       "ticker": "CMIG4",
       "class": "acciones",
-      "quantity": 120,
-      "avg_price": 10.89,
+      "quantity": 126,
+      "avg_price": 10.9081,
       "accounts": {
         "mi-cuenta": {
-          "quantity": 120
+          "quantity": 120,
+          "invested": 1306.8
+        },
+        "esposa": {
+          "quantity": 6,
+          "invested": 67.62
         }
       }
     },
@@ -151,67 +176,80 @@
     {
       "ticker": "XPML11",
       "class": "fiis",
-      "quantity": 168,
-      "avg_price": 105.86,
+      "quantity": 204,
+      "avg_price": 105.9317,
       "accounts": {
         "mi-cuenta": {
-          "quantity": 118
+          "quantity": 118,
+          "invested": 12491.48
         },
         "esposa": {
-          "quantity": 50
+          "quantity": 86,
+          "invested": 9118.58
         }
       }
     },
     {
       "ticker": "VILG11",
       "class": "fiis",
-      "quantity": 169,
-      "avg_price": 77.72,
+      "quantity": 128,
+      "avg_price": 80.5583,
       "accounts": {
         "mi-cuenta": {
-          "quantity": 98
+          "quantity": 98,
+          "invested": 7616.56
         },
         "esposa": {
-          "quantity": 71
+          "quantity": 30,
+          "invested": 2694.9
         }
       }
     },
     {
       "ticker": "HFOF11",
       "class": "fiis",
-      "quantity": 2575,
-      "avg_price": 5.8,
+      "quantity": 1422,
+      "avg_price": 5.8864,
       "accounts": {
         "mi-cuenta": {
-          "quantity": 910
+          "quantity": 910,
+          "invested": 5278.0
         },
         "esposa": {
-          "quantity": 1665
+          "quantity": 512,
+          "invested": 3092.48
         }
       }
     },
     {
       "ticker": "HABT11",
       "class": "fiis",
-      "quantity": 205,
-      "avg_price": 79.62,
+      "quantity": 146,
+      "avg_price": 79.1712,
       "accounts": {
         "mi-cuenta": {
-          "quantity": 104
+          "quantity": 104,
+          "invested": 8280.48
         },
         "esposa": {
-          "quantity": 101
+          "quantity": 42,
+          "invested": 3278.52
         }
       }
     },
     {
       "ticker": "KNCR11",
       "class": "fiis",
-      "quantity": 103,
-      "avg_price": 103.14,
+      "quantity": 122,
+      "avg_price": 103.4826,
       "accounts": {
         "mi-cuenta": {
-          "quantity": 103
+          "quantity": 103,
+          "invested": 10623.42
+        },
+        "esposa": {
+          "quantity": 19,
+          "invested": 2001.46
         }
       }
     },
@@ -229,14 +267,16 @@
     {
       "ticker": "BTLG11",
       "class": "fiis",
-      "quantity": 83,
-      "avg_price": 98.88,
+      "quantity": 33,
+      "avg_price": 99.9809,
       "accounts": {
         "mi-cuenta": {
-          "quantity": 12
+          "quantity": 12,
+          "invested": 1186.56
         },
         "esposa": {
-          "quantity": 71
+          "quantity": 21,
+          "invested": 2112.81
         }
       }
     },
@@ -368,15 +408,16 @@
     {
       "ticker": "IPCA+2029",
       "class": "tesouro",
-      "quantity": 20.32,
-      "avg_price": 3269.95,
+      "quantity": 20.24,
+      "avg_price": 3262.33,
       "name": "Tesouro IPCA+ 2029",
       "provider": "tesouro",
       "provider_id": "Tesouro IPCA+;15/05/2029",
       "note": "Preço médio derivado da variação informada pelo Investidor10",
       "accounts": {
         "esposa": {
-          "quantity": 20.32
+          "quantity": 20.24,
+          "invested": 66029.48
         }
       }
     },
@@ -428,6 +469,84 @@
       "manual_value": 31198.78,
       "manual_date": "2026-11-15",
       "note": "Não é ativo de mercado. Soma das duas contas de FGTS."
+    },
+    {
+      "ticker": "CSNA3",
+      "name": "COMPANHIA SIDERURGICA NACIONAL",
+      "class": "acciones",
+      "quantity": 10,
+      "accounts": {
+        "esposa": {
+          "quantity": 10,
+          "invested": 62.7
+        }
+      },
+      "avg_price": 6.27
+    },
+    {
+      "ticker": "CYRE3",
+      "name": "CYRELA BRAZIL REALTY S/A EMPREENDIMENTOS E PARTICIPACOES",
+      "class": "acciones",
+      "quantity": 11,
+      "accounts": {
+        "esposa": {
+          "quantity": 11,
+          "invested": 301.84
+        }
+      },
+      "avg_price": 27.44
+    },
+    {
+      "ticker": "ENGI11",
+      "name": "ENERGISA S.A.",
+      "class": "acciones",
+      "quantity": 1,
+      "accounts": {
+        "esposa": {
+          "quantity": 1,
+          "invested": 47.96
+        }
+      },
+      "avg_price": 47.96
+    },
+    {
+      "ticker": "GOLD11",
+      "name": "BTG PACTUAL FUTURO DE OURO B3 FUNDO DE ÍNDICE",
+      "class": "etfs",
+      "quantity": 61,
+      "accounts": {
+        "esposa": {
+          "quantity": 61,
+          "invested": 1514.63
+        }
+      },
+      "avg_price": 24.83
+    },
+    {
+      "ticker": "SLVR11",
+      "name": "TREND ETF LBMA PRATA CLASSE DE INDICE - RESPONSABILIDADE LIMITADA",
+      "class": "etfs",
+      "quantity": 1,
+      "accounts": {
+        "esposa": {
+          "quantity": 1,
+          "invested": 42.29
+        }
+      },
+      "avg_price": 42.29
+    },
+    {
+      "ticker": "SUZB3",
+      "name": "SUZANO S.A.",
+      "class": "acciones",
+      "quantity": 1,
+      "accounts": {
+        "esposa": {
+          "quantity": 1,
+          "invested": 45.54
+        }
+      },
+      "avg_price": 45.54
     }
   ]
 }

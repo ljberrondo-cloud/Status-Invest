@@ -1,6 +1,9 @@
 {
-  "imported_at": "2026-11-19T10:43:02.606Z",
+  "imported_at": "2026-11-20T20:28:05.766Z",
   "source_files": [
+    "esposa/2025-05-12_2025-12-23-2d58b819.json",
+    "esposa/2026-01-12_2026-11-16-123600ae.json",
+    "esposa/anual-2025-8cece45e.json",
     "mi-cuenta/2026-01-07_2026-01-28-83a8139c.json",
     "mi-cuenta/2026-02-05_2026-02-25-9eb3eb50.json",
     "mi-cuenta/2026-03-04_2026-03-25-fc4c60cb.json",
@@ -16,6 +19,39 @@
     "mi-cuenta/movimentacao-2026-10-14_2026-11-13.xlsx"
   ],
   "payments": [
+    {
+      "date": "2026-11-16",
+      "ticker": "HFOF11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 507,
+      "unitValue": 0.06,
+      "amount": 30.42,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-11-16",
+      "ticker": "VILG11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 30,
+      "unitValue": 0.82,
+      "amount": 24.6,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-11-13",
+      "ticker": "KNCR11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 19,
+      "unitValue": 1.1,
+      "amount": 20.9,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
+    },
     {
       "date": "2026-11-13",
       "ticker": "KNCR11",
@@ -37,6 +73,17 @@
       "amount": 17.75,
       "institution": "BANCO BTG PACTUAL S/A.",
       "owner": "Conta 1"
+    },
+    {
+      "date": "2026-11-12",
+      "ticker": "HABT11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 41,
+      "unitValue": 0.92,
+      "amount": 37.72,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
     },
     {
       "date": "2026-11-12",
@@ -98,6 +145,17 @@
       "ticker": "BTLG11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 21,
+      "unitValue": 0.81,
+      "amount": 17.01,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-10-23",
+      "ticker": "BTLG11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 12,
       "unitValue": 0.81,
       "amount": 9.72,
@@ -109,11 +167,33 @@
       "ticker": "XPML11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 86,
+      "unitValue": 0.92,
+      "amount": 79.12,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-10-23",
+      "ticker": "XPML11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 117,
       "unitValue": 0.92,
       "amount": 107.64,
       "institution": "BANCO BTG PACTUAL S/A.",
       "owner": "Conta 1"
+    },
+    {
+      "date": "2026-10-15",
+      "ticker": "HFOF11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 503,
+      "unitValue": 0.06,
+      "amount": 30.18,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
     },
     {
       "date": "2026-10-15",
@@ -164,11 +244,33 @@
       "ticker": "VILG11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 30,
+      "unitValue": 0.82,
+      "amount": 24.6,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-10-15",
+      "ticker": "VILG11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 98,
       "unitValue": 0.82,
       "amount": 80.36,
       "institution": "BANCO BTG PACTUAL S/A.",
       "owner": "Conta 1"
+    },
+    {
+      "date": "2026-10-14",
+      "ticker": "KNCR11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 18,
+      "unitValue": 1.13,
+      "amount": 20.34,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
     },
     {
       "date": "2026-10-14",
@@ -191,6 +293,17 @@
       "amount": 15,
       "institution": "BANCO BTG PACTUAL S/A.",
       "owner": "Conta 1"
+    },
+    {
+      "date": "2026-10-09",
+      "ticker": "HABT11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 41,
+      "unitValue": 0.92,
+      "amount": 37.72,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
     },
     {
       "date": "2026-10-09",
@@ -241,11 +354,33 @@
       "ticker": "BTLG11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 21,
+      "unitValue": 0.81,
+      "amount": 17.01,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-09-25",
+      "ticker": "BTLG11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 12,
       "unitValue": 0.81,
       "amount": 9.72,
       "institution": "BANCO BTG PACTUAL S/A.",
       "owner": "Conta 1"
+    },
+    {
+      "date": "2026-09-25",
+      "ticker": "XPML11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 86,
+      "unitValue": 0.92,
+      "amount": 79.12,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
     },
     {
       "date": "2026-09-25",
@@ -268,6 +403,17 @@
       "amount": 8.68,
       "institution": "BANCO BTG PACTUAL S/A.",
       "owner": "Conta 1"
+    },
+    {
+      "date": "2026-09-15",
+      "ticker": "HFOF11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 499,
+      "unitValue": 0.06,
+      "amount": 29.94,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
     },
     {
       "date": "2026-09-15",
@@ -318,11 +464,33 @@
       "ticker": "VILG11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 30,
+      "unitValue": 0.82,
+      "amount": 24.6,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-09-15",
+      "ticker": "VILG11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 98,
       "unitValue": 0.82,
       "amount": 80.36,
       "institution": "BANCO BTG PACTUAL S/A.",
       "owner": "Conta 1"
+    },
+    {
+      "date": "2026-09-14",
+      "ticker": "KNCR11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 18,
+      "unitValue": 1.15,
+      "amount": 20.7,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
     },
     {
       "date": "2026-09-14",
@@ -345,6 +513,28 @@
       "amount": 16.25,
       "institution": "BANCO BTG PACTUAL S/A.",
       "owner": "Conta 1"
+    },
+    {
+      "date": "2026-09-11",
+      "ticker": "BBAS3",
+      "type": "jcp",
+      "label": "Juros Sobre Capital Próprio",
+      "quantity": 1,
+      "unitValue": 0.102,
+      "amount": 0.09,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-09-11",
+      "ticker": "BBAS3",
+      "type": "jcp",
+      "label": "Juros Sobre Capital Próprio",
+      "quantity": 1,
+      "unitValue": 0.035,
+      "amount": 0.03,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
     },
     {
       "date": "2026-09-11",
@@ -378,6 +568,17 @@
       "amount": 0.21,
       "institution": "BANCO BTG PACTUAL S/A.",
       "owner": "Conta 1"
+    },
+    {
+      "date": "2026-09-11",
+      "ticker": "HABT11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 41,
+      "unitValue": 0.95,
+      "amount": 38.95,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
     },
     {
       "date": "2026-09-11",
@@ -472,11 +673,33 @@
       "ticker": "BTLG11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 21,
+      "unitValue": 0.81,
+      "amount": 17.01,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-08-25",
+      "ticker": "BTLG11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 12,
       "unitValue": 0.81,
       "amount": 9.72,
       "institution": "BANCO BTG PACTUAL S/A.",
       "owner": "Conta 1"
+    },
+    {
+      "date": "2026-08-25",
+      "ticker": "XPML11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 86,
+      "unitValue": 0.92,
+      "amount": 79.12,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
     },
     {
       "date": "2026-08-25",
@@ -527,6 +750,17 @@
       "ticker": "HFOF11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 495,
+      "unitValue": 0.06,
+      "amount": 29.7,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-08-14",
+      "ticker": "HFOF11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 885,
       "unitValue": 0.06,
       "amount": 53.1,
@@ -571,11 +805,33 @@
       "ticker": "VILG11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 30,
+      "unitValue": 0.82,
+      "amount": 24.6,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-08-14",
+      "ticker": "VILG11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 93,
       "unitValue": 0.82,
       "amount": 76.26,
       "institution": "BANCO BTG PACTUAL S/A.",
       "owner": "Conta 1"
+    },
+    {
+      "date": "2026-08-13",
+      "ticker": "KNCR11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 18,
+      "unitValue": 1.25,
+      "amount": 22.5,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
     },
     {
       "date": "2026-08-13",
@@ -598,6 +854,17 @@
       "amount": 12.35,
       "institution": "BANCO BTG PACTUAL S/A.",
       "owner": "Conta 1"
+    },
+    {
+      "date": "2026-08-12",
+      "ticker": "HABT11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 41,
+      "unitValue": 0.95,
+      "amount": 38.95,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
     },
     {
       "date": "2026-08-12",
@@ -659,11 +926,33 @@
       "ticker": "BTLG11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 21,
+      "unitValue": 0.81,
+      "amount": 17.01,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-07-24",
+      "ticker": "BTLG11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 12,
       "unitValue": 0.81,
       "amount": 9.72,
       "institution": "BANCO BTG PACTUAL S/A.",
       "owner": "Conta 1"
+    },
+    {
+      "date": "2026-07-24",
+      "ticker": "XPML11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 86,
+      "unitValue": 0.92,
+      "amount": 79.12,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
     },
     {
       "date": "2026-07-24",
@@ -686,6 +975,17 @@
       "amount": 0.32,
       "institution": "BANCO BTG PACTUAL S/A.",
       "owner": "Conta 1"
+    },
+    {
+      "date": "2026-07-14",
+      "ticker": "HFOF11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 495,
+      "unitValue": 0.06,
+      "amount": 29.7,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
     },
     {
       "date": "2026-07-14",
@@ -736,6 +1036,17 @@
       "ticker": "VILG11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 30,
+      "unitValue": 0.82,
+      "amount": 24.6,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-07-14",
+      "ticker": "VILG11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 93,
       "unitValue": 0.82,
       "amount": 76.26,
@@ -758,6 +1069,17 @@
       "ticker": "KNCR11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 18,
+      "unitValue": 1.1,
+      "amount": 19.8,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-07-13",
+      "ticker": "KNCR11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 100,
       "unitValue": 1.1,
       "amount": 110,
@@ -774,6 +1096,17 @@
       "amount": 14.56,
       "institution": "BANCO BTG PACTUAL S/A.",
       "owner": "Conta 1"
+    },
+    {
+      "date": "2026-07-10",
+      "ticker": "HABT11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 41,
+      "unitValue": 0.97,
+      "amount": 39.77,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
     },
     {
       "date": "2026-07-10",
@@ -868,11 +1201,33 @@
       "ticker": "BTLG11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 21,
+      "unitValue": 0.81,
+      "amount": 17.01,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-06-25",
+      "ticker": "BTLG11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 10,
       "unitValue": 0.81,
       "amount": 8.1,
       "institution": "BANCO BTG PACTUAL S/A",
       "owner": "Conta 1"
+    },
+    {
+      "date": "2026-06-25",
+      "ticker": "XPML11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 86,
+      "unitValue": 0.92,
+      "amount": 79.12,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
     },
     {
       "date": "2026-06-25",
@@ -923,6 +1278,17 @@
       "ticker": "HFOF11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 495,
+      "unitValue": 0.06,
+      "amount": 29.7,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-06-15",
+      "ticker": "HFOF11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 885,
       "unitValue": 0.06,
       "amount": 53.1,
@@ -967,6 +1333,17 @@
       "ticker": "VILG11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 30,
+      "unitValue": 0.82,
+      "amount": 24.6,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-06-15",
+      "ticker": "VILG11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 93,
       "unitValue": 0.82,
       "amount": 76.26,
@@ -978,11 +1355,33 @@
       "ticker": "HABT11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 41,
+      "unitValue": 0.95,
+      "amount": 38.95,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-06-12",
+      "ticker": "HABT11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 100,
       "unitValue": 0.95,
       "amount": 95,
       "institution": "BANCO BTG PACTUAL S/A",
       "owner": "Conta 1"
+    },
+    {
+      "date": "2026-06-12",
+      "ticker": "KNCR11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 16,
+      "unitValue": 1.1,
+      "amount": 17.6,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
     },
     {
       "date": "2026-06-12",
@@ -1110,11 +1509,33 @@
       "ticker": "BTLG11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 21,
+      "unitValue": 0.81,
+      "amount": 17.01,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-05-25",
+      "ticker": "BTLG11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 10,
       "unitValue": 0.81,
       "amount": 8.1,
       "institution": "BANCO BTG PACTUAL S/A",
       "owner": "Conta 1"
+    },
+    {
+      "date": "2026-05-25",
+      "ticker": "XPML11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 86,
+      "unitValue": 0.92,
+      "amount": 79.12,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
     },
     {
       "date": "2026-05-25",
@@ -1187,6 +1608,17 @@
       "ticker": "HFOF11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 495,
+      "unitValue": 0.06,
+      "amount": 29.7,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-05-15",
+      "ticker": "HFOF11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 845,
       "unitValue": 0.06,
       "amount": 50.7,
@@ -1231,11 +1663,33 @@
       "ticker": "VILG11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 30,
+      "unitValue": 0.82,
+      "amount": 24.6,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-05-15",
+      "ticker": "VILG11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 93,
       "unitValue": 0.82,
       "amount": 76.26,
       "institution": "BANCO BTG PACTUAL S/A",
       "owner": "Conta 1"
+    },
+    {
+      "date": "2026-05-14",
+      "ticker": "KNCR11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 15,
+      "unitValue": 1.1,
+      "amount": 16.5,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
     },
     {
       "date": "2026-05-14",
@@ -1258,6 +1712,17 @@
       "amount": 14.3,
       "institution": "BANCO BTG PACTUAL S/A",
       "owner": "Conta 1"
+    },
+    {
+      "date": "2026-05-12",
+      "ticker": "HABT11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 41,
+      "unitValue": 0.95,
+      "amount": 38.95,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
     },
     {
       "date": "2026-05-12",
@@ -1319,6 +1784,17 @@
       "ticker": "BTLG11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 21,
+      "unitValue": 0.81,
+      "amount": 17.01,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-04-24",
+      "ticker": "BTLG11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 10,
       "unitValue": 0.81,
       "amount": 8.1,
@@ -1330,11 +1806,33 @@
       "ticker": "XPML11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 86,
+      "unitValue": 0.92,
+      "amount": 79.12,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-04-24",
+      "ticker": "XPML11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 115,
       "unitValue": 0.92,
       "amount": 105.8,
       "institution": "BANCO BTG PACTUAL S/A",
       "owner": "Conta 1"
+    },
+    {
+      "date": "2026-04-15",
+      "ticker": "HFOF11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 495,
+      "unitValue": 0.06,
+      "amount": 29.7,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
     },
     {
       "date": "2026-04-15",
@@ -1385,6 +1883,17 @@
       "ticker": "VILG11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 30,
+      "unitValue": 0.82,
+      "amount": 24.6,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-04-15",
+      "ticker": "VILG11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 93,
       "unitValue": 0.82,
       "amount": 76.26,
@@ -1396,11 +1905,33 @@
       "ticker": "HABT11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 23,
+      "unitValue": 0.95,
+      "amount": 21.85,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-04-14",
+      "ticker": "HABT11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 100,
       "unitValue": 0.95,
       "amount": 95,
       "institution": "BANCO BTG PACTUAL S/A",
       "owner": "Conta 1"
+    },
+    {
+      "date": "2026-04-14",
+      "ticker": "KNCR11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 15,
+      "unitValue": 1.15,
+      "amount": 17.25,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
     },
     {
       "date": "2026-04-14",
@@ -1550,11 +2081,33 @@
       "ticker": "BTLG11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 21,
+      "unitValue": 0.8,
+      "amount": 16.8,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-03-25",
+      "ticker": "BTLG11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 10,
       "unitValue": 0.8,
       "amount": 8,
       "institution": "BANCO BTG PACTUAL S/A",
       "owner": "Conta 1"
+    },
+    {
+      "date": "2026-03-25",
+      "ticker": "XPML11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 86,
+      "unitValue": 0.92,
+      "amount": 79.12,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
     },
     {
       "date": "2026-03-25",
@@ -1627,6 +2180,17 @@
       "ticker": "HFOF11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 1845,
+      "unitValue": 0.06,
+      "amount": 110.7,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-03-13",
+      "ticker": "HFOF11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 845,
       "unitValue": 0.06,
       "amount": 50.7,
@@ -1671,6 +2235,17 @@
       "ticker": "VILG11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 107,
+      "unitValue": 0.82,
+      "amount": 87.74,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-03-13",
+      "ticker": "VILG11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 93,
       "unitValue": 0.82,
       "amount": 76.26,
@@ -1682,11 +2257,33 @@
       "ticker": "HABT11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 131,
+      "unitValue": 0.95,
+      "amount": 124.45,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-03-12",
+      "ticker": "HABT11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 100,
       "unitValue": 0.95,
       "amount": 95,
       "institution": "BANCO BTG PACTUAL S/A",
       "owner": "Conta 1"
+    },
+    {
+      "date": "2026-03-12",
+      "ticker": "KNCR11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 7,
+      "unitValue": 1,
+      "amount": 7,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
     },
     {
       "date": "2026-03-12",
@@ -1803,11 +2400,33 @@
       "ticker": "BTLG11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 107,
+      "unitValue": 0.8,
+      "amount": 85.6,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-02-25",
+      "ticker": "BTLG11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 10,
       "unitValue": 0.8,
       "amount": 8,
       "institution": "BANCO BTG PACTUAL S/A",
       "owner": "Conta 1"
+    },
+    {
+      "date": "2026-02-25",
+      "ticker": "XPML11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 86,
+      "unitValue": 0.92,
+      "amount": 79.12,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
     },
     {
       "date": "2026-02-25",
@@ -1841,6 +2460,17 @@
       "amount": 0.21,
       "institution": "BANCO BTG PACTUAL S/A",
       "owner": "Conta 1"
+    },
+    {
+      "date": "2026-02-13",
+      "ticker": "HFOF11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 1845,
+      "unitValue": 0.06,
+      "amount": 110.7,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
     },
     {
       "date": "2026-02-13",
@@ -1891,6 +2521,17 @@
       "ticker": "VILG11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 107,
+      "unitValue": 0.8,
+      "amount": 85.6,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-02-13",
+      "ticker": "VILG11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 93,
       "unitValue": 0.8,
       "amount": 74.4,
@@ -1902,11 +2543,33 @@
       "ticker": "HABT11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 131,
+      "unitValue": 0.95,
+      "amount": 124.45,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-02-12",
+      "ticker": "HABT11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 100,
       "unitValue": 0.95,
       "amount": 95,
       "institution": "BANCO BTG PACTUAL S/A",
       "owner": "Conta 1"
+    },
+    {
+      "date": "2026-02-12",
+      "ticker": "KNCR11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 7,
+      "unitValue": 1.2,
+      "amount": 8.4,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
     },
     {
       "date": "2026-02-12",
@@ -2023,6 +2686,17 @@
       "ticker": "BTLG11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 107,
+      "unitValue": 0.79,
+      "amount": 84.53,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-01-23",
+      "ticker": "BTLG11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 100,
       "unitValue": 0.79,
       "amount": 79,
@@ -2034,11 +2708,33 @@
       "ticker": "XPML11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 86,
+      "unitValue": 0.92,
+      "amount": 79.12,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-01-23",
+      "ticker": "XPML11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 115,
       "unitValue": 0.92,
       "amount": 105.8,
       "institution": "BANCO BTG PACTUAL S/A",
       "owner": "Conta 1"
+    },
+    {
+      "date": "2026-01-15",
+      "ticker": "HFOF11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 1838,
+      "unitValue": 0.056,
+      "amount": 102.92,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
     },
     {
       "date": "2026-01-15",
@@ -2089,11 +2785,33 @@
       "ticker": "VILG11",
       "type": "rendimento",
       "label": "Rendimento",
+      "quantity": 107,
+      "unitValue": 0.74,
+      "amount": 79.18,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2026-01-15",
+      "ticker": "VILG11",
+      "type": "rendimento",
+      "label": "Rendimento",
       "quantity": 93,
       "unitValue": 0.74,
       "amount": 68.82,
       "institution": "BANCO BTG PACTUAL S/A",
       "owner": "Conta 1"
+    },
+    {
+      "date": "2026-01-14",
+      "ticker": "KNCR11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 7,
+      "unitValue": 1.3,
+      "amount": 9.1,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
     },
     {
       "date": "2026-01-14",
@@ -2116,6 +2834,17 @@
       "amount": 79.1,
       "institution": "BANCO BTG PACTUAL S/A",
       "owner": "Conta 1"
+    },
+    {
+      "date": "2026-01-12",
+      "ticker": "HABT11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 131,
+      "unitValue": 0.95,
+      "amount": 124.45,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
     },
     {
       "date": "2026-01-12",
@@ -2171,6 +2900,468 @@
       "amount": 18.66,
       "institution": "BANCO BTG PACTUAL S/A",
       "owner": "Conta 1"
+    },
+    {
+      "date": "2025-12-23",
+      "ticker": "BTLG11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 107,
+      "unitValue": 0.79,
+      "amount": 84.53,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-12-23",
+      "ticker": "XPML11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 86,
+      "unitValue": 0.92,
+      "amount": 79.12,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-12-12",
+      "ticker": "HABT11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 129,
+      "unitValue": 0.95,
+      "amount": 122.55,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-12-12",
+      "ticker": "HFOF11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 1838,
+      "unitValue": 0.056,
+      "amount": 102.92,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-12-12",
+      "ticker": "VILG11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 107,
+      "unitValue": 0.72,
+      "amount": 77.04,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-12-11",
+      "ticker": "KNCR11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 4,
+      "unitValue": 1.11,
+      "amount": 4.44,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-11-25",
+      "ticker": "BTLG11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 107,
+      "unitValue": 0.79,
+      "amount": 84.53,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-11-25",
+      "ticker": "XPML11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 86,
+      "unitValue": 0.92,
+      "amount": 79.12,
+      "institution": "BANCO BTG PACTUAL S/A.",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-11-14",
+      "ticker": "HFOF11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 1838,
+      "unitValue": 0.056,
+      "amount": 102.92,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-11-14",
+      "ticker": "VILG11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 107,
+      "unitValue": 0.72,
+      "amount": 77.04,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-11-13",
+      "ticker": "KNCR11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 1,
+      "unitValue": 1.33,
+      "amount": 1.33,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-11-12",
+      "ticker": "HABT11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 128,
+      "unitValue": 0.95,
+      "amount": 121.6,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-10-24",
+      "ticker": "BTLG11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 107,
+      "unitValue": 0.79,
+      "amount": 84.53,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-10-24",
+      "ticker": "XPML11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 86,
+      "unitValue": 0.92,
+      "amount": 79.12,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-10-14",
+      "ticker": "HFOF11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 1838,
+      "unitValue": 0.056,
+      "amount": 102.92,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-10-14",
+      "ticker": "VILG11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 101,
+      "unitValue": 0.72,
+      "amount": 72.72,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-10-10",
+      "ticker": "HABT11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 128,
+      "unitValue": 0.95,
+      "amount": 121.6,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-09-25",
+      "ticker": "BTLG11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 107,
+      "unitValue": 0.79,
+      "amount": 84.53,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-09-25",
+      "ticker": "XPML11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 84,
+      "unitValue": 0.92,
+      "amount": 77.28,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-09-12",
+      "ticker": "HABT11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 128,
+      "unitValue": 1.05,
+      "amount": 134.4,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-09-12",
+      "ticker": "HFOF11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 1838,
+      "unitValue": 0.056,
+      "amount": 102.92,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-09-12",
+      "ticker": "VILG11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 97,
+      "unitValue": 0.72,
+      "amount": 69.84,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-08-25",
+      "ticker": "BTLG11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 82,
+      "unitValue": 0.78,
+      "amount": 63.96,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-08-25",
+      "ticker": "XPML11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 61,
+      "unitValue": 0.92,
+      "amount": 56.12,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-08-14",
+      "ticker": "HFOF11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 1703,
+      "unitValue": 0.056,
+      "amount": 95.36,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-08-14",
+      "ticker": "VILG11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 97,
+      "unitValue": 0.72,
+      "amount": 69.84,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-08-12",
+      "ticker": "HABT11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 128,
+      "unitValue": 1.05,
+      "amount": 134.4,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-07-25",
+      "ticker": "BTLG11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 71,
+      "unitValue": 0.78,
+      "amount": 55.38,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-07-25",
+      "ticker": "XPML11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 61,
+      "unitValue": 0.92,
+      "amount": 56.12,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-07-14",
+      "ticker": "HFOF11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 1218,
+      "unitValue": 0.056,
+      "amount": 68.2,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-07-14",
+      "ticker": "VILG11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 85,
+      "unitValue": 0.7,
+      "amount": 59.5,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-07-11",
+      "ticker": "HABT11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 87,
+      "unitValue": 1.15,
+      "amount": 100.05,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-06-25",
+      "ticker": "XPML11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 61,
+      "unitValue": 0.92,
+      "amount": 56.12,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-06-23",
+      "ticker": "BTLG11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 71,
+      "unitValue": 0.78,
+      "amount": 55.38,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-06-13",
+      "ticker": "HFOF11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 1180,
+      "unitValue": 0.056,
+      "amount": 66.08,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-06-13",
+      "ticker": "VILG11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 75,
+      "unitValue": 0.69,
+      "amount": 51.75,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-06-12",
+      "ticker": "HABT11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 85,
+      "unitValue": 1.15,
+      "amount": 97.75,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-05-23",
+      "ticker": "BTLG11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 60,
+      "unitValue": 0.78,
+      "amount": 46.8,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-05-23",
+      "ticker": "XPML11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 50,
+      "unitValue": 0.92,
+      "amount": 46,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-05-15",
+      "ticker": "HFOF11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 118,
+      "unitValue": 0.56,
+      "amount": 66.08,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-05-15",
+      "ticker": "VILG11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 57,
+      "unitValue": 0.68,
+      "amount": 38.76,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
+    },
+    {
+      "date": "2025-05-12",
+      "ticker": "HABT11",
+      "type": "rendimento",
+      "label": "Rendimento",
+      "quantity": 59,
+      "unitValue": 1.15,
+      "amount": 67.85,
+      "institution": "BANCO BTG PACTUAL S/A",
+      "owner": "Conta 2"
     },
     {
       "date": "2025-01-01",
