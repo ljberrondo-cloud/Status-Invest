@@ -1,3 +1,4 @@
+import { nextB3BusinessDay } from "./market-hours";
 /**
  * Proventos efectivamente recibidos, importados del extracto de "Movimentação" de la Área do Investidor de B3.
  * Lógica pura: normalización de filas + agregados para la UI.
@@ -251,4 +252,69 @@ export function summarizeReceived(payments: ReceivedPayment[], today: string): R
 /** Titulares presentes, en orden alfabético. */
 export function ownersOf(payments: ReceivedPayment[]): string[] {
   return [...new Set(payments.map((p) => p.owner).filter((o): o is string => !!o))].sort((a, b) => a.localeCompare(b));
+}
+
+/** Un pago para el calendario: sólo lo necesario para dibujarlo. */
+export interface CalendarPayment {
+  date: string;
+  ticker: string;
+  type: ReceivedType;
+  amount: number;
+  /** Previsto a partir del historial (no confirmado). */
+  estimated?: boolean;
+}
+
+function addMonthsKeepDay(ym: string, n: number): string {
+  const [y, m] = ym.split("-").map(Number);
+  return new Date(Date.UTC(y, m - 1 + n, 1)).toISOString().slice(0, 7);
+}
+
+/**
+ * Pagos previstos hasta el fin del mes siguiente: sólo activos que pagaron en cada uno de los últimos
+ * 3 meses (pagadores mensuales). Fecha = el mismo día del mes que el último pago; monto = el total del
+ * último mes. Se calcula por cuenta (cada extracto llega hasta una fecha distinta) y después se suma.
+ * Es una estimación por historial, no un anuncio de la empresa.
+ */
+export function estimateUpcoming(payments: ReceivedPayment[], today: string, holding?: Set<string>): CalendarPayment[] {
+  const thisMonth = today.slice(0, 7);
+  const lastMonths = [1, 2, 3].map((i) => addMonthsKeepDay(thisMonth, -i));
+  const byTicker = new Map<string, Map<string, { amount: number; lastDate: string; type: ReceivedType }>>();
+  for (const p of payments) {
+    if (p.annual || p.date > today) continue;
+    const ym = p.date.slice(0, 7);
+    const key = `${p.owner ?? ""}|${p.ticker}`;
+    const t = byTicker.get(key) ?? new Map();
+    const cur = t.get(ym) ?? { amount: 0, lastDate: p.date, type: p.type };
+    cur.amount += p.amount;
+    if (p.date > cur.lastDate) cur.lastDate = p.date;
+    t.set(ym, cur);
+    byTicker.set(key, t);
+  }
+  const out: CalendarPayment[] = [];
+  const end = `${addMonthsKeepDay(thisMonth, 1)}-31`;
+  for (const [key, months] of byTicker) {
+    const ticker = key.slice(key.indexOf("|") + 1);
+    if (holding && !holding.has(ticker)) continue;
+    if (!lastMonths.every((m) => months.has(m))) continue;
+    const ref = months.get(thisMonth) ?? months.get(lastMonths[0])!;
+    const day = Number(ref.lastDate.slice(8, 10));
+    const start = months.has(thisMonth) ? 1 : 0; // si ya pagó este mes, el próximo es el mes que viene
+    for (let i = start; i <= 1; i++) {
+      const ym = addMonthsKeepDay(thisMonth, i);
+      const [y, m] = ym.split("-").map(Number);
+      const lastDay = new Date(Date.UTC(y, m, 0)).getUTCDate();
+      // Mismo día del mes; si cae en fin de semana o feriado, el día hábil siguiente.
+      const date = nextB3BusinessDay(`${ym}-${String(Math.min(day, lastDay)).padStart(2, "0")}`);
+      if (date <= today || date > end) continue;
+      out.push({ date, ticker, type: ref.type, amount: round2(ref.amount), estimated: true });
+    }
+  }
+  // Mismo activo y día en varias cuentas: un solo previsto con la suma.
+  const merged = new Map<string, CalendarPayment>();
+  for (const p of out) {
+    const k = `${p.date}|${p.ticker}`;
+    const cur = merged.get(k);
+    merged.set(k, cur ? { ...cur, amount: round2(cur.amount + p.amount) } : p);
+  }
+  return [...merged.values()].sort((a, b) => a.date.localeCompare(b.date) || b.amount - a.amount);
 }

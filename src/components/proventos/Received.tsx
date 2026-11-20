@@ -4,7 +4,8 @@ import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxi
 import { useJson } from "@/components/data";
 import { Card, ErrorState, Skeleton } from "@/components/ui";
 import { UploadExtract } from "./Upload";
-import { RECEIVED_LABELS, type ReceivedSummary, type ReceivedType } from "@/lib/received";
+import { RECEIVED_LABELS, type CalendarPayment, type ReceivedSummary, type ReceivedType } from "@/lib/received";
+import { PaymentsCalendar } from "./PaymentsCalendar";
 import { fmtBRL, fmtBRLCompact, fmtDateLong, fmtPct, fmtSince } from "@/lib/format";
 
 interface ReceivedResponse {
@@ -13,11 +14,13 @@ interface ReceivedResponse {
   sourceFiles?: string[];
   owners?: string[];
   summary?: ReceivedSummary;
+  calendar?: CalendarPayment[];
+  upcoming?: CalendarPayment[];
 }
 
 const TYPES: ReceivedType[] = ["dividendo", "jcp", "rendimento", "outro"];
 const color = (t: ReceivedType) => `var(--r-${t})`;
-const MONTHS = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
+const MONTHS = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
 const fmtMonth = (ym: string) => `${MONTHS[Number(ym.slice(5, 7)) - 1]} ${ym.slice(2, 4)}`;
 
 function MonthlyChart({ s }: { s: ReceivedSummary }) {
@@ -148,6 +151,8 @@ export function ReceivedView() {
       <Card title="Por mês · últimos 12 meses" subtitle="Pagamentos com data. Os anos que só têm total anual não são divididos por mês.">
         <MonthlyChart s={s} />
       </Card>
+
+      {data.calendar && <PaymentsCalendar received={data.calendar} upcoming={data.upcoming ?? []} />}
 
       <div className="grid gap-4 lg:grid-cols-2">
         <Card title="Por ativo">

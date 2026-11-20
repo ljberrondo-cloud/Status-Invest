@@ -33,3 +33,12 @@ describe("horario de bolsas", () => {
     expect(marketState("nyse", new Date("2026-11-19T23:00:00Z")).next).toBe("abre amanhã 11:30");
   });
 });
+
+import { nextB3BusinessDay } from "@/lib/market-hours";
+describe("día hábil de B3", () => {
+  it("salta fin de semana y feriados", () => {
+    expect(nextB3BusinessDay("2026-12-12")).toBe("2026-12-14"); // sábado → lunes
+    expect(nextB3BusinessDay("2026-12-24")).toBe("2026-12-28"); // Nochebuena, Navidad y fin de semana
+    expect(nextB3BusinessDay("2026-12-15")).toBe("2026-12-15");
+  });
+});

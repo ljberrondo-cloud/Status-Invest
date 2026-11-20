@@ -173,3 +173,31 @@ describe("nombres de cuenta", () => {
     expect(accountLabel("otra-cuenta")).toBe("Otra Cuenta");
   });
 });
+
+import { estimateUpcoming, type ReceivedPayment } from "@/lib/received";
+describe("proventos previstos", () => {
+  const pay = (date: string, ticker: string, amount: number): ReceivedPayment => ({ date, ticker, type: "rendimento", label: "", quantity: 10, unitValue: amount / 10, amount });
+  it("pagador mensual: mismo día del mes, monto del último mes; sólo si pagó los 3 meses anteriores", () => {
+    const ps = [pay("2026-08-14", "AAA11", 10), pay("2026-09-15", "AAA11", 11), pay("2026-10-14", "AAA11", 12), pay("2026-11-16", "AAA11", 13),
+      pay("2026-09-20", "BBB11", 5), pay("2026-10-20", "BBB11", 5), // falta agosto: no es mensual seguro
+      pay("2026-08-25", "CCC11", 7), pay("2026-09-25", "CCC11", 7), pay("2026-10-26", "CCC11", 8)];
+    const up = estimateUpcoming(ps, "2026-11-20");
+    expect(up).toEqual([
+      { date: "2026-11-26", ticker: "CCC11", type: "rendimento", amount: 8, estimated: true },
+      { date: "2026-12-16", ticker: "AAA11", type: "rendimento", amount: 13, estimated: true },
+      { date: "2026-12-28", ticker: "CCC11", type: "rendimento", amount: 8, estimated: true },
+    ]);
+    expect(estimateUpcoming(ps, "2026-11-20", new Set(["AAA11"])).map((p) => p.ticker)).toEqual(["AAA11"]);
+  });
+});
+
+describe("proventos previstos por cuenta", () => {
+  const pay = (date: string, amount: number, owner: string): ReceivedPayment => ({ date, ticker: "HFOF11", type: "rendimento", label: "", quantity: 1, unitValue: amount, amount, owner });
+  it("cada cuenta con su último mes; el mismo día se suma", () => {
+    const ps = [
+      pay("2026-08-14", 50, "Conta 1"), pay("2026-09-15", 51, "Conta 1"), pay("2026-10-16", 52, "Conta 1"), // extracto hasta el 13/11
+      pay("2026-08-14", 30, "Conta 2"), pay("2026-09-15", 30, "Conta 2"), pay("2026-10-16", 30, "Conta 2"), pay("2026-11-16", 31, "Conta 2"),
+    ];
+    expect(estimateUpcoming(ps, "2026-11-20")).toEqual([{ date: "2026-12-16", ticker: "HFOF11", type: "rendimento", amount: 83, estimated: true }]);
+  });
+});

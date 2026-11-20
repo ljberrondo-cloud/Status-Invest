@@ -222,3 +222,14 @@ export function marketState(id: MarketId, now: Date): MarketState {
 }
 
 export const allMarkets = (now: Date) => MARKETS.map((m) => marketState(m.id, now));
+
+/** Día hábil de B3 igual o posterior a `date` (salta fines de semana y feriados cargados). */
+export function nextB3BusinessDay(date: string): string {
+  let d = date;
+  for (let i = 0; i < 10; i++) {
+    const wd = weekdayOf(d);
+    if (wd !== 0 && wd !== 6 && !B3_HOLIDAYS.some((h) => h.date === d)) return d;
+    d = addDays(d, 1);
+  }
+  return d;
+}
