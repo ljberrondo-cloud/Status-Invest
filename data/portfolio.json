@@ -446,7 +446,8 @@
       "cdi_percent": 100,
       "manual_value": 16180.08,
       "manual_date": "2026-11-15",
-      "note": "Valor investido derivado da variação informada pelo Investidor10"
+      "note": "Valor investido derivado da variação informada pelo Investidor10",
+      "owner": "esposa"
     },
     {
       "ticker": "PREVIDENCIA",
