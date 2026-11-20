@@ -1,7 +1,7 @@
 "use client";
 
 import { diagnose } from "@/lib/strategy";
-import type { PortfolioResponse, Targets } from "@/lib/types";
+import { CLASS_LABELS, type PortfolioResponse, type Targets } from "@/lib/types";
 import { fmtBRL, fmtPct } from "@/lib/format";
 import { Badge, Card } from "../ui";
 
@@ -25,6 +25,10 @@ export function Strategy({ data, targets, monthly }: { data: PortfolioResponse; 
   const d = diagnose(data, targets);
   const investable = d.total * (1 - d.lockedPct / 100);
   const months = d.monthsToBalance(monthly);
+  // Con las metas cumplidas: renta fija total (lo fijo + Tesouro + renta fija) y exposición a dólar.
+  const free = 1 - d.lockedPct / 100;
+  const fixedAtTarget = d.lockedPct + free * ((targets.allocation.tesouro ?? 0) + (targets.allocation.renta_fija ?? 0));
+  const usdAtTarget = free * ((targets.allocation.etfs ?? 0) + (targets.allocation.cripto ?? 0));
 
   return (
     <div className="space-y-5">
@@ -116,30 +120,36 @@ export function Strategy({ data, targets, monthly }: { data: PortfolioResponse; 
         <Rec n={3} title="Metas sobre o que vocês administram" tag="Planejamento" tone="accent">
           <p>
             A previdência da empresa (<b>{fmtPct(d.previdenciaPct, 0, false)}</b>) e o FGTS (<b>{fmtPct(d.fgtsPct, 0, false)}</b>) contam como patrimônio, mas vocês não podem
-            movê-los: por isso as metas são medidas só sobre o que vocês realmente decidem (~{fmtBRL(investable)}). Hoje essas metas são as do Investidor10 distribuídas sobre essa
-            parte. Uma distribuição mais equilibrada, com os juros de hoje:
+            movê-los: por isso não têm meta, e as metas são medidas só sobre o que vocês realmente decidem (~{fmtBRL(investable)}). Como esses dois já são renda fixa,
+            a parte livre pode ter mais crescimento e mais dólar.
           </p>
           <div className="overflow-x-auto">
-            <table className="mt-1 w-full max-w-md text-sm">
+            <table className="mt-1 w-full max-w-xl text-sm">
               <tbody className="divide-y divide-line">
-                {[
-                  ["Tesouro IPCA+ largo (2035/2045)", "25%"],
-                  ["Reserva e renda fixa (Selic, CDB, LCI/LCA)", "20%"],
-                  ["Ações Brasil", "15%"],
-                  ["Internacional (ETFs em dólar)", "15%"],
-                  ["FIIs", "15%"],
-                  ["Cripto (BTC e ETH)", "5%"],
-                  ["Ouro", "5%"],
-                ].map(([k, v]) => (
-                  <tr key={k}>
-                    <td className="py-1.5 pr-4">{k}</td>
-                    <td className="num py-1.5 text-right font-semibold text-ink">{v}</td>
+                {(
+                  [
+                    ["tesouro", "IPCA+ longo para travar ~7,6–7,9% de juro real; Selic para liquidez"],
+                    ["etfs", "IVVB11 como núcleo em dólar, GOLD11 como seguro (ouro)"],
+                    ["fiis", "renda mensal isenta de IR para reinvestir"],
+                    ["acciones", "bolsa barata com Selic alta; empresas de qualidade"],
+                    ["renta_fija", "reserva de emergência com liquidez diária"],
+                    ["cripto", "só BTC e ETH, posição pequena"],
+                  ] as const
+                ).map(([cls, why]) => (
+                  <tr key={cls}>
+                    <td className="py-1.5 pr-4 whitespace-nowrap">{CLASS_LABELS[cls]}</td>
+                    <td className="num py-1.5 pr-4 text-right font-semibold text-ink">{fmtPct(targets.allocation[cls] ?? 0, 0, false)}</td>
+                    <td className="py-1.5 text-xs text-ink-3">{why}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          <p className="text-xs text-ink-3">Se fizer sentido, eu configuro como meta do app e os alertas e recomendações são recalculados sozinhos.</p>
+          <p className="text-xs text-ink-3">
+            Somando tudo, com as metas cumpridas cerca de {fmtPct(fixedAtTarget, 0, false)} do patrimônio fica em renda fixa (incluindo previdência e FGTS) e{" "}
+            {fmtPct(100 - fixedAtTarget, 0, false)} em renda variável, com cerca de {fmtPct(usdAtTarget, 0, false)} em dólar (ETFs e cripto). Classes acima da meta não
+            precisam ser vendidas: basta parar de aportar nelas até o resto alcançar.
+          </p>
         </Rec>
 
         <Rec n={4} title="Previdência da empresa: aproveitar a contrapartida" tag="Previdência">
@@ -177,7 +187,7 @@ export function Strategy({ data, targets, monthly }: { data: PortfolioResponse; 
 
         <Rec n={7} title="Ações Brasil: completar com qualidade, não com quantidade" tag="Renda variável">
           <p>
-            Estão em {fmtPct(data.byClass.find((c) => c.class === "acciones")?.weight ?? 0, 1, false)} contra 10% de meta, divididas em{" "}
+            Estão em {fmtPct(data.byClass.find((c) => c.class === "acciones")?.weight ?? 0, 1, false)} contra {fmtPct(targets.allocation.acciones ?? 0, 0, false)} de meta, divididas em{" "}
             {data.byClass.find((c) => c.class === "acciones")?.count ?? 0} posições pequenas. Com a Selic alta a bolsa costuma estar barata, o que favorece comprar aos poucos.
             Melhor reforçar as de maior qualidade e bons dividendos do que somar nomes novos; ou simplificar com um ETF amplo como <b>BOVA11</b> (Ibovespa) ou <b>SMAL11</b>{" "}
             (small caps, mais risco e mais potencial).

@@ -4,12 +4,12 @@
     "max_class_pct": 45
   },
   "allocation": {
-    "acciones": 11.1,
-    "fiis": 22.2,
-    "etfs": 11.1,
-    "cripto": 11.1,
-    "tesouro": 33.4,
-    "renta_fija": 11.1,
+    "tesouro": 25,
+    "etfs": 25,
+    "fiis": 20,
+    "acciones": 15,
+    "renta_fija": 10,
+    "cripto": 5,
     "fondos": 0,
     "otros": 0
   },
@@ -25,8 +25,32 @@
     },
     "etfs": {
       "IVVB11": 50,
-      "SPYI11": 25,
-      "QQQI11": 25
+      "GOLD11": 20,
+      "SPYI11": 15,
+      "QQQI11": 15
+    },
+    "tesouro": {
+      "IPCA+2029": 70,
+      "SELIC2031": 30
+    },
+    "acciones": {
+      "PRIO3": 1,
+      "RANI3": 1,
+      "VIVT3": 1,
+      "BBAS3": 1,
+      "PETR4": 1,
+      "TAEE3": 1,
+      "VALE3": 1,
+      "CMIG4": 1,
+      "BPAC11": 1,
+      "VBBR3": 1,
+      "SANB3": 1,
+      "PSSA3": 1,
+      "BBSE3": 1,
+      "CSNA3": 0,
+      "CYRE3": 0,
+      "ENGI11": 0,
+      "SUZB3": 0
     }
   }
 }
