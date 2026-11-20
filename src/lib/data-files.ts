@@ -53,3 +53,7 @@ export async function loadReceived(): Promise<ReceivedFile | null> {
 export async function loadPlanFile(): Promise<PlanFile | null> {
   return readJson<PlanFile>("plan.json");
 }
+
+export async function loadBens(): Promise<import("./bens").BensFile | null> {
+  return readJson<import("./bens").BensFile>("bens.json");
+}
