@@ -1,0 +1,508 @@
+{
+  "date": "2026-11-21",
+  "generated_at": "2026-11-21T22:17:17.518Z",
+  "total": 391791.68,
+  "invested": 446701.56,
+  "day_change": -1254.26,
+  "by_class": {
+    "fondos": 99754.47,
+    "tesouro": 91882.57,
+    "fiis": 78106.12,
+    "otros": 33182.36,
+    "cripto": 29360.02,
+    "etfs": 23264.68,
+    "acciones": 20028.49,
+    "renta_fija": 16212.98
+  },
+  "quotes": {
+    "PREVIDENCIA": {
+      "ticker": "PREVIDENCIA",
+      "price": 3.486038231959765,
+      "previousClose": null,
+      "changePct": null,
+      "asOf": "2026-11-20T12:00:00-03:00",
+      "source": "manual",
+      "kind": "manual"
+    },
+    "IPCA+2029": {
+      "ticker": "IPCA+2029",
+      "price": 3990.12,
+      "previousClose": 3984.81,
+      "changePct": 0.13325603981118161,
+      "asOf": "2026-11-18T12:00:00-03:00",
+      "source": "tesouro",
+      "kind": "market"
+    },
+    "FGTS": {
+      "ticker": "FGTS",
+      "price": 33182.36,
+      "previousClose": null,
+      "changePct": null,
+      "asOf": "2026-11-20T12:00:00-03:00",
+      "source": "manual",
+      "kind": "manual"
+    },
+    "XPML11": {
+      "ticker": "XPML11",
+      "price": 81.99,
+      "previousClose": 85.8,
+      "changePct": -4.44,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "CDB-BTG": {
+      "ticker": "CDB-BTG",
+      "price": 16212.97520574361,
+      "previousClose": 16204.745139782019,
+      "changePct": 0.050787999999997696,
+      "asOf": "2026-11-19T12:00:00-03:00",
+      "source": "bcb-cdi",
+      "kind": "accrual"
+    },
+    "KNCR11": {
+      "ticker": "KNCR11",
+      "price": 102.85,
+      "previousClose": 103.01,
+      "changePct": -0.16,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "VILG11": {
+      "ticker": "VILG11",
+      "price": 86.9,
+      "previousClose": 88.42,
+      "changePct": -1.72,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "SELIC2031": {
+      "ticker": "SELIC2031",
+      "price": 20222.8,
+      "previousClose": 20212.35,
+      "changePct": 0.0517010639534776,
+      "asOf": "2026-11-18T12:00:00-03:00",
+      "source": "tesouro",
+      "kind": "market"
+    },
+    "BTC": {
+      "ticker": "BTC",
+      "price": 358200,
+      "previousClose": 351560.1505534665,
+      "changePct": 1.8886809088232162,
+      "asOf": "2026-11-21T22:16:54.000Z",
+      "source": "coingecko",
+      "kind": "market"
+    },
+    "MXRF11": {
+      "ticker": "MXRF11",
+      "price": 8.5,
+      "previousClose": 8.56,
+      "changePct": -0.7,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "ETH": {
+      "ticker": "ETH",
+      "price": 10000.36,
+      "previousClose": 9649.169360129044,
+      "changePct": 3.6395945263651073,
+      "asOf": "2026-11-21T22:16:44.000Z",
+      "source": "coingecko",
+      "kind": "market"
+    },
+    "HABT11": {
+      "ticker": "HABT11",
+      "price": 57.8,
+      "previousClose": 58.48,
+      "changePct": -1.16,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "IVVB11": {
+      "ticker": "IVVB11",
+      "price": 481.17,
+      "previousClose": 486.1,
+      "changePct": -1.01,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "HFOF11": {
+      "ticker": "HFOF11",
+      "price": 5.4,
+      "previousClose": 5.5,
+      "changePct": -1.82,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "SPYI11": {
+      "ticker": "SPYI11",
+      "price": 115.9,
+      "previousClose": 116.7,
+      "changePct": -0.69,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "SOL": {
+      "ticker": "SOL",
+      "price": 417.29,
+      "previousClose": 410.8719825225767,
+      "changePct": 1.562047973682579,
+      "asOf": "2026-11-21T22:16:44.000Z",
+      "source": "coingecko",
+      "kind": "market"
+    },
+    "QQQI11": {
+      "ticker": "QQQI11",
+      "price": 97.48,
+      "previousClose": 98.5,
+      "changePct": -1.04,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "PRIO3": {
+      "ticker": "PRIO3",
+      "price": 60.2,
+      "previousClose": 61.87,
+      "changePct": -2.7,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "TGAR11": {
+      "ticker": "TGAR11",
+      "price": 29.86,
+      "previousClose": 30.11,
+      "changePct": -0.83,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "BTLG11": {
+      "ticker": "BTLG11",
+      "price": 94.8,
+      "previousClose": 96.42,
+      "changePct": -1.68,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "HGLG11": {
+      "ticker": "HGLG11",
+      "price": 141.8,
+      "previousClose": 142.65,
+      "changePct": -0.6,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "KNIP11": {
+      "ticker": "KNIP11",
+      "price": 85.4,
+      "previousClose": 86.11,
+      "changePct": -0.82,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "DOGE": {
+      "ticker": "DOGE",
+      "price": 0.327458,
+      "previousClose": 0.3232118186297934,
+      "changePct": 1.3137457003297766,
+      "asOf": "2026-11-21T22:16:44.000Z",
+      "source": "coingecko",
+      "kind": "market"
+    },
+    "VIVT3": {
+      "ticker": "VIVT3",
+      "price": 35.22,
+      "previousClose": 35.56,
+      "changePct": -0.96,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "RANI3": {
+      "ticker": "RANI3",
+      "price": 8.01,
+      "previousClose": 8.07,
+      "changePct": -0.74,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "CMIG4": {
+      "ticker": "CMIG4",
+      "price": 10.94,
+      "previousClose": 10.93,
+      "changePct": 0.09,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "BBAS3": {
+      "ticker": "BBAS3",
+      "price": 14.3,
+      "previousClose": 14.12,
+      "changePct": 1.27,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "GOLD11": {
+      "ticker": "GOLD11",
+      "price": 22.49,
+      "previousClose": 22.7,
+      "changePct": -0.93,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "TAEE3": {
+      "ticker": "TAEE3",
+      "price": 13.3,
+      "previousClose": 13.36,
+      "changePct": -0.45,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "RZTR11": {
+      "ticker": "RZTR11",
+      "price": 64.49,
+      "previousClose": 64.2,
+      "changePct": 0.45,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "VALE3": {
+      "ticker": "VALE3",
+      "price": 58.48,
+      "previousClose": 59,
+      "changePct": -0.88,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "PETR4": {
+      "ticker": "PETR4",
+      "price": 42.67,
+      "previousClose": 43.17,
+      "changePct": -1.16,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "VBBR3": {
+      "ticker": "VBBR3",
+      "price": 30.13,
+      "previousClose": 30.39,
+      "changePct": -0.86,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "BPAC11": {
+      "ticker": "BPAC11",
+      "price": 49.69,
+      "previousClose": 50.11,
+      "changePct": -0.84,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "SANB3": {
+      "ticker": "SANB3",
+      "price": 13.99,
+      "previousClose": 14.1,
+      "changePct": -0.78,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "AVAX": {
+      "ticker": "AVAX",
+      "price": 39.05,
+      "previousClose": 39.212924973939764,
+      "changePct": -0.41548793936704714,
+      "asOf": "2026-11-21T22:16:54.000Z",
+      "source": "coingecko",
+      "kind": "market"
+    },
+    "BBSE3": {
+      "ticker": "BBSE3",
+      "price": 36.99,
+      "previousClose": 36.66,
+      "changePct": 0.9,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "DOT": {
+      "ticker": "DOT",
+      "price": 3.85,
+      "previousClose": 4.022455390145021,
+      "changePct": -4.287316412943562,
+      "asOf": "2026-11-21T22:16:54.000Z",
+      "source": "coingecko",
+      "kind": "market"
+    },
+    "PSSA3": {
+      "ticker": "PSSA3",
+      "price": 43.96,
+      "previousClose": 44.66,
+      "changePct": -1.57,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "CYRE3": {
+      "ticker": "CYRE3",
+      "price": 18.43,
+      "previousClose": 19.1,
+      "changePct": -3.51,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "SUZB3": {
+      "ticker": "SUZB3",
+      "price": 55.32,
+      "previousClose": 55.6,
+      "changePct": -0.5,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "ENGI11": {
+      "ticker": "ENGI11",
+      "price": 48.44,
+      "previousClose": 48.82,
+      "changePct": -0.78,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "CSNA3": {
+      "ticker": "CSNA3",
+      "price": 3.43,
+      "previousClose": 3.65,
+      "changePct": -6.03,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    },
+    "SLVR11": {
+      "ticker": "SLVR11",
+      "price": 31.93,
+      "previousClose": 32.47,
+      "changePct": -1.66,
+      "asOf": "2026-11-20T21:30:30.000Z",
+      "source": "brapi",
+      "kind": "market"
+    }
+  },
+  "indicators": [
+    {
+      "id": "cdi",
+      "label": "CDI",
+      "unit": "% a.a.",
+      "value": 13.65,
+      "date": "2026-11-19"
+    },
+    {
+      "id": "selic",
+      "label": "Selic",
+      "unit": "% a.a.",
+      "value": 13.75,
+      "date": "2026-11-21"
+    },
+    {
+      "id": "ipca12m",
+      "label": "IPCA 12m",
+      "unit": "% 12m",
+      "value": 4.63,
+      "date": "2026-10-01"
+    },
+    {
+      "id": "ipcaMes",
+      "label": "IPCA mês",
+      "unit": "% mes",
+      "value": 0.14,
+      "date": "2026-10-01"
+    },
+    {
+      "id": "usdArs",
+      "label": "Dólar oficial",
+      "value": 1600,
+      "unit": "AR$",
+      "date": "2026-11-20"
+    },
+    {
+      "id": "usdArsBlue",
+      "label": "Dólar blue",
+      "value": 1675,
+      "unit": "AR$",
+      "date": "2026-11-21"
+    },
+    {
+      "id": "usdArsMep",
+      "label": "Dólar MEP",
+      "value": 1743.1,
+      "unit": "AR$",
+      "date": "2026-11-21"
+    },
+    {
+      "id": "brlArs",
+      "label": "Real",
+      "value": 265.8463,
+      "unit": "AR$",
+      "date": "2026-11-21"
+    },
+    {
+      "id": "cpiUs12m",
+      "label": "EUA",
+      "value": 3.74,
+      "unit": "% 12m",
+      "date": "2026-09-01"
+    },
+    {
+      "id": "cpiUsMes",
+      "label": "EUA mês",
+      "value": 0.35,
+      "unit": "% mes",
+      "date": "2026-10-01"
+    },
+    {
+      "id": "ipcAr12m",
+      "label": "Argentina",
+      "value": 33.1,
+      "unit": "% 12m",
+      "date": "2026-10-01"
+    },
+    {
+      "id": "ipcArMes",
+      "label": "Argentina mês",
+      "value": 2.2,
+      "unit": "% mes",
+      "date": "2026-10-01"
+    },
+    {
+      "id": "usd",
+      "label": "Dólar PTAX",
+      "unit": "R$",
+      "value": 5.8889,
+      "date": "2026-11-19"
+    }
+  ]
+}
