@@ -8,6 +8,7 @@ import { Card, Skeleton } from "@/components/ui";
 import { addMonths, trackPlan, type Plan, type PlanFile } from "@/lib/plan";
 import { fmtBRL, fmtBRLCompact, fmtPct, fmtSignedBRL, signClass } from "@/lib/format";
 import { isoDateSP } from "@/lib/dates";
+import type { ReceivedSummary } from "@/lib/received";
 import { Field, fmtDuration, fmtRate, inputCls, MoneyInput, noop, readStoredMonthly } from "./Simulator";
 
 const MONTHS = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
@@ -175,7 +176,11 @@ export function MyPlan() {
   const planRes = useJson<PlanFile & { source?: string; error?: string }>("/api/plan");
   const { mutate } = useSWRConfig();
   const [editing, setEditing] = useState(false);
+  // Reinversión de proventos: la rentabilidad del plan ya la supone; sin reinvertir, baja en el dividend yield.
+  const received = useJson<{ summary?: ReceivedSummary }>("/api/received");
+  const [reinvest, setReinvest] = useState(true);
   const current = data?.total ?? 0;
+  const dy = current > 0 ? Math.round(((received.data?.summary?.last12m ?? 0) / current) * 1000) / 10 : 0;
   const cdi = data?.indicators.find((i) => i.id === "cdi")?.value ?? 13.65;
   const thisMonth = isoDateSP().slice(0, 7);
   const onSaved = (f: PlanFile) => {
@@ -189,7 +194,13 @@ export function MyPlan() {
   if (!file.plan || editing) return <PlanForm initial={file.plan} current={current} cdi={cdi} onSaved={onSaved} onCancel={file.plan ? () => setEditing(false) : undefined} />;
 
   const plan = file.plan;
-  const t = trackPlan(plan, file.contributions, current, thisMonth);
+  const trackWith = (withProv: boolean) => trackPlan(withProv ? plan : { ...plan, ratePct: Math.max(0, plan.ratePct - dy) }, file.contributions, current, thisMonth);
+  const t = trackWith(reinvest);
+  const tWith = reinvest ? t : trackWith(true);
+  const tWithout = reinvest ? trackWith(false) : t;
+  const usesAvg = t.avgActual > 0;
+  const gain = usesAvg ? tWith.valueAtTargetAtAvg - tWithout.valueAtTargetAtAvg : tWith.valueAtTargetPlanned - tWithout.valueAtTargetPlanned;
+  const lessNeeded = Number.isFinite(tWith.requiredNow) && Number.isFinite(tWithout.requiredNow) ? tWithout.requiredNow - tWith.requiredNow : 0;
   const progress = Math.min(100, (current / plan.goal) * 100);
   const onTrack = t.valueAtTargetAtAvg >= plan.goal;
   const chart = t.rows.map((r) => ({ ...r, label: fmtMonthShort(r.month) }));
@@ -260,6 +271,33 @@ export function MyPlan() {
             <>Registre quanto investiu este mês para ver como vai o plano.</>
           )}
         </div>
+        {dy > 0 && (
+          <div className="mt-3 rounded-xl bg-surface-2/70 px-4 py-3">
+            <label className="flex cursor-pointer items-start gap-3">
+              <input type="checkbox" checked={reinvest} onChange={(e) => setReinvest(e.target.checked)} className="mt-0.5 h-4 w-4 accent-[var(--accent)]" />
+              <span className="text-sm">
+                Reinvestir os proventos
+                <span className="block text-xs text-ink-3">
+                  {reinvest
+                    ? `A rentabilidade do plano (${fmtRate(plan.ratePct)}% ao ano) já considera os proventos reinvestidos. Desmarque para simular gastando os proventos.`
+                    : `Gastando os proventos, a carteira cresce ${fmtRate(dy)} p.p. a menos por ano (dividend yield da carteira): ${fmtRate(Math.max(0, plan.ratePct - dy))}% em vez de ${fmtRate(plan.ratePct)}%.`}
+                </span>
+              </span>
+            </label>
+            {gain >= 1 && (
+              <p className="mt-2 pl-7 text-xs text-ink-2">
+                Reinvestindo, em {fmtMonth(plan.targetMonth)} vocês teriam <b className="num">{fmtBRL(gain)}</b> a mais
+                {lessNeeded >= 1 ? (
+                  <>
+                    {" "}
+                    e precisariam de <b className="num">{fmtBRL(lessNeeded)}</b> a menos por mês para chegar a tempo
+                  </>
+                ) : null}
+                .
+              </p>
+            )}
+          </div>
+        )}
         <p className="mt-3 text-[11px] text-ink-3">
           Usa o patrimônio real de hoje (inclui a oscilação dos preços), aportes no fim de cada mês e a rentabilidade do plano. Antes de impostos.
         </p>
