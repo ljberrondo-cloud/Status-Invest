@@ -1,15 +1,15 @@
 {
-  "date": "2026-11-21",
-  "generated_at": "2026-11-21T22:17:17.518Z",
-  "total": 391791.68,
+  "date": "2026-11-22",
+  "generated_at": "2026-11-22T22:23:39.544Z",
+  "total": 392100.25,
   "invested": 446701.56,
-  "day_change": -1254.26,
+  "day_change": -1533.4,
   "by_class": {
     "fondos": 99754.47,
     "tesouro": 91882.57,
     "fiis": 78106.12,
     "otros": 33182.36,
-    "cripto": 29360.02,
+    "cripto": 29668.58,
     "etfs": 23264.68,
     "acciones": 20028.49,
     "renta_fija": 16212.98
@@ -89,10 +89,10 @@
     },
     "BTC": {
       "ticker": "BTC",
-      "price": 358200,
-      "previousClose": 351560.1505534665,
-      "changePct": 1.8886809088232162,
-      "asOf": "2026-11-21T22:16:54.000Z",
+      "price": 361754,
+      "previousClose": 358273.52459064825,
+      "changePct": 0.9714576072369375,
+      "asOf": "2026-11-22T22:23:23.000Z",
       "source": "coingecko",
       "kind": "market"
     },
@@ -107,10 +107,10 @@
     },
     "ETH": {
       "ticker": "ETH",
-      "price": 10000.36,
-      "previousClose": 9649.169360129044,
-      "changePct": 3.6395945263651073,
-      "asOf": "2026-11-21T22:16:44.000Z",
+      "price": 10199.05,
+      "previousClose": 10010.479962745198,
+      "changePct": 1.8837262344720798,
+      "asOf": "2026-11-22T22:23:23.000Z",
       "source": "coingecko",
       "kind": "market"
     },
@@ -152,10 +152,10 @@
     },
     "SOL": {
       "ticker": "SOL",
-      "price": 417.29,
-      "previousClose": 410.8719825225767,
-      "changePct": 1.562047973682579,
-      "asOf": "2026-11-21T22:16:44.000Z",
+      "price": 417.74,
+      "previousClose": 417.93945955311773,
+      "changePct": -0.04772450855226583,
+      "asOf": "2026-11-22T22:23:23.000Z",
       "source": "coingecko",
       "kind": "market"
     },
@@ -215,10 +215,10 @@
     },
     "DOGE": {
       "ticker": "DOGE",
-      "price": 0.327458,
-      "previousClose": 0.3232118186297934,
-      "changePct": 1.3137457003297766,
-      "asOf": "2026-11-21T22:16:44.000Z",
+      "price": 0.327331,
+      "previousClose": 0.327754194991374,
+      "changePct": -0.12911962618361092,
+      "asOf": "2026-11-22T22:23:23.000Z",
       "source": "coingecko",
       "kind": "market"
     },
@@ -332,10 +332,19 @@
     },
     "AVAX": {
       "ticker": "AVAX",
-      "price": 39.05,
-      "previousClose": 39.212924973939764,
-      "changePct": -0.41548793936704714,
-      "asOf": "2026-11-21T22:16:54.000Z",
+      "price": 39.64,
+      "previousClose": 39.079215267758364,
+      "changePct": 1.4349948646596709,
+      "asOf": "2026-11-22T22:23:23.000Z",
+      "source": "coingecko",
+      "kind": "market"
+    },
+    "DOT": {
+      "ticker": "DOT",
+      "price": 3.92,
+      "previousClose": 3.850882003168063,
+      "changePct": 1.7948614570655335,
+      "asOf": "2026-11-22T22:23:23.000Z",
       "source": "coingecko",
       "kind": "market"
     },
@@ -346,15 +355,6 @@
       "changePct": 0.9,
       "asOf": "2026-11-20T21:30:30.000Z",
       "source": "brapi",
-      "kind": "market"
-    },
-    "DOT": {
-      "ticker": "DOT",
-      "price": 3.85,
-      "previousClose": 4.022455390145021,
-      "changePct": -4.287316412943562,
-      "asOf": "2026-11-21T22:16:54.000Z",
-      "source": "coingecko",
       "kind": "market"
     },
     "PSSA3": {
@@ -425,7 +425,7 @@
       "label": "Selic",
       "unit": "% a.a.",
       "value": 13.75,
-      "date": "2026-11-21"
+      "date": "2026-11-22"
     },
     {
       "id": "ipca12m",
@@ -442,6 +442,13 @@
       "date": "2026-10-01"
     },
     {
+      "id": "usd",
+      "label": "Dólar PTAX",
+      "unit": "R$",
+      "value": 5.8889,
+      "date": "2026-11-19"
+    },
+    {
       "id": "usdArs",
       "label": "Dólar oficial",
       "value": 1600,
@@ -453,21 +460,21 @@
       "label": "Dólar blue",
       "value": 1675,
       "unit": "AR$",
-      "date": "2026-11-21"
+      "date": "2026-11-22"
     },
     {
       "id": "usdArsMep",
       "label": "Dólar MEP",
       "value": 1743.1,
       "unit": "AR$",
-      "date": "2026-11-21"
+      "date": "2026-11-22"
     },
     {
       "id": "brlArs",
       "label": "Real",
       "value": 265.8463,
       "unit": "AR$",
-      "date": "2026-11-21"
+      "date": "2026-11-22"
     },
     {
       "id": "cpiUs12m",
@@ -496,13 +503,6 @@
       "value": 2.2,
       "unit": "% mes",
       "date": "2026-10-01"
-    },
-    {
-      "id": "usd",
-      "label": "Dólar PTAX",
-      "unit": "R$",
-      "value": 5.8889,
-      "date": "2026-11-19"
     }
   ]
 }
