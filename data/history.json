@@ -159,5 +159,20 @@
       "acciones": 19768.12,
       "renta_fija": 16221.21
     }
+  },
+  {
+    "date": "2026-11-25",
+    "total": 392456.71,
+    "invested": 446701.56,
+    "by_class": {
+      "fondos": 99754.47,
+      "tesouro": 91882.57,
+      "fiis": 79917.34,
+      "otros": 33182.36,
+      "cripto": 28770.71,
+      "etfs": 22680.09,
+      "acciones": 20039.72,
+      "renta_fija": 16229.45
+    }
   }
 ]
